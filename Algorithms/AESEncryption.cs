@@ -4,20 +4,19 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CryptoTool.Algorithms
 {
     public class AESEncryption : IEncryptionAlgorithm
     {
-        private static readonly byte[] Key = Encoding.UTF8.GetBytes("0123456789ABCDEF");
-        private static readonly byte[] IV = Encoding.UTF8.GetBytes("ABCDEF9876543210");
 
-        public string Encrypt(string input, string publicKey = null, string paddingMode = "PKCS7", int keyLength = 2048)
+        public string Encrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv = null)
         {
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
+                aesAlg.Key = Encoding.UTF8.GetBytes(key);
+                aesAlg.IV = Encoding.UTF8.GetBytes(iv);
                 aesAlg.Padding = GetAesPaddingMode(paddingMode);
 
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
@@ -37,12 +36,12 @@ namespace CryptoTool.Algorithms
             }
         }
 
-        public string Decrypt(string input, string privateKey = null, string paddingMode = "PKCS7", int keyLength = 2048)
+        public string Decrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv=null)
         {
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
+                aesAlg.Key = Encoding.UTF8.GetBytes(key);
+                aesAlg.IV = Encoding.UTF8.GetBytes(iv);
                 aesAlg.Padding = GetAesPaddingMode(paddingMode);
 
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);

@@ -9,7 +9,7 @@ namespace CryptoTool.Algorithms
 {
     public class RSAEncryption : IEncryptionAlgorithm
     {
-        public string Encrypt(string input, string publicKey = null, string paddingMode = "PKCS#1", int keyLength = 2048)
+        public string Encrypt(string input, string publicKey = null, string paddingMode = "PKCS#1", int keyLength = 2048, string iv = null)
         {
             using (RSA rsa = RSA.Create(keyLength))
             {
@@ -21,7 +21,7 @@ namespace CryptoTool.Algorithms
             }
         }
 
-        public string Decrypt(string input, string privateKey = null, string paddingMode = "PKCS#1", int keyLength = 2048)
+        public string Decrypt(string input, string privateKey = null, string paddingMode = "PKCS#1", int keyLength = 2048, string iv = null)
         {
             using (RSA rsa = RSA.Create(keyLength))
             {

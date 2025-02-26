@@ -18,15 +18,14 @@ namespace CryptoTool
             aesForm = new AESForm();
             base64Form = new Base64Form();
 
-            // 初始显示 RSA 界面
             ShowForm(rsaForm);
-            menuRenderer = new CustomMenuRenderer();
-            mainMenuStrip.Renderer = menuRenderer;
+            //menuRenderer = new CustomMenuRenderer();
+            //mainMenuStrip.Renderer = menuRenderer;
 
-            // 为每个菜单项添加点击事件处理程序
-            rsaToolStripMenuItem.Click += MenuItem_Click;
-            aesToolStripMenuItem.Click += MenuItem_Click;
-            base64ToolStripMenuItem.Click += MenuItem_Click;
+            //rsaToolStripMenuItem.Click += MenuItem_Click;
+            //aesToolStripMenuItem.Click += MenuItem_Click;
+            //base64ToolStripMenuItem.Click += MenuItem_Click;
+           
         }
 
         private void MenuItem_Click(object sender, EventArgs e)

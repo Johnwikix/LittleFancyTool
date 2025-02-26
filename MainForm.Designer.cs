@@ -31,46 +31,54 @@ namespace CryptoTool
         private void InitializeComponent()
         {
             mainMenuStrip = new MenuStrip();
+            encryptToolStripMenuItem = new ToolStripMenuItem();
             rsaToolStripMenuItem = new ToolStripMenuItem();
             aesToolStripMenuItem = new ToolStripMenuItem();
             base64ToolStripMenuItem = new ToolStripMenuItem();
             mainMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
-            // menuStrip1
+            // mainMenuStrip
             // 
             mainMenuStrip.ImageScalingSize = new Size(24, 24);
-            mainMenuStrip.Items.AddRange(new ToolStripItem[] { rsaToolStripMenuItem, aesToolStripMenuItem, base64ToolStripMenuItem });
+            mainMenuStrip.Items.AddRange(new ToolStripItem[] { encryptToolStripMenuItem});
             mainMenuStrip.Location = new Point(0, 0);
-            mainMenuStrip.Name = "menuStrip1";
+            mainMenuStrip.Name = "mainMenuStrip";
             mainMenuStrip.Size = new Size(1378, 32);
             mainMenuStrip.TabIndex = 0;
             mainMenuStrip.Text = "menuStrip1";
             // 
-            // rsaToolStripMenuItem
+            // 加密ToolStripMenuItem
+            // 
+            encryptToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { rsaToolStripMenuItem, aesToolStripMenuItem, base64ToolStripMenuItem });
+            encryptToolStripMenuItem.Name = "encryptToolStripMenuItem";
+            encryptToolStripMenuItem.Size = new Size(62, 28);
+            encryptToolStripMenuItem.Text = "加密";
+            // 
+            // rSAToolStripMenuItem1
             // 
             rsaToolStripMenuItem.Name = "rsaToolStripMenuItem";
-            rsaToolStripMenuItem.Size = new Size(61, 28);
+            rsaToolStripMenuItem.Size = new Size(270, 34);
             rsaToolStripMenuItem.Text = "RSA";
             rsaToolStripMenuItem.Click += rsaToolStripMenuItem_Click;
             // 
-            // aesToolStripMenuItem
+            // aESToolStripMenuItem1
             // 
             aesToolStripMenuItem.Name = "aesToolStripMenuItem";
-            aesToolStripMenuItem.Size = new Size(59, 28);
+            aesToolStripMenuItem.Size = new Size(270, 34);
             aesToolStripMenuItem.Text = "AES";
             aesToolStripMenuItem.Click += aesToolStripMenuItem_Click;
             // 
-            // base64ToolStripMenuItem
+            // base64ToolStripMenuItem1
             // 
             base64ToolStripMenuItem.Name = "base64ToolStripMenuItem";
-            base64ToolStripMenuItem.Size = new Size(87, 28);
+            base64ToolStripMenuItem.Size = new Size(270, 34);
             base64ToolStripMenuItem.Text = "Base64";
             base64ToolStripMenuItem.Click += base64ToolStripMenuItem_Click;
             // 
-            // Form1
+            // MainForm
             // 
-            ClientSize = new Size(1378, 776);
+            ClientSize = new Size(1378, 808);
             Controls.Add(mainMenuStrip);
             MainMenuStrip = mainMenuStrip;
             Name = "MainForm";
@@ -84,9 +92,12 @@ namespace CryptoTool
         #endregion
         // 在类中添加控件成员变量
         private System.Windows.Forms.MenuStrip mainMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem rsaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem base64ToolStripMenuItem;
-       
+        //private System.Windows.Forms.ToolStripMenuItem rsaToolStripMenuItem;
+        //private System.Windows.Forms.ToolStripMenuItem aesToolStripMenuItem;
+        //private System.Windows.Forms.ToolStripMenuItem base64ToolStripMenuItem;
+        private ToolStripMenuItem encryptToolStripMenuItem;
+        private ToolStripMenuItem rsaToolStripMenuItem;
+        private ToolStripMenuItem aesToolStripMenuItem;
+        private ToolStripMenuItem base64ToolStripMenuItem;
     }
 }
