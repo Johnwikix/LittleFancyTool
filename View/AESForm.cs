@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace CryptoTool.View
 {
-    public partial class AESForm : Form
+    public partial class AESForm : UserControl
     {
         private const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':\",./<>?";
         public AESForm()

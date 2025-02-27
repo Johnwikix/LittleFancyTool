@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace CryptoTool.View
 {
-    public partial class Base64Form: Form
+    public partial class Base64Form: UserControl
     {
         public Base64Form()
         {

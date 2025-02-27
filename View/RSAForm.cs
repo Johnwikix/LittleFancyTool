@@ -11,10 +11,12 @@ using System.Windows.Forms;
 
 namespace CryptoTool.View
 {
-    public partial class RSAForm: Form
+    public partial class RSAForm: UserControl
     {
-        public RSAForm()
+        private AntdUI.Window window;
+        public RSAForm(AntdUI.Window _window)
         {
+            window = _window;
             InitializeComponent();
             rsaPaddingModeComboBox.SelectedIndex = 0;
             rsaKeyLengthComboBox.SelectedIndex = 2;
@@ -25,8 +27,13 @@ namespace CryptoTool.View
         {
             string input = rsaInputTextBox.Text;
             string publicKey = rsaPublicKeyTextBox.Text;
-            string paddingMode = rsaPaddingModeComboBox.SelectedItem?.ToString();
-            int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedItem.ToString());
+            if (string.IsNullOrEmpty(publicKey))
+            {
+                AntdUI.Message.error(window, "缺少公钥", autoClose: 3);
+                return;
+            }
+            string paddingMode = rsaPaddingModeComboBox.SelectedValue.ToString();
+            int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedValue.ToString());
             IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
             string encryptedText = ((RSAEncryption)encryptionAlgorithm).Encrypt(input, publicKey, paddingMode, keyLength);
             rsaOutputTextBox.Text = encryptedText;
@@ -36,8 +43,12 @@ namespace CryptoTool.View
         {
             string input = rsaOutputTextBox.Text;
             string privateKey = rsaPrivateKeyTextBox.Text;
-            string paddingMode = rsaPaddingModeComboBox.SelectedItem?.ToString();
-            int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedItem.ToString());
+            if (string.IsNullOrEmpty(privateKey)) {
+                AntdUI.Message.error(window, "缺少私钥", autoClose: 3);
+                return;
+            }
+            string paddingMode = rsaPaddingModeComboBox.SelectedValue?.ToString();
+            int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedValue.ToString());
             IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
             string decryptedText = ((RSAEncryption)encryptionAlgorithm).Decrypt(input, privateKey, paddingMode, keyLength);
             rsaInputTextBox.Text = decryptedText;
@@ -45,9 +56,9 @@ namespace CryptoTool.View
 
         private void rsaGenerateKeyPairButton_Click(object sender, EventArgs e)
         {
-            int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedItem.ToString());
+            int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedValue.ToString());
             RSAEncryption rsaEncryption = new RSAEncryption();
-            string keyFormat = rsaKeyFormatComboBox.SelectedItem.ToString();
+            string keyFormat = rsaKeyFormatComboBox.SelectedValue.ToString();
             var (publicKey, privateKey) = rsaEncryption.GenerateKeyPair(keyLength, keyFormat);
             rsaPublicKeyTextBox.Text = publicKey;
             rsaPrivateKeyTextBox.Text = privateKey;
