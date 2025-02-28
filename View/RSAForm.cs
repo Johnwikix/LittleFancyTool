@@ -34,9 +34,16 @@ namespace CryptoTool.View
             }
             string paddingMode = rsaPaddingModeComboBox.SelectedValue.ToString();
             int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedValue.ToString());
-            IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
-            string encryptedText = ((RSAEncryption)encryptionAlgorithm).Encrypt(input, publicKey, paddingMode, keyLength);
-            rsaOutputTextBox.Text = encryptedText;
+            try
+            {
+                IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
+                string encryptedText = ((RSAEncryption)encryptionAlgorithm).Encrypt(input, publicKey, paddingMode, keyLength);
+                rsaOutputTextBox.Text = encryptedText;
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+            }
         }
 
         private void rsaDecryptButton_Click(object sender, EventArgs e)
@@ -49,9 +56,16 @@ namespace CryptoTool.View
             }
             string paddingMode = rsaPaddingModeComboBox.SelectedValue?.ToString();
             int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedValue.ToString());
-            IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
-            string decryptedText = ((RSAEncryption)encryptionAlgorithm).Decrypt(input, privateKey, paddingMode, keyLength);
-            rsaInputTextBox.Text = decryptedText;
+            try
+            {
+                IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
+                string decryptedText = ((RSAEncryption)encryptionAlgorithm).Decrypt(input, privateKey, paddingMode, keyLength);
+                rsaInputTextBox.Text = decryptedText;
+            }
+            catch (Exception ex) {
+                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+            }
+            
         }
 
         private void rsaGenerateKeyPairButton_Click(object sender, EventArgs e)

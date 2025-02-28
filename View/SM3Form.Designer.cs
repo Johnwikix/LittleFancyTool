@@ -1,6 +1,6 @@
-﻿namespace CryptoTool.View
+﻿namespace LittleFancyTool.View
 {
-    partial class Base64Form
+    partial class SM3Form
     {
         /// <summary>
         /// Required designer variable.
@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             encryptBtn = new AntdUI.Button();
-            decryptBtn = new AntdUI.Button();
             inputTextBox = new AntdUI.Input();
             outputTextBox = new AntdUI.Input();
             inputLabel = new AntdUI.Label();
             outputLabel = new AntdUI.Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
+            upperLowerCase = new AntdUI.Select();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
@@ -44,25 +44,13 @@
             // 
             encryptBtn.Anchor = AnchorStyles.Bottom;
             encryptBtn.Font = new Font("Microsoft YaHei UI", 12F);
-            encryptBtn.Location = new Point(17, 89);
+            encryptBtn.Location = new Point(17, 17);
             encryptBtn.Name = "encryptBtn";
             encryptBtn.Size = new Size(160, 70);
             encryptBtn.TabIndex = 0;
             encryptBtn.Text = "加密>>";
             encryptBtn.Type = AntdUI.TTypeMini.Primary;
             encryptBtn.Click += encryptButton_Click;
-            // 
-            // decryptBtn
-            // 
-            decryptBtn.Anchor = AnchorStyles.Top;
-            decryptBtn.Font = new Font("Microsoft YaHei UI", 12F);
-            decryptBtn.Location = new Point(17, 165);
-            decryptBtn.Name = "decryptBtn";
-            decryptBtn.Size = new Size(160, 70);
-            decryptBtn.TabIndex = 1;
-            decryptBtn.Text = "解密<<";
-            decryptBtn.Type = AntdUI.TTypeMini.Primary;
-            decryptBtn.Click += decryptButton_Click;
             // 
             // inputTextBox
             // 
@@ -72,7 +60,7 @@
             inputTextBox.Location = new Point(8, 81);
             inputTextBox.Multiline = true;
             inputTextBox.Name = "inputTextBox";
-            inputTextBox.Size = new Size(578, 324);
+            inputTextBox.Size = new Size(578, 361);
             inputTextBox.TabIndex = 2;
             // 
             // outputTextBox
@@ -83,7 +71,7 @@
             outputTextBox.Location = new Point(792, 81);
             outputTextBox.Multiline = true;
             outputTextBox.Name = "outputTextBox";
-            outputTextBox.Size = new Size(578, 324);
+            outputTextBox.Size = new Size(578, 361);
             outputTextBox.TabIndex = 3;
             // 
             // inputLabel
@@ -126,33 +114,46 @@
             tableLayoutPanel1.RowCount = 5;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 0F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 35F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
             tableLayoutPanel1.Size = new Size(1378, 744);
             tableLayoutPanel1.TabIndex = 6;
             // 
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.ColumnCount = 1;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.Controls.Add(encryptBtn, 0, 0);
-            tableLayoutPanel2.Controls.Add(decryptBtn, 0, 1);
+            tableLayoutPanel2.Controls.Add(upperLowerCase, 0, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(592, 81);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 2;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(194, 324);
+            tableLayoutPanel2.RowCount = 4;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.Size = new Size(194, 361);
             tableLayoutPanel2.TabIndex = 0;
             // 
-            // Base64Form
+            // upperLowerCase
+            // 
+            upperLowerCase.Anchor = AnchorStyles.None;
+            upperLowerCase.Font = new Font("Microsoft YaHei UI", 12F);
+            upperLowerCase.Items.AddRange(new object[] { "UPPER", "lower" });
+            upperLowerCase.Location = new Point(17, 100);
+            upperLowerCase.Name = "upperLowerCase";
+            upperLowerCase.Size = new Size(160, 70);
+            upperLowerCase.TabIndex = 2;
+            upperLowerCase.Text = "大小写";
+            // 
+            // SM3Form
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
-            Name = "Base64Form";
+            Name = "SM3Form";
             Size = new Size(1378, 744);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -163,12 +164,13 @@
         #endregion
 
         private AntdUI.Button encryptBtn;
-        private AntdUI.Button decryptBtn;
+        //private AntdUI.Button decryptBtn;
         private AntdUI.Input inputTextBox;
         private AntdUI.Input outputTextBox;
         private AntdUI.Label inputLabel;
         private AntdUI.Label outputLabel;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
+        private AntdUI.Select upperLowerCase;
     }
 }

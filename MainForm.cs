@@ -1,12 +1,14 @@
 using AntdUI;
 using CryptoTool.Algorithms;
 using CryptoTool.Models;
-using CryptoTool.render;
 using CryptoTool.Utils;
 using CryptoTool.View;
 using CryptoTool.View.SubView;
+using LittleFancyTool.View;
+using LittleFancyTool.View.SubView;
 using Microsoft.Win32;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace CryptoTool
 {
@@ -26,18 +28,6 @@ namespace CryptoTool
             LoadMenu();
             InitData();
             BindEventHandler();
-            //rsaForm = new RSAForm();
-            //aesForm = new AESForm();
-            //base64Form = new Base64Form();
-
-            //ShowForm(rsaForm);
-            //menuRenderer = new CustomMenuRenderer();
-            //mainMenuStrip.Renderer = menuRenderer;
-
-            //rsaToolStripMenuItem.Click += MenuItem_Click;
-            //aesToolStripMenuItem.Click += MenuItem_Click;
-            //base64ToolStripMenuItem.Click += MenuItem_Click;
-
         }
 
         private void InitData()
@@ -49,14 +39,13 @@ namespace CryptoTool
             ThemeHelper.SetColorMode(this, isLight);
             //初始化消息弹出位置
             Config.ShowInWindow = true;
-            menu.Collapsed = false;
-            menu.Width = (int)(150 * Config.Dpi);
-
-            //UserControl control = new RSAForm();
-            //AutoDpi(control);
-            //panel_content.Controls.Add(control);
-
-            ////global
+            //menu.Collapsed = false;
+            //menu.Width = (int)(150 * Config.Dpi);
+            UserControl control = new Wellcome();
+            control.Dock = DockStyle.Fill;
+            AutoDpi(control);
+            panel_content.Controls.Add(control);
+            //global
             //tabs.Pages[0].Text = AntdUI.Localization.Get("home", "主页");
         }
 
@@ -225,7 +214,7 @@ namespace CryptoTool
                 var rootMenu = new AntdUI.MenuItem
                 {
                     Text = rootItem.Key,
-                    IconSvg = menuIcons.TryGetValue(rootItem.Key, out var icon) ? icon : "UnorderedListOutlined",
+                    IconSvg = menuIcons.TryGetValue(rootItem.Key, out var icon) ? icon : "AppstoreOutlined",
                 };
                 bool rootVisible = false; // 用于标记是否显示根节点
 
@@ -286,10 +275,22 @@ namespace CryptoTool
                     control = new RSAForm(this);
                     break;
                 case "AES":
-                    control = new AESForm();
+                    control = new AESForm(this);
+                    break;
+                case "DES":
+                    control = new DESForm(this);
                     break;
                 case "Base64":
                     control = new Base64Form();
+                    break;
+                case "MD5":
+                    control = new Md5Form(this);
+                    break;
+                case "SHA":
+                    control = new SHAForm(this);
+                    break;
+                case "SM3":
+                    control = new SM3Form(this);
                     break;
                 default:
                     break;
@@ -311,62 +312,5 @@ namespace CryptoTool
                 currControl = control;
             }
         }
-
-        //private void MenuItem_Click(object sender, EventArgs e)
-        //{
-        //    ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
-        //    if (clickedItem != null)
-        //    {
-        //        menuRenderer.SetSelectedMenuItem(clickedItem);
-        //        mainMenuStrip.Invalidate(); // 强制重绘 MenuStrip
-
-        //        // 处理界面切换逻辑
-        //        if (clickedItem == rsaToolStripMenuItem)
-        //        {
-        //            ShowForm(rsaForm);
-        //        }
-        //        else if (clickedItem == aesToolStripMenuItem)
-        //        {
-        //            ShowForm(aesForm);
-        //        }
-        //        else if (clickedItem == base64ToolStripMenuItem)
-        //        {
-        //            ShowForm(base64Form);
-        //        }
-        //    }
-        //}
-
-
-        //private void ShowForm(Form form)
-        //{
-        //    // 隐藏所有子窗体
-        //    rsaForm.Hide();
-        //    aesForm.Hide();
-        //    base64Form.Hide();
-
-        //    // 设置子窗体的父容器为当前主窗体
-        //    form.TopLevel = false;
-        //    form.FormBorderStyle = FormBorderStyle.None;
-        //    form.Dock = DockStyle.Fill;
-
-        //    // 添加子窗体到主窗体的容器中
-        //    this.Controls.Add(form);
-        //    form.Show();
-        //}
-
-        //private void rsaToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    ShowForm(rsaForm);
-        //}
-
-        //private void aesToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    ShowForm(aesForm);
-        //}
-
-        //private void base64ToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    ShowForm(base64Form);
-        //}
     }
 }

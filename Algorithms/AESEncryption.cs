@@ -11,7 +11,7 @@ namespace CryptoTool.Algorithms
     public class AESEncryption : IEncryptionAlgorithm
     {
 
-        public string Encrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv = null)
+        public string Encrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv = null, string mode = null)
         {
             using (Aes aesAlg = Aes.Create())
             {
@@ -36,7 +36,7 @@ namespace CryptoTool.Algorithms
             }
         }
 
-        public string Decrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv=null)
+        public string Decrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv=null, string mode = null)
         {
             using (Aes aesAlg = Aes.Create())
             {
@@ -65,7 +65,7 @@ namespace CryptoTool.Algorithms
         {
             if (string.IsNullOrEmpty(paddingMode))
             {
-                return PaddingMode.PKCS7; // 默认使用 PKCS7 填充方式
+                return PaddingMode.PKCS7;
             }
 
             switch (paddingMode)
@@ -74,6 +74,8 @@ namespace CryptoTool.Algorithms
                     return PaddingMode.PKCS7;
                 case "Zeros":
                     return PaddingMode.Zeros;
+                case "None":
+                    return PaddingMode.None;
                 default:
                     throw new NotSupportedException("不支持的 AES 填充方式");
             }

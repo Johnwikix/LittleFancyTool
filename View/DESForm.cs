@@ -1,29 +1,26 @@
 ﻿using CryptoTool.Algorithms;
+using LittleFancyTool.Algorithms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CryptoTool.View
+namespace LittleFancyTool.View
 {
-    public partial class AESForm : UserControl
+    public partial class DESForm: UserControl
     {
         private const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':\",./<>?";
         private AntdUI.Window window;
-        public AESForm(AntdUI.Window _window)
+        public DESForm(AntdUI.Window window)
         {
-            window = _window;
+            this.window = window;
             InitializeComponent();
             paddingModeComboBox.SelectedIndex = 0;
-            keyLengthComboBox.SelectedIndex = 0;
-            keyTextBox.Text = GenerateKey(128);
-            ivTextBox.Text = GenerateKey(128);
         }
 
         private void encryptButton_Click(object sender, EventArgs e)
@@ -36,8 +33,8 @@ namespace CryptoTool.View
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new AESEncryption();
-                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 128, iv);
+                    IEncryptionAlgorithm encryptionAlgorithm = new DESEncryption();
+                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 64, iv);
                     outputTextBox.Text = encryptedText;
                 }
                 catch (Exception ex)
@@ -57,13 +54,14 @@ namespace CryptoTool.View
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new AESEncryption();
-                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 128, iv);
+                    IEncryptionAlgorithm encryptionAlgorithm = new DESEncryption();
+                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 64, iv);
                     inputTextBox.Text = decryptedText;
                 }
                 catch (Exception ex)
                 {
                     AntdUI.Message.error(window, ex.Message, autoClose: 3);
+
                 }
             }
         }
@@ -78,10 +76,9 @@ namespace CryptoTool.View
             // 将字符串转换为字节数组
             byte[] key = Encoding.UTF8.GetBytes(keyStr);
 
-            // AES 支持的密钥长度为 128 位（16 字节）、192 位（24 字节）和 256 位（32 字节）
-            if (!(key.Length == 16 || key.Length == 24 || key.Length == 32))
+            if (!(key.Length == 8))
             {
-                AntdUI.Message.error(window, "密钥字符串长度必须为16字节或24字节或32字节", autoClose: 3);
+                AntdUI.Message.error(window, "密钥字符串长度必须为8字节", autoClose: 3);
                 return false;
             }
             return true;
@@ -94,44 +91,25 @@ namespace CryptoTool.View
                 AntdUI.Message.error(window, "iv字符串不能为空", autoClose: 3);
                 return false;
             }
-
             // 将字符串转换为字节数组
             byte[] iv = Encoding.UTF8.GetBytes(ivStr);
-
-            // AES 的 IV 长度固定为 128 位（16 字节）
-            if (iv.Length != 16)
+            if (iv.Length != 8)
             {
-                AntdUI.Message.error(window, "iv字符串长度必须为16字节", autoClose: 3);
+                AntdUI.Message.error(window, "iv字符串长度必须为8字节", autoClose: 3);
                 return false;
             }
             return true;
         }
 
         private void genKeyIv_Click(object sender, EventArgs e)
-        {
-            int keyLength = int.Parse(keyLengthComboBox.SelectedValue?.ToString());
-            keyTextBox.Text = GenerateKey(keyLength);
-            ivTextBox.Text = GenerateKey(128);
+        {            
+            keyTextBox.Text = GenerateKey();
+            ivTextBox.Text = GenerateKey();
         }
 
-        public static string GenerateKey(int bitLength)
+        public static string GenerateKey()
         {
-            int length;
-            switch (bitLength)
-            {
-                case 128:
-                    length = 16;
-                    break;
-                case 192:
-                    length = 24;
-                    break;
-                case 256:
-                    length = 32;
-                    break;
-                default:
-                    throw new ArgumentException("Invalid bit length. Supported lengths are 128, 192, and 256.");
-            }
-
+            int length = 8;
             Random random = new Random();
             StringBuilder key = new StringBuilder(length);
 
@@ -143,8 +121,5 @@ namespace CryptoTool.View
 
             return key.ToString();
         }
-
-
-
     }
 }

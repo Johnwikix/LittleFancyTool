@@ -1,6 +1,6 @@
-﻿namespace CryptoTool.View
+﻿namespace LittleFancyTool.View
 {
-    partial class AESForm
+    partial class DESForm
     {
         /// <summary>
         /// Required designer variable.
@@ -42,7 +42,6 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             genKeyIv = new AntdUI.Button();
-            keyLengthComboBox = new AntdUI.Select();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
@@ -119,7 +118,7 @@
             // 
             paddingModeComboBox.Anchor = AnchorStyles.Top;
             paddingModeComboBox.Font = new Font("Microsoft YaHei UI", 12F);
-            paddingModeComboBox.Items.AddRange(new object[] { "PKCS7", "Zeros","None"});
+            paddingModeComboBox.Items.AddRange(new object[] { "PKCS7", "Zeros", "None" });
             paddingModeComboBox.ListAutoWidth = true;
             paddingModeComboBox.Location = new Point(17, 299);
             paddingModeComboBox.Name = "paddingModeComboBox";
@@ -183,8 +182,7 @@
             tableLayoutPanel1.Controls.Add(inputLabel, 0, 1);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 2);
             tableLayoutPanel1.Controls.Add(outputLabel, 2, 1);
-            tableLayoutPanel1.Controls.Add(genKeyIv, 1, 3);
-            tableLayoutPanel1.Controls.Add(keyLengthComboBox, 1, 4);
+            tableLayoutPanel1.Controls.Add(genKeyIv, 1, 4);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(30);
@@ -219,9 +217,9 @@
             // 
             // genKeyIv
             // 
-            genKeyIv.Anchor = AnchorStyles.Bottom;
+            genKeyIv.Anchor = AnchorStyles.None;
             genKeyIv.Font = new Font("Microsoft YaHei UI", 12F);
-            genKeyIv.Location = new Point(608, 558);
+            genKeyIv.Location = new Point(608, 650);
             genKeyIv.Name = "genKeyIv";
             genKeyIv.Size = new Size(160, 67);
             genKeyIv.TabIndex = 12;
@@ -229,23 +227,12 @@
             genKeyIv.Type = AntdUI.TTypeMini.Primary;
             genKeyIv.Click += genKeyIv_Click;
             // 
-            // keyLengthComboBox
-            // 
-            keyLengthComboBox.Anchor = AnchorStyles.Top;
-            keyLengthComboBox.Font = new Font("Microsoft YaHei UI", 12F);
-            keyLengthComboBox.Items.AddRange(new object[] { "128", "192", "256" });
-            keyLengthComboBox.ListAutoWidth = true;
-            keyLengthComboBox.Location = new Point(608, 631);
-            keyLengthComboBox.Name = "keyLengthComboBox";
-            keyLengthComboBox.Size = new Size(160, 70);
-            keyLengthComboBox.TabIndex = 13;
-            // 
-            // AESForm
+            // DESForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
-            Name = "AESForm";
+            Name = "DESForm";
             Size = new Size(1378, 744);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -270,6 +257,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private AntdUI.Button genKeyIv;
-        private AntdUI.Select keyLengthComboBox;
+        //private AntdUI.Select keyLengthComboBox;
     }
 }
