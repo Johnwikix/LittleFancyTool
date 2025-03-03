@@ -295,6 +295,9 @@ namespace CryptoTool
                 case "SM4":
                     control = new SM4Form(this);
                     break;
+                case "SM2":
+                    control = new SM2Form(this);
+                    break;
                 default:
                     break;
             }

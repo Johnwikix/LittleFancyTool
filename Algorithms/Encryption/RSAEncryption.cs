@@ -1,15 +1,16 @@
-﻿using System;
+﻿using CryptoTool.Algorithms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptoTool.Algorithms
+namespace LittleFancyTool.Algorithms.Encryption
 {
-    public class RSAEncryption : IEncryptionAlgorithm
+    public class RSAEncryption : IEncryptionAsymmetric
     {
-        public string Encrypt(string input, string publicKey = null, string paddingMode = "PKCS#1", int keyLength = 2048, string iv = null, string mode = null)
+        public string Encrypt(string input, string publicKey = null, string paddingMode = "PKCS#1", int keyLength = 2048)
         {
             using (RSA rsa = RSA.Create(keyLength))
             {
@@ -21,7 +22,7 @@ namespace CryptoTool.Algorithms
             }
         }
 
-        public string Decrypt(string input, string privateKey = null, string paddingMode = "PKCS#1", int keyLength = 2048, string iv = null, string mode = null)
+        public string Decrypt(string input, string privateKey = null, string paddingMode = "PKCS#1", int keyLength = 2048)
         {
             using (RSA rsa = RSA.Create(keyLength))
             {
@@ -101,5 +102,6 @@ namespace CryptoTool.Algorithms
                     throw new NotSupportedException("不支持的填充方式");
             }
         }
+
     }
 }

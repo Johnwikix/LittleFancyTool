@@ -1,4 +1,5 @@
 ﻿using CryptoTool.Algorithms;
+using LittleFancyTool.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,6 @@ namespace CryptoTool.View
 {
     public partial class AESForm : UserControl
     {
-        private const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':\",./<>?";
         private AntdUI.Window window;
         public AESForm(AntdUI.Window _window)
         {
@@ -22,8 +22,8 @@ namespace CryptoTool.View
             InitializeComponent();
             paddingModeComboBox.SelectedIndex = 0;
             keyLengthComboBox.SelectedIndex = 0;
-            keyTextBox.Text = GenerateKey(128);
-            ivTextBox.Text = GenerateKey(128);
+            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(128,"text");
+            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(128,"text");
         }
 
         private void encryptButton_Click(object sender, EventArgs e)
@@ -32,12 +32,15 @@ namespace CryptoTool.View
             string? paddingMode = paddingModeComboBox.SelectedValue?.ToString();
             string? key = keyTextBox.Text;
             string? iv = ivTextBox.Text;
+            string? encryptModeStr = encryptModeSelect.SelectedValue.ToString();
+            string? outputType = outputTypeSelect.SelectedValue?.ToString();
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
             if (ValidateAesIvLength(iv, window) && ValidateAesKeyLength(key, window))
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new AESEncryption();
-                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 128, iv);
+                    IEncryptionSymmetric encryptionAlgorithm = new AESEncryption();
+                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 128, iv, encryptModeStr, outputType, keyIvType);
                     outputTextBox.Text = encryptedText;
                 }
                 catch (Exception ex)
@@ -53,12 +56,15 @@ namespace CryptoTool.View
             string? paddingMode = paddingModeComboBox.SelectedValue?.ToString();
             string? key = keyTextBox.Text;
             string? iv = ivTextBox.Text;
+            string? encryptModeStr = encryptModeSelect.SelectedValue.ToString();
+            string? outputType = outputTypeSelect.SelectedValue?.ToString();
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
             if (ValidateAesIvLength(iv, window) && ValidateAesKeyLength(key, window))
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new AESEncryption();
-                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 128, iv);
+                    IEncryptionSymmetric encryptionAlgorithm = new AESEncryption();
+                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 128, iv,encryptModeStr,outputType,keyIvType);
                     inputTextBox.Text = decryptedText;
                 }
                 catch (Exception ex)
@@ -79,11 +85,11 @@ namespace CryptoTool.View
             byte[] key = Encoding.UTF8.GetBytes(keyStr);
 
             // AES 支持的密钥长度为 128 位（16 字节）、192 位（24 字节）和 256 位（32 字节）
-            if (!(key.Length == 16 || key.Length == 24 || key.Length == 32))
-            {
-                AntdUI.Message.error(window, "密钥字符串长度必须为16字节或24字节或32字节", autoClose: 3);
-                return false;
-            }
+            //if (!(key.Length == 16 || key.Length == 24 || key.Length == 32))
+            //{
+            //    AntdUI.Message.error(window, "密钥字符串长度必须为16字节或24字节或32字节", autoClose: 3);
+            //    return false;
+            //}
             return true;
         }
 
@@ -99,52 +105,20 @@ namespace CryptoTool.View
             byte[] iv = Encoding.UTF8.GetBytes(ivStr);
 
             // AES 的 IV 长度固定为 128 位（16 字节）
-            if (iv.Length != 16)
-            {
-                AntdUI.Message.error(window, "iv字符串长度必须为16字节", autoClose: 3);
-                return false;
-            }
+            //if (iv.Length != 16)
+            //{
+            //    AntdUI.Message.error(window, "iv字符串长度必须为16字节", autoClose: 3);
+            //    return false;
+            //}
             return true;
         }
 
         private void genKeyIv_Click(object sender, EventArgs e)
         {
             int keyLength = int.Parse(keyLengthComboBox.SelectedValue?.ToString());
-            keyTextBox.Text = GenerateKey(keyLength);
-            ivTextBox.Text = GenerateKey(128);
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
+            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(keyLength, keyIvType);
+            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(128, keyIvType);
         }
-
-        public static string GenerateKey(int bitLength)
-        {
-            int length;
-            switch (bitLength)
-            {
-                case 128:
-                    length = 16;
-                    break;
-                case 192:
-                    length = 24;
-                    break;
-                case 256:
-                    length = 32;
-                    break;
-                default:
-                    throw new ArgumentException("Invalid bit length. Supported lengths are 128, 192, and 256.");
-            }
-
-            Random random = new Random();
-            StringBuilder key = new StringBuilder(length);
-
-            for (int i = 0; i < length; i++)
-            {
-                int index = random.Next(0, ValidChars.Length);
-                key.Append(ValidChars[index]);
-            }
-
-            return key.ToString();
-        }
-
-
-
     }
 }

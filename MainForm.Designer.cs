@@ -57,11 +57,11 @@ namespace CryptoTool
             titlebar.Controls.Add(buttonSZ);
             titlebar.DividerShow = true;
             titlebar.Dock = DockStyle.Top;
-            titlebar.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            titlebar.Font = new Font("Microsoft YaHei UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 134);
             titlebar.Location = new Point(0, 0);
             titlebar.Name = "titlebar";
             titlebar.ShowButton = true;
-            titlebar.Size = new Size(1300, 40);
+            titlebar.Size = new Size(1600, 40);
             titlebar.SubText = "";
             titlebar.TabIndex = 0;
             titlebar.Text = "妙妙小工具";
@@ -70,9 +70,9 @@ namespace CryptoTool
             // 
             input_search.AllowClear = true;
             input_search.Dock = DockStyle.Right;
-            input_search.Font = new Font("Microsoft YaHei UI", 10F);
+            input_search.Font = new Font("Microsoft YaHei UI", 16F);
             input_search.LocalizationPlaceholderText = "search";
-            input_search.Location = new Point(784, 0);
+            input_search.Location = new Point(1156, 0);
             input_search.Name = "input_search";
             input_search.PlaceholderText = "搜索";
             input_search.PrefixSvg = "SearchOutlined";
@@ -92,7 +92,7 @@ namespace CryptoTool
             button_color.Ghost = true;
             button_color.IconRatio = 0.6F;
             button_color.IconSvg = "SunOutlined";
-            button_color.Location = new Point(984, 0);
+            button_color.Location = new Point(1356, 0);
             button_color.Name = "button_color";
             button_color.Radius = 0;
             button_color.Size = new Size(50, 40);
@@ -105,7 +105,7 @@ namespace CryptoTool
             buttonSZ.Dock = DockStyle.Right;
             buttonSZ.Ghost = true;
             buttonSZ.IconSvg = resources.GetString("buttonSZ.IconSvg");
-            buttonSZ.Location = new Point(1034, 0);
+            buttonSZ.Location = new Point(1406, 0);
             buttonSZ.Name = "buttonSZ";
             buttonSZ.Radius = 0;
             buttonSZ.Size = new Size(50, 40);
@@ -118,14 +118,15 @@ namespace CryptoTool
             pageHeader1.DividerShow = true;
             pageHeader1.Dock = DockStyle.Bottom;
             pageHeader1.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
-            pageHeader1.Location = new Point(0, 760);
+            pageHeader1.Location = new Point(0, 860);
             pageHeader1.Name = "pageHeader1";
-            pageHeader1.Size = new Size(1300, 40);
+            pageHeader1.Size = new Size(1600, 40);
             pageHeader1.TabIndex = 7;
             // 
             // button_collapse
             // 
             button_collapse.Dock = DockStyle.Left;
+            button_collapse.Font = new Font("Microsoft YaHei UI", 20F, FontStyle.Regular, GraphicsUnit.Point, 134);
             button_collapse.Ghost = true;
             button_collapse.IconRatio = 0.6F;
             button_collapse.IconSvg = "MenuUnfoldOutlined";
@@ -144,7 +145,7 @@ namespace CryptoTool
             tabs.Location = new Point(70, 40);
             tabs.Name = "tabs";
             tabs.Pages.Add(tabPage);
-            tabs.Size = new Size(1230, 720);
+            tabs.Size = new Size(1530, 820);
             styleCard1.Closable = true;
             tabs.Style = styleCard1;
             tabs.TabIndex = 9;
@@ -154,10 +155,10 @@ namespace CryptoTool
             // 
             tabPage.Controls.Add(panel_content);
             tabPage.IconSvg = "HomeOutlined";
-            tabPage.Location = new Point(3, 40);
+            tabPage.Location = new Point(3, 46);
             tabPage.Name = "tabPage";
             tabPage.ReadOnly = true;
-            tabPage.Size = new Size(948, 517);
+            tabPage.Size = new Size(1524, 771);
             tabPage.TabIndex = 1;
             tabPage.Text = "主页";
             // 
@@ -168,32 +169,33 @@ namespace CryptoTool
             panel_content.Location = new Point(0, 0);
             panel_content.Name = "panel_content";
             panel_content.Radius = 0;
-            panel_content.Size = new Size(1230, 750);
+            panel_content.Size = new Size(1524, 771);
             panel_content.TabIndex = 4;
             // 
             // menu
             // 
             menu.Collapsed = true;
             menu.Dock = DockStyle.Left;
-            menu.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            menu.Font = new Font("Microsoft YaHei UI", 16F, FontStyle.Regular, GraphicsUnit.Point, 134);
             menu.IconRatio = 1F;
             menu.Indent = true;
             menu.Location = new Point(0, 40);
             menu.Margin = new Padding(3, 3, 0, 3);
             menu.Name = "menu";
-            menu.Size = new Size(70, 720);
+            menu.Size = new Size(70, 820);
             menu.TabIndex = 8;
             menu.Unique = true;
             // 
             // MainForm
             // 
-            ClientSize = new Size(1300, 800);
+            AutoScaleMode = AutoScaleMode.None;
+            ClientSize = new Size(1600, 900);
             ControlBox = false;
             Controls.Add(tabs);
             Controls.Add(menu);
             Controls.Add(pageHeader1);
             Controls.Add(titlebar);
-            Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
             Margin = new Padding(4);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;

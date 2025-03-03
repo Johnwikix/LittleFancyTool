@@ -6,16 +6,16 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LittleFancyTool.Algorithms
+namespace LittleFancyTool.Algorithms.Encryption
 {
-    public class Md5Encryption : IEncryptionAlgorithm
+    public class Md5Encryption : IEncryptionAbstract
     {
-        public string Decrypt(string input, string? privateKey = null, string? paddingMode = null, int keyLength = 2048, string? iv = null, string mode = null)
+        public string Decrypt(string input)
         {
             throw new NotImplementedException();
         }
 
-        public string Encrypt(string input, string? publicKey = null, string? useUpperCase = "UPPER", int outputLength = 32, string? iv = null, string mode = null)
+        public string Encrypt(string input,string? useUpperCase = "UPPER", int outputLength = 16,string? mode = null)
         {
             using (MD5 md5 = MD5.Create())
             {

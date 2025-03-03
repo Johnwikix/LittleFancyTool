@@ -1,4 +1,6 @@
 ﻿using CryptoTool.Algorithms;
+using LittleFancyTool.Algorithms;
+using LittleFancyTool.Algorithms.Encryption;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +29,11 @@ namespace CryptoTool.View
         {
             string input = rsaInputTextBox.Text;
             string publicKey = rsaPublicKeyTextBox.Text;
+            if (string.IsNullOrEmpty(input))
+            {
+                AntdUI.Message.error(window, "请输入要加密的文本", autoClose: 3);
+                return;
+            }
             if (string.IsNullOrEmpty(publicKey))
             {
                 AntdUI.Message.error(window, "缺少公钥", autoClose: 3);
@@ -36,7 +43,7 @@ namespace CryptoTool.View
             int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedValue.ToString());
             try
             {
-                IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
+                IEncryptionAsymmetric encryptionAlgorithm = new RSAEncryption();
                 string encryptedText = ((RSAEncryption)encryptionAlgorithm).Encrypt(input, publicKey, paddingMode, keyLength);
                 rsaOutputTextBox.Text = encryptedText;
             }
@@ -58,7 +65,7 @@ namespace CryptoTool.View
             int keyLength = int.Parse(rsaKeyLengthComboBox.SelectedValue.ToString());
             try
             {
-                IEncryptionAlgorithm encryptionAlgorithm = new RSAEncryption();
+                IEncryptionAsymmetric encryptionAlgorithm = new RSAEncryption();
                 string decryptedText = ((RSAEncryption)encryptionAlgorithm).Decrypt(input, privateKey, paddingMode, keyLength);
                 rsaInputTextBox.Text = decryptedText;
             }

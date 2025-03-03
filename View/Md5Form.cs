@@ -1,5 +1,6 @@
 ﻿using CryptoTool.Algorithms;
 using LittleFancyTool.Algorithms;
+using LittleFancyTool.Algorithms.Encryption;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,8 +31,8 @@ namespace LittleFancyTool.View
             int outputLength = int.Parse(outputLengthSelect.SelectedValue?.ToString());
             try
             {
-                IEncryptionAlgorithm encryptionAlgorithm = new Md5Encryption();
-                string encryptedText = encryptionAlgorithm.Encrypt(input,null,useUpperCase,outputLength);
+                IEncryptionAbstract encryptionAlgorithm = new Md5Encryption();
+                string encryptedText = encryptionAlgorithm.Encrypt(input,useUpperCase,outputLength);
                 outputTextBox.Text = encryptedText;
             }
             catch (Exception ex)

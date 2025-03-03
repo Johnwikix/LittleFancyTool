@@ -1,5 +1,6 @@
 ﻿using CryptoTool.Algorithms;
 using LittleFancyTool.Algorithms;
+using LittleFancyTool.Algorithms.Encryption;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,8 +30,8 @@ namespace LittleFancyTool.View
             string? upperLowerCaseStr = upperLowerCase.SelectedValue?.ToString();
             try
             {
-                IEncryptionAlgorithm encryptionAlgorithm = new SHAEncrpytion();
-                string encryptedText = encryptionAlgorithm.Encrypt(input, algMode, upperLowerCaseStr);
+                IEncryptionAbstract encryptionAlgorithm = new SHAEncrpytion();
+                string encryptedText = encryptionAlgorithm.Encrypt(input,upperLowerCaseStr,0,algMode);
                 outputTextBox.Text = encryptedText;
             }
             catch (Exception ex)

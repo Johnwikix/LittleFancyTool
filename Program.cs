@@ -13,7 +13,7 @@ namespace CryptoTool
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             AntdUI.Localization.DefaultLanguage = "zh-CN";
             //若文字不清晰，切换其他渲染方式
-            AntdUI.Config.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            AntdUI.Config.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             AntdUI.Config.SetCorrectionTextRendering("Microsoft YaHei UI");
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.

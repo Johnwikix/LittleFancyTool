@@ -8,15 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LittleFancyTool.Algorithms
+namespace LittleFancyTool.Algorithms.Encryption
 {
-    public class SM3Encryption: IEncryptionAlgorithm
+    public class SM3Encryption: IEncryptionAbstract
     {
-        public string Decrypt(string input, string? key, string? paddingMode, int keyLength, string? iv, string cbcMode = null)
+        public string Decrypt(string input)
         {
             throw new NotImplementedException();
         }
-        public string Encrypt(string input, string? upperLowerCase, string? mode, int keyLength, string? iv, string cbcMode = null)
+        public string Encrypt(string input, string? upperLowerCase,int outputLength,string? mode)
         {
             byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             IDigest digest = new SM3Digest();

@@ -6,16 +6,16 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LittleFancyTool.Algorithms
+namespace LittleFancyTool.Algorithms.Encryption
 {
-    public class SHAEncrpytion : IEncryptionAlgorithm
+    public class SHAEncrpytion : IEncryptionAbstract
     {
-        public string Decrypt(string input, string? key, string? paddingMode, int keyLength, string? iv, string cbcMode = null)
+        public string Decrypt(string input)
         {
             throw new NotImplementedException();
         }
 
-        public string Encrypt(string input, string? mode, string? upperLowerCase, int keyLength, string? iv, string cbcMode = null)
+        public string Encrypt(string input,string? upperLowerCase, int outputLength,string? mode)
         {
             using (HashAlgorithm algorithm = GetHashAlgorithm(mode))
             {

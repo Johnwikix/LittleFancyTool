@@ -1,4 +1,5 @@
 ﻿using CryptoTool.Algorithms;
+using LittleFancyTool.Algorithms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,15 +22,15 @@ namespace CryptoTool.View
         private void encryptButton_Click(object sender, EventArgs e)
         {
             string input = inputTextBox.Text;
-            IEncryptionAlgorithm encryptionAlgorithm = new Base64Encryption();
+            IEncryptionCode encryptionAlgorithm = new Base64Encryption();
             string encryptedText = encryptionAlgorithm.Encrypt(input);
             outputTextBox.Text = encryptedText;
         }
 
         private void decryptButton_Click(object sender, EventArgs e)
         {
-            string input = outputTextBox.Text;          
-            IEncryptionAlgorithm encryptionAlgorithm = new Base64Encryption();
+            string input = outputTextBox.Text;
+            IEncryptionCode encryptionAlgorithm = new Base64Encryption();
             string decryptedText = encryptionAlgorithm.Decrypt(input);
             inputTextBox.Text = decryptedText;
         }

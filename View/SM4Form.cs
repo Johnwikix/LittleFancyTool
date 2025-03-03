@@ -1,5 +1,7 @@
 ﻿using CryptoTool.Algorithms;
 using LittleFancyTool.Algorithms;
+using LittleFancyTool.Algorithms.Encryption;
+using LittleFancyTool.Utils;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities;
 using System;
@@ -15,15 +17,14 @@ using System.Windows.Forms;
 namespace LittleFancyTool.View
 {
     public partial class SM4Form: UserControl
-    {
-        private const string ValidChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':\",./<>?";
+    {        
         private AntdUI.Window window;
         public SM4Form(AntdUI.Window _window)
         {
             window = _window;
             InitializeComponent();
-            keyTextBox.Text = GenerateKey(128);
-            ivTextBox.Text = GenerateKey(128);
+            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(128,"text");
+            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(128,"text");
         }
 
         private void encryptButton_Click(object sender, EventArgs e)
@@ -33,12 +34,14 @@ namespace LittleFancyTool.View
             string? key = keyTextBox.Text;
             string? iv = ivTextBox.Text;
             string? encryptModeStr = encryptMode.SelectedValue.ToString();
+            string? outputType = outputTypeSelect.SelectedValue?.ToString();
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
             if (ValidateAesIvLength(iv, window) && ValidateAesKeyLength(key, window))
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new SM4Encryption();
-                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 128, iv, encryptModeStr);
+                    IEncryptionSymmetric encryptionAlgorithm = new SM4Encryption();
+                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 128, iv, encryptModeStr, outputType, keyIvType);
                     outputTextBox.Text = encryptedText;
                 }
                 catch (Exception ex)
@@ -55,12 +58,14 @@ namespace LittleFancyTool.View
             string? key = keyTextBox.Text;
             string? iv = ivTextBox.Text;
             string? encryptModeStr = encryptMode.SelectedValue.ToString();
+            string? outputType = outputTypeSelect.SelectedValue?.ToString();
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
             if (ValidateAesIvLength(iv, window) && ValidateAesKeyLength(key, window))
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new AESEncryption();
-                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 128, iv,encryptModeStr);
+                    IEncryptionSymmetric encryptionAlgorithm = new SM4Encryption();
+                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 128, iv,encryptModeStr, outputType,keyIvType);
                     inputTextBox.Text = decryptedText;
                 }
                 catch (Exception ex)
@@ -77,15 +82,12 @@ namespace LittleFancyTool.View
                 AntdUI.Message.error(window, "密钥字符串不能为空", autoClose: 3);
                 return false;
             }
-            // 将字符串转换为字节数组
             byte[] key = Encoding.UTF8.GetBytes(keyStr);
-
-            // AES 支持的密钥长度为 128 位（16 字节）、192 位（24 字节）和 256 位（32 字节）
-            if (!(key.Length == 16))
-            {
-                AntdUI.Message.error(window, "密钥字符串长度必须为16字节", autoClose: 3);
-                return false;
-            }
+            //if (!(key.Length == 16))
+            //{
+            //    AntdUI.Message.error(window, "密钥字符串长度必须为16字节", autoClose: 3);
+            //    return false;
+            //}
             return true;
         }
 
@@ -96,47 +98,20 @@ namespace LittleFancyTool.View
                 AntdUI.Message.error(window, "iv字符串不能为空", autoClose: 3);
                 return false;
             }
-
-            // 将字符串转换为字节数组
             byte[] iv = Encoding.UTF8.GetBytes(ivStr);
-
-            // AES 的 IV 长度固定为 128 位（16 字节）
-            if (iv.Length != 16)
-            {
-                AntdUI.Message.error(window, "iv字符串长度必须为16字节", autoClose: 3);
-                return false;
-            }
+            //if (iv.Length != 16)
+            //{
+            //    AntdUI.Message.error(window, "iv字符串长度必须为16字节", autoClose: 3);
+            //    return false;
+            //}
             return true;
         }
 
         private void genKeyIv_Click(object sender, EventArgs e)
         {
-            int keyLength = 128;
-            keyTextBox.Text = GenerateKey(keyLength);
-            ivTextBox.Text = GenerateKey(128);
-        }
-
-        public static string GenerateKey(int bitLength)
-        {           
-            Random random = new Random();
-            StringBuilder key = new StringBuilder(128);
-
-            for (int i = 0; i < 16; i++)
-            {
-                int index = random.Next(0, ValidChars.Length);
-                key.Append(ValidChars[index]);
-            }
-
-            return key.ToString();
-            //SecureRandom random = new SecureRandom();
-            //byte[] key = new byte[bitLength / 16];
-            //random.NextBytes(key);
-            //StringBuilder sb = new StringBuilder();
-            //foreach (byte b in key)
-            //{
-            //    sb.Append(b.ToString("x2"));
-            //}
-            //return sb.ToString();
-        }
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
+            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(128, keyIvType);
+            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(128, keyIvType);
+        }        
     }
 }

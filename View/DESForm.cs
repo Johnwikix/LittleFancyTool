@@ -1,5 +1,6 @@
 ﻿using CryptoTool.Algorithms;
 using LittleFancyTool.Algorithms;
+using LittleFancyTool.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +22,8 @@ namespace LittleFancyTool.View
             this.window = window;
             InitializeComponent();
             paddingModeComboBox.SelectedIndex = 0;
+            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(64, "text");
+            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(64, "text");
         }
 
         private void encryptButton_Click(object sender, EventArgs e)
@@ -29,12 +32,15 @@ namespace LittleFancyTool.View
             string? paddingMode = paddingModeComboBox.SelectedValue?.ToString();
             string? key = keyTextBox.Text;
             string? iv = ivTextBox.Text;
+            string? encryptModeStr = encryptMode.SelectedValue.ToString();
+            string? outputType = outputTypeSelect.SelectedValue?.ToString();
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
             if (ValidateAesIvLength(iv, window) && ValidateAesKeyLength(key, window))
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new DESEncryption();
-                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 64, iv);
+                    IEncryptionSymmetric encryptionAlgorithm = new DESEncryption();
+                    string encryptedText = encryptionAlgorithm.Encrypt(input, key, paddingMode, 64, iv, encryptModeStr, outputType, keyIvType);
                     outputTextBox.Text = encryptedText;
                 }
                 catch (Exception ex)
@@ -50,12 +56,15 @@ namespace LittleFancyTool.View
             string? paddingMode = paddingModeComboBox.SelectedValue?.ToString();
             string? key = keyTextBox.Text;
             string? iv = ivTextBox.Text;
+            string? encryptModeStr = encryptMode.SelectedValue.ToString();
+            string? outputType = outputTypeSelect.SelectedValue?.ToString();
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
             if (ValidateAesIvLength(iv, window) && ValidateAesKeyLength(key, window))
             {
                 try
                 {
-                    IEncryptionAlgorithm encryptionAlgorithm = new DESEncryption();
-                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 64, iv);
+                    IEncryptionSymmetric encryptionAlgorithm = new DESEncryption();
+                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 64, iv, encryptModeStr, outputType, keyIvType);
                     inputTextBox.Text = decryptedText;
                 }
                 catch (Exception ex)
@@ -76,11 +85,11 @@ namespace LittleFancyTool.View
             // 将字符串转换为字节数组
             byte[] key = Encoding.UTF8.GetBytes(keyStr);
 
-            if (!(key.Length == 8))
-            {
-                AntdUI.Message.error(window, "密钥字符串长度必须为8字节", autoClose: 3);
-                return false;
-            }
+            //if (!(key.Length == 8))
+            //{
+            //    AntdUI.Message.error(window, "密钥字符串长度必须为8字节", autoClose: 3);
+            //    return false;
+            //}
             return true;
         }
 
@@ -93,33 +102,34 @@ namespace LittleFancyTool.View
             }
             // 将字符串转换为字节数组
             byte[] iv = Encoding.UTF8.GetBytes(ivStr);
-            if (iv.Length != 8)
-            {
-                AntdUI.Message.error(window, "iv字符串长度必须为8字节", autoClose: 3);
-                return false;
-            }
+            //if (iv.Length != 8)
+            //{
+            //    AntdUI.Message.error(window, "iv字符串长度必须为8字节", autoClose: 3);
+            //    return false;
+            //}
             return true;
         }
 
         private void genKeyIv_Click(object sender, EventArgs e)
-        {            
-            keyTextBox.Text = GenerateKey();
-            ivTextBox.Text = GenerateKey();
-        }
-
-        public static string GenerateKey()
         {
-            int length = 8;
-            Random random = new Random();
-            StringBuilder key = new StringBuilder(length);
-
-            for (int i = 0; i < length; i++)
-            {
-                int index = random.Next(0, ValidChars.Length);
-                key.Append(ValidChars[index]);
-            }
-
-            return key.ToString();
+            string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
+            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(64, keyIvType);
+            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(64, keyIvType);
         }
+
+        //public static string GenerateKey()
+        //{
+        //    int length = 8;
+        //    Random random = new Random();
+        //    StringBuilder key = new StringBuilder(length);
+
+        //    for (int i = 0; i < length; i++)
+        //    {
+        //        int index = random.Next(0, ValidChars.Length);
+        //        key.Append(ValidChars[index]);
+        //    }
+
+        //    return key.ToString();
+        //}
     }
 }

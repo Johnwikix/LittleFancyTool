@@ -34,7 +34,7 @@
             // label1
             // 
             label1.Dock = DockStyle.Fill;
-            label1.Font = new Font("Microsoft YaHei UI", 20F);
+            label1.Font = new Font("Microsoft YaHei UI", 32F);
             label1.LocalizationText = "welcome";
             label1.Location = new Point(0, 0);
             label1.Name = "label1";

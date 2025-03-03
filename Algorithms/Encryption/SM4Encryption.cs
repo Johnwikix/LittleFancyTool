@@ -12,20 +12,59 @@ using AntdUI;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Utilities.Encoders;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
+using LittleFancyTool.Utils;
 
-namespace LittleFancyTool.Algorithms
+namespace LittleFancyTool.Algorithms.Encryption
 {
-    public class SM4Encryption : IEncryptionAlgorithm
+    public class SM4Encryption : IEncryptionSymmetric
     {
-        public string Decrypt(string input, string? key, string? paddingMode, int keyLength, string? iv,string mode)
+        public string Decrypt(
+            string input, 
+            string? key, string? 
+            paddingModeStr, 
+            int keyLength, 
+            string? iv,
+            string mode,
+            string? outputType="base64", 
+            string? keyIvType = "text")
         {
-            byte[] cipherBytes = Encoding.UTF8.GetBytes(input);
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            byte[] ivBytes = Encoding.UTF8.GetBytes(iv);
+            byte[] cipherBytes;
+            byte[] keyBytes;
+            byte[] ivBytes;
+            if (outputType == "base64") {
+                cipherBytes = Convert.FromBase64String(input);
+            } else if (outputType == "hex")
+            {
+                cipherBytes = Hex.Decode(input);
+            }
+            else
+            {
+                return "output type error";
+            }
+
+            if (keyIvType == "hex")
+            {
+                keyBytes = Hex.Decode(key);
+                ivBytes = Hex.Decode(iv);
+            }
+            else if (keyIvType == "text")
+            {
+                keyBytes = Encoding.UTF8.GetBytes(key);
+                ivBytes = Encoding.UTF8.GetBytes(iv);
+            }
+            else if (keyIvType == "base64") {
+                keyBytes = Convert.FromBase64String(key);
+                ivBytes = Convert.FromBase64String(iv);
+            }
+            else
+            {
+                return "key iv type error";
+            }      
 
             IBlockCipher engine = new SM4Engine();
             IBufferedCipher cipher;
-            IBlockCipherPadding padding = GetPadding(paddingMode);
+            IBlockCipherPadding padding = GetPadding(paddingModeStr);
 
             if (mode.ToUpper() == "ECB")
             {
@@ -49,14 +88,41 @@ namespace LittleFancyTool.Algorithms
             byte[] outputBytes = new byte[cipher.GetOutputSize(cipherBytes.Length)];
             int length = cipher.ProcessBytes(cipherBytes, 0, cipherBytes.Length, outputBytes, 0);
             cipher.DoFinal(outputBytes, length);
-
             return Encoding.UTF8.GetString(outputBytes);
         }
-        public string Encrypt(string input, string? key, string? paddingModeStr, int keyLength, string? iv, string mode)
+        public string Encrypt(
+            string input, 
+            string? key, 
+            string? paddingModeStr, 
+            int keyLength, 
+            string? iv, 
+            string mode,
+            string? outputType= "base64",
+            string? keyIvType = "text")
         {
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            byte[] ivBytes = Encoding.UTF8.GetBytes(iv);
+            byte[] keyBytes;
+            byte[] ivBytes;
             byte[] data = Encoding.UTF8.GetBytes(input);
+
+            if (keyIvType == "hex")
+            {
+                keyBytes = Hex.Decode(key);
+                ivBytes = Hex.Decode(iv);
+            }
+            else if (keyIvType == "text")
+            {
+                keyBytes = Encoding.UTF8.GetBytes(key);
+                ivBytes = Encoding.UTF8.GetBytes(iv);
+            }
+            else if (keyIvType == "base64")
+            {
+                keyBytes = Convert.FromBase64String(key);
+                ivBytes = Convert.FromBase64String(iv);
+            }
+            else
+            {
+                return "key iv type error";
+            }
 
             IBlockCipher engine = new SM4Engine();
             IBufferedCipher cipher;
@@ -65,7 +131,7 @@ namespace LittleFancyTool.Algorithms
 
             if (mode.ToUpper() == "ECB")
             {
-                cipher = new PaddedBufferedBlockCipher(engine, new Pkcs7Padding());
+                cipher = new PaddedBufferedBlockCipher(engine, paddingMode);
                 cipher.Init(true, new KeyParameter(keyBytes));
             }
             else if (mode.ToUpper() == "CBC")
@@ -74,7 +140,7 @@ namespace LittleFancyTool.Algorithms
                 {
                     throw new ArgumentException("使用 CBC 模式时，IV 不能为空。");
                 }
-                cipher = new PaddedBufferedBlockCipher(new CbcBlockCipher(engine), new Pkcs7Padding());
+                cipher = new PaddedBufferedBlockCipher(new CbcBlockCipher(engine), paddingMode);
                 cipher.Init(true, new ParametersWithIV(new KeyParameter(keyBytes), ivBytes));
             }
             else
@@ -84,7 +150,14 @@ namespace LittleFancyTool.Algorithms
             byte[] outputBytes = new byte[cipher.GetOutputSize(data.Length)];
             int length = cipher.ProcessBytes(data, 0, data.Length, outputBytes, 0);
             cipher.DoFinal(outputBytes, length);
-            return Hex.ToHexString(outputBytes);
+            if (outputType == "base64")
+            {
+                return Convert.ToBase64String(outputBytes);
+            }
+            else if (outputType == "hex") {
+                return Hex.ToHexString(outputBytes);
+            }
+            return "output type error";
         }
         private IBlockCipherPadding GetPadding(string paddingMode)
         {
@@ -104,6 +177,6 @@ namespace LittleFancyTool.Algorithms
                 default:
                     throw new ArgumentException($"不支持的填充模式: {paddingMode}。支持的模式有: PKCS7, ISO10126, ZEROBYTE。");
             }
-        }
+        }        
     }
 }
