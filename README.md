@@ -31,10 +31,10 @@
 
 ## 四、示例
 
-![](doc/pic/2025-03-03 171612.png)
+![rsa](doc/pic/rsa.png)
 
-![](doc/pic/2025-03-03 171640.png)
+![aes](doc/pic/aes.png)
 
-![](doc/pic/2025-03-03 171659.png)
+![md5](doc/pic/md5.png)
 
-![](doc/pic/2025-03-03 171722.png)
+![base64](doc/pic/base64.png)
