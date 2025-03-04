@@ -103,5 +103,46 @@ namespace LittleFancyTool.Algorithms.Encryption
             }
         }
 
+        public async Task EncryptFileAsync(string inputFilePath, string outputFilePath, string publicKey, int keyLength)
+        {
+            using (var rsa = RSA.Create())
+            {
+                rsa.ImportFromPem(publicKey);
+                using (var inputFileStream = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
+                using (var outputFileStream = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    int maxDataSize = keyLength / 8 - 11; // PKCS1填充模式下，最大加密数据块大小
+                    byte[] buffer = new byte[maxDataSize];
+                    int bytesRead;
+                    while ((bytesRead = await inputFileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    {
+                        byte[] encryptedData = rsa.Encrypt(buffer, RSAEncryptionPadding.Pkcs1);
+                        await outputFileStream.WriteAsync(encryptedData, 0, encryptedData.Length);
+                    }
+                }
+            }
+        }
+
+        public async Task DecryptFileAsync(string inputFilePath, string outputFilePath, string privateKey, int keyLength)
+        {
+            using (var rsa = RSA.Create())
+            {
+
+                rsa.ImportFromPem(privateKey);
+                using (var inputFileStream = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
+                using (var outputFileStream = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    // RSA解密的数据块大小等于密钥长度
+                    int encryptedBlockSize = keyLength / 8;
+                    byte[] buffer = new byte[encryptedBlockSize];
+                    int bytesRead;
+                    while ((bytesRead = await inputFileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    {
+                        byte[] decryptedData = rsa.Decrypt(buffer, RSAEncryptionPadding.Pkcs1);
+                        await outputFileStream.WriteAsync(decryptedData, 0, decryptedData.Length);
+                    }
+                }
+            }
+        }
     }
 }

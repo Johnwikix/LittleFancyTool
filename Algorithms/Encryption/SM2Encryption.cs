@@ -96,5 +96,15 @@ namespace LittleFancyTool.Algorithms.Encryption
             Array.Copy(c1c3c2, c1Len, result, c1c3c2.Length - c3Len, c3Len); //c3
             return result;
         }
+
+        public async Task EncryptFileAsync(string inputFilePath, string outputFilePath, string publicKey, int keyLength)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DecryptFileAsync(string inputFilePath, string outputFilePath, string privateKey, int keyLength)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

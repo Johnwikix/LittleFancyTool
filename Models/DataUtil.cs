@@ -35,6 +35,17 @@ namespace CryptoTool.Models
                     new MenuItems { Text = "Base64", Tag = "Base64"},
                 }
             },
+            { "文件", new List<MenuItems>
+                {
+                    new MenuItems { Text = "文件加密", Tag = "fileEncrypt"},
+                }
+            },
+            //{ "二维码", new List<MenuItems>
+            //    {
+            //        new MenuItems { Text = "识别", Tag = "QRCodeDetector"},
+            //    }
+            //},
+
         };
         public static readonly Dictionary<string, string> MenuIcons_zhcn = new Dictionary<string, string>
         {
@@ -42,8 +53,8 @@ namespace CryptoTool.Models
             { "对称加密", "LayoutOutlined" },
             { "摘要", "CompressOutlined" },
             { "编码", "EditOutlined" },
-            { "数据展示", "BarChartOutlined" },
-            { "反馈", "NotificationOutlined" },
+            { "二维码", "QrcodeOutlined" },
+            { "文件", "NotificationOutlined" },
             { "聊天", "MessageOutlined" },
             { "其它", "SettingOutlined" }
         };

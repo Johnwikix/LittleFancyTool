@@ -298,6 +298,9 @@ namespace CryptoTool
                 case "SM2":
                     control = new SM2Form(this);
                     break;
+                case "fileEncrypt":
+                    control = new FileEncryptForm(this);
+                    break;
                 default:
                     break;
             }
