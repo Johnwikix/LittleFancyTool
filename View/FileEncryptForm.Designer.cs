@@ -38,18 +38,19 @@
             label1 = new AntdUI.Label();
             label2 = new AntdUI.Label();
             label3 = new AntdUI.Label();
-            label4 = new AntdUI.Label();
             tableLayoutPanel2 = new TableLayoutPanel();
-            decryptBtn = new AntdUI.Button();
             encryptBtn = new AntdUI.Button();
-            encryptAlgSelect = new AntdUI.Select();
+            decryptBtn = new AntdUI.Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             genKeyIvBtn = new AntdUI.Button();
             keyLengthSelect = new AntdUI.Select();
-            keyModeSelect = new AntdUI.Select();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            label4 = new AntdUI.Label();
+            openPathBtn = new AntdUI.Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -67,17 +68,17 @@
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(label2, 2, 0);
             tableLayoutPanel1.Controls.Add(label3, 0, 2);
-            tableLayoutPanel1.Controls.Add(label4, 2, 2);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 3);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 1, 1);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel4, 2, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.Padding = new Padding(30);
+            tableLayoutPanel1.Padding = new Padding(10);
             tableLayoutPanel1.RowCount = 6;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
@@ -88,9 +89,10 @@
             // 
             chooseFileBtn.Anchor = AnchorStyles.Left;
             chooseFileBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            chooseFileBtn.Location = new Point(33, 700);
+            chooseFileBtn.IconSvg = "FileAddOutlined";
+            chooseFileBtn.Location = new Point(13, 720);
             chooseFileBtn.Name = "chooseFileBtn";
-            chooseFileBtn.Size = new Size(140, 60);
+            chooseFileBtn.Size = new Size(180, 60);
             chooseFileBtn.TabIndex = 0;
             chooseFileBtn.Text = "选择文件";
             chooseFileBtn.Type = AntdUI.TTypeMini.Primary;
@@ -100,11 +102,13 @@
             // 
             outputPathBtn.Anchor = AnchorStyles.Left;
             outputPathBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            outputPathBtn.Location = new Point(803, 700);
+            outputPathBtn.IconHoverSvg = "";
+            outputPathBtn.IconSvg = "FolderOutlined";
+            outputPathBtn.Location = new Point(803, 720);
             outputPathBtn.Name = "outputPathBtn";
-            outputPathBtn.Size = new Size(140, 60);
+            outputPathBtn.Size = new Size(180, 60);
             outputPathBtn.TabIndex = 1;
-            outputPathBtn.Text = "输出路径";
+            outputPathBtn.Text = "选择路径";
             outputPathBtn.Type = AntdUI.TTypeMini.Primary;
             outputPathBtn.Click += outputPathBtn_Click;
             // 
@@ -112,30 +116,30 @@
             // 
             filePathInput.Dock = DockStyle.Fill;
             filePathInput.Font = new Font("Microsoft YaHei UI", 16F);
-            filePathInput.Location = new Point(33, 413);
+            filePathInput.Location = new Point(13, 433);
             filePathInput.Multiline = true;
             filePathInput.Name = "filePathInput";
-            filePathInput.Size = new Size(564, 274);
+            filePathInput.Size = new Size(584, 274);
             filePathInput.TabIndex = 2;
             // 
             // outputPathInput
             // 
             outputPathInput.Dock = DockStyle.Fill;
             outputPathInput.Font = new Font("Microsoft YaHei UI", 16F);
-            outputPathInput.Location = new Point(803, 413);
+            outputPathInput.Location = new Point(803, 433);
             outputPathInput.Multiline = true;
             outputPathInput.Name = "outputPathInput";
-            outputPathInput.Size = new Size(564, 274);
+            outputPathInput.Size = new Size(584, 274);
             outputPathInput.TabIndex = 3;
             // 
             // keyInput
             // 
             keyInput.Dock = DockStyle.Fill;
             keyInput.Font = new Font("Microsoft YaHei UI", 16F);
-            keyInput.Location = new Point(33, 83);
+            keyInput.Location = new Point(13, 83);
             keyInput.Multiline = true;
             keyInput.Name = "keyInput";
-            keyInput.Size = new Size(564, 274);
+            keyInput.Size = new Size(584, 274);
             keyInput.TabIndex = 5;
             // 
             // ivInput
@@ -145,16 +149,16 @@
             ivInput.Location = new Point(803, 83);
             ivInput.Multiline = true;
             ivInput.Name = "ivInput";
-            ivInput.Size = new Size(564, 274);
+            ivInput.Size = new Size(584, 274);
             ivInput.TabIndex = 6;
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label1.Font = new Font("Microsoft YaHei UI", 18F);
-            label1.Location = new Point(33, 54);
+            label1.Location = new Point(13, 41);
             label1.Name = "label1";
-            label1.Size = new Size(75, 23);
+            label1.Size = new Size(75, 36);
             label1.TabIndex = 8;
             label1.Text = "密钥";
             // 
@@ -162,9 +166,9 @@
             // 
             label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.Font = new Font("Microsoft YaHei UI", 18F);
-            label2.Location = new Point(803, 54);
+            label2.Location = new Point(803, 41);
             label2.Name = "label2";
-            label2.Size = new Size(75, 23);
+            label2.Size = new Size(75, 36);
             label2.TabIndex = 9;
             label2.Text = "偏移";
             // 
@@ -172,31 +176,20 @@
             // 
             label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label3.Font = new Font("Microsoft YaHei UI", 18F);
-            label3.Location = new Point(33, 371);
+            label3.Location = new Point(13, 391);
             label3.Name = "label3";
-            label3.Size = new Size(124, 36);
+            label3.Size = new Size(266, 36);
             label3.TabIndex = 10;
-            label3.Text = "目标文件";
-            // 
-            // label4
-            // 
-            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            label4.Font = new Font("Microsoft YaHei UI", 18F);
-            label4.Location = new Point(803, 371);
-            label4.Name = "label4";
-            label4.Size = new Size(125, 36);
-            label4.TabIndex = 11;
-            label4.Text = "输出路径";
+            label3.Text = "目标文件/路径";
             // 
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.ColumnCount = 1;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Controls.Add(decryptBtn, 0, 2);
-            tableLayoutPanel2.Controls.Add(encryptBtn, 0, 1);
-            tableLayoutPanel2.Controls.Add(encryptAlgSelect, 0, 0);
+            tableLayoutPanel2.Controls.Add(encryptBtn, 0, 0);
+            tableLayoutPanel2.Controls.Add(decryptBtn, 0, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(603, 413);
+            tableLayoutPanel2.Location = new Point(603, 433);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 4;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
@@ -206,23 +199,11 @@
             tableLayoutPanel2.Size = new Size(194, 274);
             tableLayoutPanel2.TabIndex = 13;
             // 
-            // decryptBtn
-            // 
-            decryptBtn.Anchor = AnchorStyles.None;
-            decryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            decryptBtn.Location = new Point(27, 170);
-            decryptBtn.Name = "decryptBtn";
-            decryptBtn.Size = new Size(140, 60);
-            decryptBtn.TabIndex = 12;
-            decryptBtn.Text = "解密";
-            decryptBtn.Type = AntdUI.TTypeMini.Primary;
-            decryptBtn.Click += decryptBtn_Click;
-            // 
             // encryptBtn
             // 
             encryptBtn.Anchor = AnchorStyles.None;
             encryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            encryptBtn.Location = new Point(27, 90);
+            encryptBtn.Location = new Point(27, 10);
             encryptBtn.Name = "encryptBtn";
             encryptBtn.Size = new Size(140, 60);
             encryptBtn.TabIndex = 4;
@@ -230,19 +211,17 @@
             encryptBtn.Type = AntdUI.TTypeMini.Primary;
             encryptBtn.Click += encryptBtn_Click;
             // 
-            // encryptAlgSelect
+            // decryptBtn
             // 
-            encryptAlgSelect.Anchor = AnchorStyles.None;
-            encryptAlgSelect.Font = new Font("Microsoft YaHei UI", 16F);
-            encryptAlgSelect.Items.AddRange(new object[] { "AES", "RSA" });
-            encryptAlgSelect.Location = new Point(27, 10);
-            encryptAlgSelect.Name = "encryptAlgSelect";
-            encryptAlgSelect.SelectedIndex = 0;
-            encryptAlgSelect.SelectedValue = "AES";
-            encryptAlgSelect.Size = new Size(140, 60);
-            encryptAlgSelect.TabIndex = 13;
-            encryptAlgSelect.Text = "AES";
-            encryptAlgSelect.SelectedIndexChanged += encryptAlgSelect_SelectedIndexChanged;
+            decryptBtn.Anchor = AnchorStyles.None;
+            decryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
+            decryptBtn.Location = new Point(27, 90);
+            decryptBtn.Name = "decryptBtn";
+            decryptBtn.Size = new Size(140, 60);
+            decryptBtn.TabIndex = 12;
+            decryptBtn.Text = "解密";
+            decryptBtn.Type = AntdUI.TTypeMini.Success;
+            decryptBtn.Click += decryptBtn_Click;
             // 
             // tableLayoutPanel3
             // 
@@ -250,7 +229,6 @@
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.Controls.Add(genKeyIvBtn, 0, 0);
             tableLayoutPanel3.Controls.Add(keyLengthSelect, 0, 1);
-            tableLayoutPanel3.Controls.Add(keyModeSelect, 0, 2);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.Location = new Point(603, 83);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -287,18 +265,43 @@
             keyLengthSelect.TabIndex = 8;
             keyLengthSelect.Text = "128";
             // 
-            // keyModeSelect
+            // tableLayoutPanel4
             // 
-            keyModeSelect.Anchor = AnchorStyles.None;
-            keyModeSelect.Font = new Font("Microsoft YaHei UI", 16F);
-            keyModeSelect.Items.AddRange(new object[] { "PKCS#8", "PKCS#1" });
-            keyModeSelect.Location = new Point(27, 170);
-            keyModeSelect.Name = "keyModeSelect";
-            keyModeSelect.SelectedIndex = 0;
-            keyModeSelect.SelectedValue = "PKCS#8";
-            keyModeSelect.Size = new Size(140, 60);
-            keyModeSelect.TabIndex = 9;
-            keyModeSelect.Text = "PKCS#8";
+            tableLayoutPanel4.ColumnCount = 2;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 115F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.Controls.Add(label4, 0, 0);
+            tableLayoutPanel4.Controls.Add(openPathBtn, 1, 0);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(803, 363);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 1;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.Size = new Size(584, 64);
+            tableLayoutPanel4.TabIndex = 15;
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label4.Font = new Font("Microsoft YaHei UI", 18F);
+            label4.Location = new Point(3, 25);
+            label4.Name = "label4";
+            label4.Size = new Size(109, 36);
+            label4.TabIndex = 11;
+            label4.Text = "输出路径";
+            // 
+            // openPathBtn
+            // 
+            openPathBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            openPathBtn.Font = new Font("Microsoft YaHei UI", 16F);
+            openPathBtn.Ghost = true;
+            openPathBtn.IconSvg = "FolderOpenOutlined";
+            openPathBtn.Location = new Point(118, 25);
+            openPathBtn.Name = "openPathBtn";
+            openPathBtn.Size = new Size(41, 36);
+            openPathBtn.TabIndex = 12;
+            openPathBtn.Type = AntdUI.TTypeMini.Primary;
+            openPathBtn.Click += openPathBtn_Click;
             // 
             // FileEncryptForm
             // 
@@ -309,6 +312,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel4.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -329,9 +333,9 @@
         private AntdUI.Label label4;
         private AntdUI.Button decryptBtn;
         private TableLayoutPanel tableLayoutPanel2;
-        private AntdUI.Select encryptAlgSelect;
         private TableLayoutPanel tableLayoutPanel3;
         private AntdUI.Select keyLengthSelect;
-        private AntdUI.Select keyModeSelect;
+        private TableLayoutPanel tableLayoutPanel4;
+        private AntdUI.Button openPathBtn;
     }
 }

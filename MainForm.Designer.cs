@@ -196,6 +196,7 @@ namespace CryptoTool
             Controls.Add(pageHeader1);
             Controls.Add(titlebar);
             Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;

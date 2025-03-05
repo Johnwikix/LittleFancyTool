@@ -49,12 +49,12 @@ namespace CryptoTool.Models
         };
         public static readonly Dictionary<string, string> MenuIcons_zhcn = new Dictionary<string, string>
         {
-            { "非对称加密", "AppstoreOutlined" },
-            { "对称加密", "LayoutOutlined" },
-            { "摘要", "CompressOutlined" },
-            { "编码", "EditOutlined" },
+            { "非对称加密", "AppstoreAddOutlined" },
+            { "对称加密", "AppstoreOutlined" },
+            { "摘要", "ApartmentOutlined" },
+            { "编码", "BlockOutlined" },
             { "二维码", "QrcodeOutlined" },
-            { "文件", "NotificationOutlined" },
+            { "文件", "FileOutlined" },
             { "聊天", "MessageOutlined" },
             { "其它", "SettingOutlined" }
         };

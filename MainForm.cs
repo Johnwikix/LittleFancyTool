@@ -247,6 +247,7 @@ namespace CryptoTool
         private void Menu_SelectChanged(object sender, MenuSelectEventArgs e)
         {
             string name = (string)e.Value.Tag;
+            string tagName =e.Value.Text;
 
             // 如果上一个组件是 FloatButtonDemo，清理其浮动按钮窗体
             //if (currControl is FloatButtonDemo floatButtonDemo)
@@ -311,7 +312,7 @@ namespace CryptoTool
                 AutoDpi(control);
                 AntdUI.TabPage tabPage = new AntdUI.TabPage()
                 {
-                    Text = name,
+                    Text = tagName,
                 };
                 tabPage.Controls.Add(control);
                 tabs.Pages.Add(tabPage);
