@@ -86,7 +86,6 @@ namespace LittleFancyTool.View
 
             try
             {
-                //Task.WaitAll(encryptionTasks.ToArray());
                 await Task.WhenAll(encryptionTasks).ConfigureAwait(true);
                 createLog(keyInput.Text,ivInput.Text,filePathInput.Text,outputPathInput.Text);
                 var endTime = DateTime.Now;
@@ -140,7 +139,7 @@ namespace LittleFancyTool.View
                                        .ToArray();
             if (filePaths.Length == 0)
             {
-                MessageBox.Show("请先选择要解密的文件！");
+                AntdUI.Message.warn(window, "请先选择要解密的文件", autoClose: 3);
                 return;
             }
             decryptBtn.Loading = true;

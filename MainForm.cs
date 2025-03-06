@@ -247,7 +247,6 @@ namespace CryptoTool
         private void Menu_SelectChanged(object sender, MenuSelectEventArgs e)
         {
             string name = (string)e.Value.Tag;
-            string tagName =e.Value.Text;
 
             // 如果上一个组件是 FloatButtonDemo，清理其浮动按钮窗体
             //if (currControl is FloatButtonDemo floatButtonDemo)
@@ -299,8 +298,11 @@ namespace CryptoTool
                 case "SM2":
                     control = new SM2Form(this);
                     break;
-                case "fileEncrypt":
+                case "文件加密":
                     control = new FileEncryptForm(this);
+                    break;
+                case "图片转Base64":
+                    control = new Img2Base64Form(this);
                     break;
                 default:
                     break;
@@ -312,7 +314,7 @@ namespace CryptoTool
                 AutoDpi(control);
                 AntdUI.TabPage tabPage = new AntdUI.TabPage()
                 {
-                    Text = tagName,
+                    Text = name,
                 };
                 tabPage.Controls.Add(control);
                 tabs.Pages.Add(tabPage);

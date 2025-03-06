@@ -33,11 +33,12 @@ namespace CryptoTool.Models
             { "编码", new List<MenuItems>
                 {
                     new MenuItems { Text = "Base64", Tag = "Base64"},
+                    new MenuItems { Text = "图片转Base64", Tag = "图片转Base64"},
                 }
             },
             { "文件", new List<MenuItems>
                 {
-                    new MenuItems { Text = "文件加密", Tag = "fileEncrypt"},
+                    new MenuItems { Text = "文件加密", Tag = "文件加密"},
                 }
             },
             //{ "二维码", new List<MenuItems>

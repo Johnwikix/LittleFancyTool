@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace CryptoTool.View
 {
-    public partial class Base64Form: UserControl
+    public partial class Base64Form : UserControl
     {
         public Base64Form()
         {
@@ -33,6 +33,11 @@ namespace CryptoTool.View
             IEncryptionCode encryptionAlgorithm = new Base64Encryption();
             string decryptedText = encryptionAlgorithm.Decrypt(input);
             inputTextBox.Text = decryptedText;
+        }
+
+        private void picBtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
