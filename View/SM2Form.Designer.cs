@@ -71,7 +71,7 @@
             decryptBtn.Size = new Size(140, 60);
             decryptBtn.TabIndex = 1;
             decryptBtn.Text = "解密<<";
-            decryptBtn.Type = AntdUI.TTypeMini.Primary;
+            decryptBtn.Type = AntdUI.TTypeMini.Success;
             decryptBtn.Click += DecryptButton_Click;
             // 
             // paddingModeComboBox

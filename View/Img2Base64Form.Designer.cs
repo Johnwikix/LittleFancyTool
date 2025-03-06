@@ -56,7 +56,7 @@ namespace LittleFancyTool.View
             encryptBtn.Name = "encryptBtn";
             encryptBtn.Size = new Size(140, 60);
             encryptBtn.TabIndex = 0;
-            encryptBtn.Text = "加密>>";
+            encryptBtn.Text = "编码>>";
             encryptBtn.Type = TTypeMini.Primary;
             encryptBtn.Click += encryptBtn_Click;
             // 
@@ -69,8 +69,8 @@ namespace LittleFancyTool.View
             decryptBtn.Name = "decryptBtn";
             decryptBtn.Size = new Size(140, 60);
             decryptBtn.TabIndex = 1;
-            decryptBtn.Text = "解密<<";
-            decryptBtn.Type = TTypeMini.Primary;
+            decryptBtn.Text = "解码<<";
+            decryptBtn.Type = TTypeMini.Success;
             decryptBtn.Click += decryptBtn_Click;
             // 
             // outputTextBox
@@ -176,6 +176,7 @@ namespace LittleFancyTool.View
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox.TabIndex = 6;
             pictureBox.TabStop = false;
+            pictureBox.Click += pictureBox_Click;
             // 
             // tableLayoutPanel3
             // 

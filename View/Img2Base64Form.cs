@@ -76,7 +76,8 @@ namespace LittleFancyTool.View
         {
             DateTime startTime = DateTime.Now;
             string[] filePaths = e.Value;
-            Task task = new Task(() => {
+            Task task = new Task(() =>
+            {
                 pictureBox.Image = Image.FromFile(filePaths[0]);
             });
             task.Start();
@@ -87,7 +88,8 @@ namespace LittleFancyTool.View
         {
             if (pictureBox.Image != null)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
                     FileName = "base64ToImg",
                 };
                 saveFileDialog.Filter = "PNG 图片|*.png|GIF 图片|*.gif|JPEG 图片|*.jpg;*.jpeg";
@@ -107,6 +109,20 @@ namespace LittleFancyTool.View
             else
             {
                 AntdUI.Message.warn(window, "没有图片可供保存。", autoClose: 3);
+            }
+        }
+
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            if (pictureBox.Image != null)
+            {
+                IList<Image> images = new List<Image>();
+                images.Add(pictureBox.Image);
+                Preview.open(new Preview.Config(window, images));
+            }
+            else
+            {
+                AntdUI.Message.warn(window, "没有图片可以预览。", autoClose: 3);
             }
         }
     }

@@ -49,7 +49,7 @@
             encryptBtn.Name = "encryptBtn";
             encryptBtn.Size = new Size(140, 60);
             encryptBtn.TabIndex = 0;
-            encryptBtn.Text = "加密>>";
+            encryptBtn.Text = "编码>>";
             encryptBtn.Type = AntdUI.TTypeMini.Primary;
             encryptBtn.Click += encryptButton_Click;
             // 
@@ -62,8 +62,8 @@
             decryptBtn.Name = "decryptBtn";
             decryptBtn.Size = new Size(140, 60);
             decryptBtn.TabIndex = 1;
-            decryptBtn.Text = "解密<<";
-            decryptBtn.Type = AntdUI.TTypeMini.Primary;
+            decryptBtn.Text = "解码<<";
+            decryptBtn.Type = AntdUI.TTypeMini.Success;
             decryptBtn.Click += decryptButton_Click;
             // 
             // inputTextBox

@@ -75,7 +75,7 @@ namespace CryptoTool.View
             rsaDecryptBtn.Size = new Size(140, 60);
             rsaDecryptBtn.TabIndex = 1;
             rsaDecryptBtn.Text = "解密<<";
-            rsaDecryptBtn.Type = AntdUI.TTypeMini.Primary;
+            rsaDecryptBtn.Type = AntdUI.TTypeMini.Success;
             rsaDecryptBtn.Click += rsaDecryptButton_Click;
             // 
             // rsaPaddingModeComboBox
