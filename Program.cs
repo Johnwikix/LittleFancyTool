@@ -20,8 +20,9 @@ namespace CryptoTool
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Control.CheckForIllegalCrossThreadCalls = true;
             //ApplicationConfiguration.Initialize();
-            
+
             Application.Run(mainForm);
         }
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

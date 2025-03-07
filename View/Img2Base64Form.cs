@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -28,7 +29,6 @@ namespace LittleFancyTool.View
         private async void encryptBtn_Click(object sender, EventArgs e)
         {
             encryptBtn.Loading = true;
-            //Image selectedImage = pictureBox.Image;
             if (pictureBox.Image != null)
             {
                 await pic2base64();
@@ -59,8 +59,18 @@ namespace LittleFancyTool.View
                 byte[] imageBytes = Convert.FromBase64String(outputTextBox.Text);
                 using (MemoryStream ms = new MemoryStream(imageBytes))
                 {
-                    Image image = Image.FromStream(ms, true);
-                    pictureBox.Image = Image.FromStream(ms);
+                    Image img = Image.FromStream(ms, true);
+                    if (pictureBox.InvokeRequired)
+                    {
+                   
+                        Debug.WriteLine("InvokeRequired");
+                        pictureBox.BeginInvoke(new Action(() => pictureBox.Image = img));
+                    }
+                    else
+                    {
+                        Debug.WriteLine("InvokeNotRequired");
+                        pictureBox.Image = img;
+                    }
                 }
             });
         }
