@@ -6,9 +6,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,22 +25,14 @@ namespace LittleFancyTool.View
             InitializeComponent();
         }
 
-        private void encryptBtn_Click(object sender, EventArgs e)
+        private async void encryptBtn_Click(object sender, EventArgs e)
         {
-            Image selectedImage = pictureBox.Image;
-            if (selectedImage != null)
+            encryptBtn.Loading = true;
+            //Image selectedImage = pictureBox.Image;
+            if (pictureBox.Image != null)
             {
-                Task base64Encode = new Task(() =>
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        selectedImage.Save(ms, selectedImage.RawFormat);
-                        byte[] imageBytes = ms.ToArray();
-                        string base64String = Convert.ToBase64String(imageBytes);
-                        outputTextBox.Text = base64String;
-                    }
-                });
-                base64Encode.Start();
+                await pic2base64();
+                encryptBtn.Loading = false;
             }
             else
             {
@@ -46,21 +40,40 @@ namespace LittleFancyTool.View
             }
         }
 
-        private void decryptBtn_Click(object sender, EventArgs e)
+        private Task pic2base64()
         {
+            return Task.Run(() =>{
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    pictureBox.Image.Save(ms, ImageFormat.Png);
+                    byte[] imageBytes = ms.ToArray();
+                    string base64String = Convert.ToBase64String(imageBytes);
+                    outputTextBox.Text = base64String;
+                }
+            });
+        }
+
+        private Task base64toPic()
+        {
+            return Task.Run(() => {
+                byte[] imageBytes = Convert.FromBase64String(outputTextBox.Text);
+                using (MemoryStream ms = new MemoryStream(imageBytes))
+                {
+                    Image image = Image.FromStream(ms, true);
+                    pictureBox.Image = Image.FromStream(ms);
+                }
+            });
+        }
+
+        private async void decryptBtn_Click(object sender, EventArgs e)
+        {
+            decryptBtn.Loading = true;
             if (!string.IsNullOrEmpty(outputTextBox.Text))
             {
                 try
                 {
-                    Task base64Decode = new Task(() =>
-                    {
-                        byte[] imageBytes = Convert.FromBase64String(outputTextBox.Text);
-                        using (MemoryStream ms = new MemoryStream(imageBytes))
-                        {
-                            pictureBox.Image = Image.FromStream(ms);
-                        }
-                    });
-                    base64Decode.Start();
+                    await base64toPic();
+                    decryptBtn.Loading = false;
                 }
                 catch (FormatException ex)
                 {
@@ -114,6 +127,13 @@ namespace LittleFancyTool.View
 
         private void pictureBox_Click(object sender, EventArgs e)
         {
+            string s;
+            s = " my bad ";
+            string[] c = s.Split(" ");
+            Debug.WriteLine(c);
+            c.Reverse();
+            Regex.Replace(s, @"\s+", " ");
+            Debug.WriteLine(String.Join(" ", c));
             if (pictureBox.Image != null)
             {
                 IList<Image> images = new List<Image>();
