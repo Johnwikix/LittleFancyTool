@@ -10,6 +10,16 @@ namespace CryptoTool.Models
     public class DataUtil
     {
         public static readonly Dictionary<string, List<MenuItems>> MenuItems_zhcn = new Dictionary<string, List<MenuItems>>() {
+            { "串口工具", new List<MenuItems>
+                {
+                    new MenuItems { Text = "串口调试", Tag = "串口调试"},
+                }
+            },
+            { "文件", new List<MenuItems>
+                {
+                    new MenuItems { Text = "文件加密", Tag = "文件加密"},
+                }
+            },
             { "非对称加密", new List<MenuItems>
                 {
                     new MenuItems { Text = "RSA" , Tag = "RSA"},
@@ -36,27 +46,17 @@ namespace CryptoTool.Models
                     new MenuItems { Text = "图片转Base64", Tag = "图片转Base64"},
                 }
             },
-            { "文件", new List<MenuItems>
-                {
-                    new MenuItems { Text = "文件加密", Tag = "文件加密"},
-                }
-            },
-            //{ "二维码", new List<MenuItems>
-            //    {
-            //        new MenuItems { Text = "识别", Tag = "QRCodeDetector"},
-            //    }
-            //},
 
         };
         public static readonly Dictionary<string, string> MenuIcons_zhcn = new Dictionary<string, string>
         {
+            { "串口工具", "MessageOutlined" },
             { "非对称加密", "AppstoreAddOutlined" },
             { "对称加密", "AppstoreOutlined" },
             { "摘要", "ApartmentOutlined" },
             { "编码", "BlockOutlined" },
             { "二维码", "QrcodeOutlined" },
-            { "文件", "FileOutlined" },
-            { "聊天", "MessageOutlined" },
+            { "文件", "FileOutlined" },            
             { "其它", "SettingOutlined" }
         };
 

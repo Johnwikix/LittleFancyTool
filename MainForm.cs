@@ -304,6 +304,9 @@ namespace CryptoTool
                 case "Í¼Æ¬×ªBase64":
                     control = new Img2Base64Form(this);
                     break;
+                case "´®¿Úµ÷ÊÔ":
+                    control = new SerialPortForm(this);
+                    break;
                 default:
                     break;
             }
