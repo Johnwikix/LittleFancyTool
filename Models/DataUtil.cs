@@ -13,6 +13,7 @@ namespace CryptoTool.Models
             { "串口工具", new List<MenuItems>
                 {
                     new MenuItems { Text = "串口调试", Tag = "串口调试"},
+                    new MenuItems { Text = "modbus poll", Tag = "modbus poll"},
                 }
             },
             { "文件", new List<MenuItems>

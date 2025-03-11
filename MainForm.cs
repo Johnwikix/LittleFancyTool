@@ -307,6 +307,9 @@ namespace CryptoTool
                 case "´®¿Úµ÷ÊÔ":
                     control = new SerialPortForm(this);
                     break;
+                case "modbus poll":
+                    control = new ModbusPollForm(this);
+                    break;
                 default:
                     break;
             }

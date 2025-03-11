@@ -69,16 +69,8 @@ namespace LittleFancyTool.View
                 }
                 try
                 {
-                    if (rs485checkbox.Checked)
-                    {
-                        serialPort.RtsEnable = true; 
-                        serialPort.Handshake = Handshake.RequestToSend;
-                    }
-                    else {
-                        serialPort.RtsEnable = true;
-                        serialPort.Handshake = Handshake.None;
-                    }
-                    // 配置串口参数
+                    serialPort.RtsEnable = rs485checkbox.Checked;
+                    serialPort.Handshake = Handshake.None;
                     serialPort.PortName = portSelect.SelectedValue.ToString();
                     serialPort.BaudRate = int.Parse(baudRateSelect.SelectedValue.ToString());
                     serialPort.Parity = (Parity)Enum.Parse(typeof(Parity),
@@ -115,17 +107,19 @@ namespace LittleFancyTool.View
             return Task.Run(() => {
                 try
                 {
+                    serialPort.RtsEnable = rs485checkbox.Checked;
                     byte[] sendData = GetEncodedData(sendInput.Text + "\r\n",
                     (EncodingMode)sendSelect.SelectedIndex);
                     serialPort.Write(sendData, 0, sendData.Length);
                     sendHisInput.Text = sendInput.Text;
                     sendInput.Clear();
                     sendBtn.Loading = false;
+                    serialPort.RtsEnable = false;
                 }
                 catch (Exception ex)
                 {
                     sendBtn.Loading = false;
-                    AntdUI.Message.error(window, ex.Message+ "可能对方设备不支持 RTS/CTS 握手协议。", autoClose: 3);
+                    AntdUI.Message.error(window, ex.Message, autoClose: 3);
                 }
             });
         }
