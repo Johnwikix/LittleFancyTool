@@ -51,7 +51,7 @@
 
 ![serialPort](doc/pic/serialPort.png)
 
-![modbus rtu](doc/pic/modbus rtu.png)
+![modbus_rtu](doc/pic/modbus_rtu.png)
 
 ![rsa](doc/pic/rsa.png)
 
