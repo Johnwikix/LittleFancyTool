@@ -190,26 +190,33 @@ namespace LittleFancyTool.View
 
         private void sendBtn_Click(object sender, EventArgs e)
         {
-            string message = sendInput.Text;
-            byte[] buffer = Encoding.UTF8.GetBytes(message);
-
-            foreach (TcpClient client in clients)
+            if (clients.Count > 0)
             {
-                if (client.Connected)
+                string message = sendInput.Text;
+                byte[] buffer = Encoding.UTF8.GetBytes(message);
+
+                foreach (TcpClient client in clients)
                 {
-                    try
+                    if (client.Connected)
                     {
-                        NetworkStream stream = client.GetStream();
-                        stream.Write(buffer, 0, buffer.Length);
-                    }
-                    catch (Exception ex)
-                    {
-                        AntdUI.Message.error(window, $"发送消息给客户端时出错: {ex.Message}", autoClose: 3);
+                        try
+                        {
+                            NetworkStream stream = client.GetStream();
+                            stream.Write(buffer, 0, buffer.Length);
+                        }
+                        catch (Exception ex)
+                        {
+                            AntdUI.Message.error(window, $"发送消息给客户端时出错: {ex.Message}", autoClose: 3);
+                        }
                     }
                 }
-            }            
-            receivedInput1.AppendText($"服务器: {message}\r\n");
-            sendInput.Clear();
+                receivedInput1.AppendText($"服务器: {message}\r\n");
+                sendInput.Clear();
+            }
+            else {
+                AntdUI.Message.error(window, "客户端未连接", autoClose: 3);
+            }
+            
         }
     }
 }

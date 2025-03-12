@@ -35,12 +35,12 @@
             portLabel = new AntdUI.Label();
             portInput = new AntdUI.InputNumber();
             tableLayoutPanel4 = new TableLayoutPanel();
+            connectLabel = new AntdUI.Label();
+            connectButton = new AntdUI.Button();
             tableLayoutPanel5 = new TableLayoutPanel();
             tableLayoutPanel6 = new TableLayoutPanel();
             tableLayoutPanel7 = new TableLayoutPanel();
             tableLayoutPanel8 = new TableLayoutPanel();
-            connectButton = new AntdUI.Button();
-            connectLabel = new AntdUI.Label();
             tableLayoutPanel10 = new TableLayoutPanel();
             sendBtn = new AntdUI.Button();
             sendInput = new AntdUI.Input();
@@ -49,7 +49,7 @@
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel11.SuspendLayout();
-            tableLayoutPanel8.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel10.SuspendLayout();
             SuspendLayout();
             // 
@@ -135,11 +135,11 @@
             // portInput
             // 
             portInput.Anchor = AnchorStyles.None;
-            portInput.Location = new Point(183, 18);
+            portInput.Location = new Point(193, 13);
             portInput.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             portInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             portInput.Name = "portInput";
-            portInput.Size = new Size(140, 50);
+            portInput.Size = new Size(120, 60);
             portInput.TabIndex = 2;
             portInput.Text = "2345";
             portInput.Value = new decimal(new int[] { 2345, 0, 0, 0 });
@@ -149,6 +149,8 @@
             tableLayoutPanel4.ColumnCount = 2;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel4.Controls.Add(connectLabel, 0, 0);
+            tableLayoutPanel4.Controls.Add(connectButton, 1, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(3, 96);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -156,6 +158,28 @@
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.Size = new Size(338, 87);
             tableLayoutPanel4.TabIndex = 1;
+            // 
+            // connectLabel
+            // 
+            connectLabel.Anchor = AnchorStyles.Left;
+            connectLabel.Font = new Font("Microsoft YaHei UI", 18F);
+            connectLabel.Location = new Point(3, 13);
+            connectLabel.Name = "connectLabel";
+            connectLabel.Size = new Size(120, 60);
+            connectLabel.TabIndex = 1;
+            connectLabel.Text = "服务";
+            // 
+            // connectButton
+            // 
+            connectButton.Anchor = AnchorStyles.None;
+            connectButton.Font = new Font("Microsoft YaHei UI", 16F);
+            connectButton.Location = new Point(193, 13);
+            connectButton.Name = "connectButton";
+            connectButton.Size = new Size(120, 60);
+            connectButton.TabIndex = 0;
+            connectButton.Text = "启动服务";
+            connectButton.Type = AntdUI.TTypeMini.Success;
+            connectButton.Click += connectButton_Click;
             // 
             // tableLayoutPanel5
             // 
@@ -201,8 +225,6 @@
             tableLayoutPanel8.ColumnCount = 2;
             tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel8.Controls.Add(connectButton, 1, 0);
-            tableLayoutPanel8.Controls.Add(connectLabel, 0, 0);
             tableLayoutPanel8.Dock = DockStyle.Fill;
             tableLayoutPanel8.Location = new Point(3, 475);
             tableLayoutPanel8.Name = "tableLayoutPanel8";
@@ -211,28 +233,6 @@
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel8.Size = new Size(344, 164);
             tableLayoutPanel8.TabIndex = 1;
-            // 
-            // connectButton
-            // 
-            connectButton.Anchor = AnchorStyles.None;
-            connectButton.Font = new Font("Microsoft YaHei UI", 16F);
-            connectButton.Location = new Point(198, 11);
-            connectButton.Name = "connectButton";
-            connectButton.Size = new Size(120, 60);
-            connectButton.TabIndex = 0;
-            connectButton.Text = "启动服务";
-            connectButton.Type = AntdUI.TTypeMini.Success;
-            connectButton.Click += connectButton_Click;
-            // 
-            // connectLabel
-            // 
-            connectLabel.Anchor = AnchorStyles.Left;
-            connectLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            connectLabel.Location = new Point(3, 11);
-            connectLabel.Name = "connectLabel";
-            connectLabel.Size = new Size(120, 60);
-            connectLabel.TabIndex = 1;
-            connectLabel.Text = "服务";
             // 
             // tableLayoutPanel10
             // 
@@ -291,7 +291,7 @@
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel11.ResumeLayout(false);
-            tableLayoutPanel8.ResumeLayout(false);
+            tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel10.ResumeLayout(false);
             ResumeLayout(false);
         }
