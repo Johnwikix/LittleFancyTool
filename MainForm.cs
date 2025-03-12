@@ -14,14 +14,10 @@ namespace CryptoTool
 {
     public partial class MainForm : AntdUI.Window
     {
-        //private RSAForm rsaForm;
-        //private AESForm aesForm;
-        //private Base64Form base64Form;
         private UserControl currControl;
-        private bool isUpdatingTabs = false;//用于阻止Tabs更新
+        private bool isUpdatingTabs = false;
         private bool isLight = true;
-        // 定义一个语言切换事件
-        public event EventHandler LanguageChanged;
+        //public event EventHandler LanguageChanged;
         public MainForm()
         {
             InitializeComponent();
@@ -33,14 +29,10 @@ namespace CryptoTool
         private void InitData()
         {
             dropdown_translate.SelectedValue = dropdown_translate.Items[0];
-            //根据系统亮暗初始化一次
             isLight = ThemeHelper.IsLightMode();
             button_color.Toggle = !isLight;
             ThemeHelper.SetColorMode(this, isLight);
-            //初始化消息弹出位置
             Config.ShowInWindow = true;
-            //menu.Collapsed = false;
-            //menu.Width = (int)(150 * Config.Dpi);
             UserControl control = new Wellcome();
             control.Dock = DockStyle.Fill;
             AutoDpi(control);

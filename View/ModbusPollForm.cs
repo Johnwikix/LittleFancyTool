@@ -1,8 +1,11 @@
-﻿using Modbus.Device;
+﻿using Microsoft.Win32;
+using Modbus.Device;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -19,11 +22,60 @@ namespace LittleFancyTool.View
         private ModbusSerialMaster modbusMaster;
         private AntdUI.Window window;
         private bool isPolling = false;
+        private DataTable _registerDataTable;
+        private readonly object _dataLock = new object();
+
         public ModbusPollForm(AntdUI.Window _window)
         {
             this.window = _window;
+            DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
             InitializeComponent();
             RefreshPortList();
+            _registerDataTable = new DataTable("ModbusData");
+            _registerDataTable.Columns.AddRange(new[]
+            {
+                new DataColumn("地址", typeof(string)),
+                new DataColumn("值", typeof(ushort)),
+                new DataColumn("更新时间", typeof(DateTime))
+            });
+            slaveDataGridView.DataSource = _registerDataTable;
+            ConfigureDataGridView();  
+        }
+
+        private void ConfigureDataGridView()
+        {
+            // 列配置
+            slaveDataGridView.AutoGenerateColumns = false;
+            slaveDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            slaveDataGridView.Columns.Clear();
+            slaveDataGridView.ForeColor = Color.Black;
+
+            slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "地址",
+                HeaderText = "寄存器地址",
+                FillWeight = 25
+            });
+
+            slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "值",
+                HeaderText = "数值 (DEC)",
+                FillWeight = 20
+            });
+
+            slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "更新时间",
+                HeaderText = "最后更新时间",
+                FillWeight = 55
+            });
+
+            DataGridViewColumn dateTimeColumn = slaveDataGridView.Columns[2];
+            dateTimeColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
         }
 
         private async Task pollingAsync(int time)
@@ -32,11 +84,11 @@ namespace LittleFancyTool.View
             {
                 try
                 {
-                    await listenPort();
+                    listenPortAsync();
                 }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"发生错误: {ex.Message}", autoClose: 3);
+                    AntdUI.Message.error(window, $"数据读取失败: {ex.Message}", autoClose: 3);
                 }
                 await Task.Delay(time);
             }
@@ -50,7 +102,7 @@ namespace LittleFancyTool.View
                 portSelect.SelectedIndex = 0;
         }
 
-        private void connectButton_Click(object sender, EventArgs e)
+        private async void connectButton_Click(object sender, EventArgs e)
         {
             if (serialPort.IsOpen)
             {
@@ -58,7 +110,7 @@ namespace LittleFancyTool.View
                 connectButton.Text = "连接";
                 statusInput.Clear();
                 connectButton.Type = AntdUI.TTypeMini.Success;
-                isPolling = false;
+                isPolling = false;                
             }
             else
             {
@@ -79,7 +131,6 @@ namespace LittleFancyTool.View
                     serialPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits),
                         stopBitsSelect.SelectedValue.ToString());
                     serialPort.WriteTimeout = 500;
-                    modbusMaster = ModbusSerialMaster.CreateRtu(serialPort);
                     serialPort.Open();
                     connectButton.Text = "断开";
                     connectButton.Type = AntdUI.TTypeMini.Error;
@@ -88,8 +139,9 @@ namespace LittleFancyTool.View
                         $"StopBits:{serialPort.StopBits}]";
                     isPolling = true;
                     int time = int.Parse(scanTimeInput.Text);
-                    _ = pollingAsync(time);
-                }
+                    modbusMaster = ModbusSerialMaster.CreateRtu(serialPort);
+                    modbusMaster.Transport.ReadTimeout = 100;
+                    await pollingAsync(time);                }
                 catch (Exception ex)
                 {
                     AntdUI.Message.error(window, $"连接失败: {ex.Message}", autoClose: 3);
@@ -97,25 +149,28 @@ namespace LittleFancyTool.View
             }
         }
 
-        private Task listenPort()
+        private async void listenPortAsync()
         {
-            return Task.Run(() => {
-                if (!ValidateInputs())
-                    return;
+            if (!ValidateInputs())
+                return;
 
-                byte slaveId = byte.Parse(slaveIdInput.Text);
-                ushort startAddress = ushort.Parse(addressInput.Text);
-                ushort numRegisters = ushort.Parse(numRegistersInput.Text);
-                try
-                {
-                    var registers = modbusMaster.ReadHoldingRegisters(slaveId, startAddress, numRegisters);
-                    outputInput.AppendText($"读取成功: {string.Join(", ", registers)}\r\n");
-                }
-                catch (Exception ex)
-                {
-                    AntdUI.Message.error(window, $"port读取失败: {ex.Message}", autoClose: 3);
-                }
-            });
+            byte slaveId = byte.Parse(slaveIdInput.Text);
+            ushort startAddress = ushort.Parse(addressInput.Text);
+            ushort numRegisters = ushort.Parse(numRegistersInput.Text);
+            try
+            {
+                var registers = await modbusMaster.ReadHoldingRegistersAsync(slaveId, startAddress, numRegisters);
+                outputInput.AppendText($"读取成功: {string.Join(", ", registers)}\r\n");
+                UpdateDataGridView(startAddress, registers);
+            }
+            catch (OperationCanceledException ex)
+            {
+                Debug.WriteLine($"操作被取消: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Message.error(window, $"port读取失败: {ex.Message}", autoClose: 3);
+            }
         }
 
         private bool ValidateInputs()
@@ -131,6 +186,47 @@ namespace LittleFancyTool.View
         private void refreshBtn_Click(object sender, EventArgs e)
         {
             RefreshPortList();
+        }
+
+        private void UpdateDataGridView(ushort startAddress, ushort[] registers)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                lock (_dataLock)
+                {
+                    var now = DateTime.Now;
+                    if (_registerDataTable.Rows.Count != registers.Length)
+                    {
+                        _registerDataTable.Rows.Clear();
+                        for (int i = 0; i < registers.Length; i++)
+                        {
+                            var address = startAddress + i;
+                            _registerDataTable.Rows.Add(
+                                $"0x{address:X4}",
+                                registers[i],
+                                now
+                            );
+                        }
+                    }
+                    else
+                    {
+                        slaveDataGridView.SuspendLayout();
+                        for (int i = 0; i < registers.Length; i++)
+                        {
+                            var row = _registerDataTable.Rows[i];
+                            if ((ushort)row["值"] != registers[i])
+                            {
+                                row.BeginEdit();
+                                row["值"] = registers[i];
+                                row["更新时间"] = now;
+                                row.EndEdit();
+                                slaveDataGridView.Rows[i].Cells[1].Style.BackColor = Color.LightYellow;
+                            }
+                        }
+                        slaveDataGridView.ResumeLayout();
+                    }
+                }
+            });
         }
     }
 }

@@ -62,6 +62,7 @@
             slaveIdInput = new AntdUI.InputNumber();
             addressInput = new AntdUI.InputNumber();
             numRegistersInput = new AntdUI.InputNumber();
+            slaveDataGridView = new DataGridView();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -73,6 +74,7 @@
             tableLayoutPanel8.SuspendLayout();
             tableLayoutPanel9.SuspendLayout();
             tableLayoutPanel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)slaveDataGridView).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -387,6 +389,7 @@
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel9.Controls.Add(outputInput, 1, 0);
             tableLayoutPanel9.Controls.Add(tableLayoutPanel10, 0, 0);
+            tableLayoutPanel9.Controls.Add(slaveDataGridView, 2, 0);
             tableLayoutPanel9.Dock = DockStyle.Fill;
             tableLayoutPanel9.Location = new Point(353, 3);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
@@ -435,6 +438,7 @@
             // 
             scanTimeInput.Anchor = AnchorStyles.None;
             scanTimeInput.Location = new Point(186, 300);
+            scanTimeInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             scanTimeInput.Name = "scanTimeInput";
             scanTimeInput.Size = new Size(140, 50);
             scanTimeInput.TabIndex = 7;
@@ -485,6 +489,7 @@
             // 
             slaveIdInput.Anchor = AnchorStyles.None;
             slaveIdInput.Location = new Point(186, 21);
+            slaveIdInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             slaveIdInput.Name = "slaveIdInput";
             slaveIdInput.Size = new Size(140, 50);
             slaveIdInput.TabIndex = 0;
@@ -495,6 +500,7 @@
             // 
             addressInput.Anchor = AnchorStyles.None;
             addressInput.Location = new Point(186, 114);
+            addressInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             addressInput.Name = "addressInput";
             addressInput.Size = new Size(140, 50);
             addressInput.TabIndex = 1;
@@ -504,11 +510,21 @@
             // 
             numRegistersInput.Anchor = AnchorStyles.None;
             numRegistersInput.Location = new Point(186, 207);
+            numRegistersInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             numRegistersInput.Name = "numRegistersInput";
             numRegistersInput.Size = new Size(140, 50);
             numRegistersInput.TabIndex = 2;
             numRegistersInput.Text = "10";
             numRegistersInput.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // slaveDataGridView
+            // 
+            slaveDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            slaveDataGridView.Dock = DockStyle.Fill;
+            slaveDataGridView.Location = new Point(699, 3);
+            slaveDataGridView.Name = "slaveDataGridView";
+            slaveDataGridView.Size = new Size(342, 468);
+            slaveDataGridView.TabIndex = 2;
             // 
             // ModbusPollForm
             // 
@@ -527,6 +543,7 @@
             tableLayoutPanel8.ResumeLayout(false);
             tableLayoutPanel9.ResumeLayout(false);
             tableLayoutPanel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)slaveDataGridView).EndInit();
             ResumeLayout(false);
         }
 
@@ -566,5 +583,6 @@
         private AntdUI.Label slaveIdLabel;
         private AntdUI.InputNumber scanTimeInput;
         private AntdUI.Label scanTimeLabel;
+        private DataGridView slaveDataGridView;
     }
 }
