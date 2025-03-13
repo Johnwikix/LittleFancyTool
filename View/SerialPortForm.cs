@@ -10,6 +10,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -18,8 +19,10 @@ namespace LittleFancyTool.View
     public partial class SerialPortForm : UserControl
     {
         private List<byte> receiveBuffer = new List<byte>();
+        private readonly object bufferLock = new object();
         private SerialPort serialPort = new SerialPort();
         private AntdUI.Window window;
+        private System.Timers.Timer dataTimeoutTimer;
         private enum EncodingMode
         {
             Auto,
@@ -33,15 +36,40 @@ namespace LittleFancyTool.View
             this.window = _window;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             InitializeComponent();
-            InitializeSerialPort();
             RefreshPortList();
         }
 
         private void InitializeSerialPort()
         {
             serialPort.DataReceived += SerialPort_DataReceived;
+            dataTimeoutTimer = new System.Timers.Timer(int.Parse(timeLimitInput.Text)); 
+            dataTimeoutTimer.AutoReset = false;
+            dataTimeoutTimer.Elapsed += DataTimeoutTimer_Elapsed;
         }
 
+        private void DataTimeoutTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                byte[] data = null;
+                lock (bufferLock)
+                {
+                    if (receiveBuffer.Count > 0)
+                    {
+                        data = receiveBuffer.ToArray();
+                        receiveBuffer.Clear();
+                    }
+                }
+                if (data != null)
+                {
+                    AppendDataView("超时", data);
+                }
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+            }
+        }
 
         private void RefreshPortList()
         {
@@ -69,6 +97,7 @@ namespace LittleFancyTool.View
                 }
                 try
                 {
+                    InitializeSerialPort();
                     serialPort.RtsEnable = rs485checkbox.Checked;
                     serialPort.Handshake = Handshake.None;
                     serialPort.PortName = portSelect.SelectedValue.ToString();
@@ -82,9 +111,9 @@ namespace LittleFancyTool.View
                     serialPort.Open();
                     connectButton.Text = "断开";
                     connectButton.Type = AntdUI.TTypeMini.Error;
-                    statusInput.Text = $"已连接 {serialPort.PortName} [Baud:{serialPort.BaudRate} " +
-                        $"Parity:{serialPort.Parity} DataBits:{serialPort.DataBits} " +
-                        $"StopBits:{serialPort.StopBits}]";
+                    statusInput.Text = $"已连接 {serialPort.PortName}\r\nBaud:{serialPort.BaudRate}\r\n" +
+                        $"Parity:{serialPort.Parity}\r\nDataBits:{serialPort.DataBits}\r\n" +
+                        $"StopBits:{serialPort.StopBits}";
                 }
                 catch (Exception ex)
                 {
@@ -107,12 +136,11 @@ namespace LittleFancyTool.View
             return Task.Run(() => {
                 try
                 {
+                    string sendText = sendInput.Text;
                     serialPort.RtsEnable = rs485checkbox.Checked;
-                    byte[] sendData = GetEncodedData(sendInput.Text + "\r\n",
-                    (EncodingMode)sendSelect.SelectedIndex);
+                    byte[] sendData = GetEncodedData(sendText + "\r\n",(EncodingMode)sendSelect.SelectedIndex);
                     serialPort.Write(sendData, 0, sendData.Length);
-                    sendHisInput.Text = sendInput.Text;
-                    sendInput.Clear();
+                    receivedInput.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendText}\r\n");
                     sendBtn.Loading = false;
                     serialPort.RtsEnable = false;
                 }
@@ -158,24 +186,33 @@ namespace LittleFancyTool.View
         {
             try
             {
+                dataTimeoutTimer.Stop();
                 int bytesToRead = serialPort.BytesToRead;
                 byte[] buffer = new byte[bytesToRead];
                 serialPort.Read(buffer, 0, bytesToRead);
-                receiveBuffer.AddRange(buffer);
-                byte[] data = null;
-                if (buffer != null && buffer.Length >= 2)
+                lock (bufferLock)
                 {
-                    byte lastByte = buffer[buffer.Length - 1];
-                    byte secondLastByte = buffer[buffer.Length - 2];
-                    if (lastByte == 13 || lastByte ==10)
+                    receiveBuffer.AddRange(buffer);
+                    byte[] data = null;
+                    if (buffer != null && buffer.Length >= 2)
                     {
-                        data = receiveBuffer.ToArray();
-                        receiveBuffer.Clear();
+                        byte lastByte = buffer[buffer.Length - 1];
+                        byte secondLastByte = buffer[buffer.Length - 2];
+                        if (lastByte == 13 || lastByte == 10)
+                        {
+                            data = receiveBuffer.ToArray();
+                            receiveBuffer.Clear();
+                        }
                     }
-                }
-                if (data != null)
-                {
-                    AppendDataView("接收", data);
+
+                    if (data != null)
+                    {
+                        AppendDataView("接收", data);
+                    }
+                    if (receiveBuffer.Count > 0)
+                    {
+                        dataTimeoutTimer.Start();
+                    }
                 }
             }
             catch (Exception ex)
@@ -198,44 +235,49 @@ namespace LittleFancyTool.View
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"{DateTime.Now:HH:mm:ss} - {prefix}数据:");
+            sb.Append($"{DateTime.Now:HH:mm:ss} << ");
 
             int recvMode = receivedModeSelect.SelectedIndex;
 
             switch ((EncodingMode)recvMode)
             {
                 case EncodingMode.Auto:
-                    sb.AppendLine(DetectBestEncoding(data).GetString(data));
+                    sb.Append(DetectBestEncoding(data).GetString(data));
                     break;
                 case EncodingMode.Hex:
-                    sb.AppendLine(ByteArrayToHexString(data));
+                    sb.Append(ByteArrayToHexString(data));
                     break;
                 case EncodingMode.ASCII:
-                    sb.AppendLine(Encoding.ASCII.GetString(data));
+                    sb.Append(Encoding.ASCII.GetString(data));
                     break;
                 case EncodingMode.UTF8:
-                    sb.AppendLine(Encoding.UTF8.GetString(data));
+                    sb.Append(Encoding.UTF8.GetString(data));
                     break;
                 case EncodingMode.GB2312:
-                    sb.AppendLine(Encoding.GetEncoding("GB18030").GetString(data));
+                    sb.Append(Encoding.GetEncoding("GB18030").GetString(data));
                     break;
             }
-
-
-            receivedInput.AppendText(sb.ToString() + Environment.NewLine);
+            if (prefix == "超时")
+            {
+                receivedInput.AppendText(sb.ToString()+"\r\n");
+            }
+            else {
+                receivedInput.AppendText(sb.ToString());
+            }
+            
         }
 
         private Encoding DetectBestEncoding(byte[] data)
         {
             string testGB = Encoding.GetEncoding("GB18030").GetString(data.ToArray());
-            if (IsPrintable(testGB))
-            {
-                return Encoding.GetEncoding("GB18030");
-            }
             string testUTF8 = Encoding.UTF8.GetString(data.ToArray());
             if (IsPrintable(testUTF8))
             {
                 return Encoding.UTF8;
+            }
+            if (IsPrintable(testGB))
+            {
+                return Encoding.GetEncoding("GB18030");
             }
             return Encoding.ASCII;
         }

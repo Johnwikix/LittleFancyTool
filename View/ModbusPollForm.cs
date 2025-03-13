@@ -1,18 +1,7 @@
-﻿using Microsoft.Win32;
-using Modbus.Device;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Modbus.Device;
 using System.Data;
 using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LittleFancyTool.View
 {
@@ -24,6 +13,8 @@ namespace LittleFancyTool.View
         private bool isPolling = false;
         private DataTable _registerDataTable;
         private readonly object _dataLock = new object();
+        private int txCount = 0;
+        private int errCount = 0;
 
         public ModbusPollForm(AntdUI.Window _window)
         {
@@ -42,7 +33,8 @@ namespace LittleFancyTool.View
                 new DataColumn("更新时间", typeof(DateTime))
             });
             slaveDataGridView.DataSource = _registerDataTable;
-            ConfigureDataGridView();  
+            ConfigureDataGridView();
+            TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
         }
 
         private void ConfigureDataGridView()
@@ -84,6 +76,8 @@ namespace LittleFancyTool.View
             {
                 try
                 {
+                    ++txCount;
+                    TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
                     listenPortAsync();
                 }
                 catch (Exception ex)
@@ -134,9 +128,9 @@ namespace LittleFancyTool.View
                     serialPort.Open();
                     connectButton.Text = "断开";
                     connectButton.Type = AntdUI.TTypeMini.Error;
-                    statusInput.Text = $"已连接 {serialPort.PortName} [Baud:{serialPort.BaudRate} " +
-                        $"Parity:{serialPort.Parity} DataBits:{serialPort.DataBits} " +
-                        $"StopBits:{serialPort.StopBits}]";
+                    statusInput.Text = $"已连接 {serialPort.PortName}\r\nBaud:{serialPort.BaudRate}\r\n" +
+                        $"Parity:{serialPort.Parity}\r\nDataBits:{serialPort.DataBits}\r\n" +
+                        $"StopBits:{serialPort.StopBits}";
                     isPolling = true;
                     int time = int.Parse(scanTimeInput.Text);
                     modbusMaster = ModbusSerialMaster.CreateRtu(serialPort);
@@ -169,7 +163,9 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, $"port读取失败: {ex.Message}", autoClose: 3);
+                errCount++;
+                TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
+                //AntdUI.Message.error(window, $"port读取失败: {ex.Message}", autoClose: 3);
             }
         }
 

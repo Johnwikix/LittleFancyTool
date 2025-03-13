@@ -74,6 +74,7 @@ namespace LittleFancyTool.View
             }
             if (modeSelect.SelectedIndex == 1)
             {
+                addressInput.ReadOnly = false;
                 connectButton.Text = "连接";
                 connectLabel.Text = "连接";
                 stopServer();
@@ -196,7 +197,7 @@ namespace LittleFancyTool.View
                         if (bytesReceived > 0)
                         {
                             string response = Encoding.UTF8.GetString(receiveData, 0, bytesReceived);
-                            receivedInput1.AppendText($"服务端：{response}\r\n");
+                            receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
                         }
                     }
                     else
@@ -313,7 +314,7 @@ namespace LittleFancyTool.View
                     break;
                 }
                 string clientMessage = Encoding.UTF8.GetString(message, 0, bytesRead);
-                receivedInput1.AppendText($"客户端: {clientMessage}\r\n");
+                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {clientMessage}\r\n");
             }
             clients.Remove(client);
             client.Close();
@@ -347,8 +348,7 @@ namespace LittleFancyTool.View
                         }
                     }
                 }
-                receivedInput1.AppendText($"服务器: {message}\r\n");
-                sendInput.Clear();
+                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {message}\r\n");
             }
             else
             {
@@ -362,8 +362,7 @@ namespace LittleFancyTool.View
 
             // 发送消息
             clientSocket.Send(sendData);
-            receivedInput1.AppendText($"客户端: {message}\r\n");
-            sendInput.Clear();
+            receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {message}\r\n");
         }
 
         private void sendBtn_Click(object sender, EventArgs e)

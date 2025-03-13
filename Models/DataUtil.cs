@@ -56,8 +56,8 @@ namespace CryptoTool.Models
         };
         public static readonly Dictionary<string, string> MenuIcons_zhcn = new Dictionary<string, string>
         {
-            { "串口工具", "MessageOutlined" },
-            { "TCP工具", "SettingOutlined" },
+            { "串口工具", "UsbOutlined" },
+            { "TCP工具", "MessageOutlined" },
             { "非对称加密", "AppstoreAddOutlined" },
             { "对称加密", "AppstoreOutlined" },
             { "摘要", "ApartmentOutlined" },

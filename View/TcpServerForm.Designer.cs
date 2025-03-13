@@ -60,7 +60,7 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel8, 0, 1);
@@ -88,13 +88,14 @@
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 5;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.Size = new Size(344, 466);
+            tableLayoutPanel2.RowCount = 6;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(294, 466);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -109,32 +110,32 @@
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.Size = new Size(338, 87);
+            tableLayoutPanel3.Size = new Size(288, 54);
             tableLayoutPanel3.TabIndex = 0;
             // 
             // modeLabel
             // 
             modeLabel.Anchor = AnchorStyles.Left;
-            modeLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            modeLabel.Location = new Point(3, 13);
+            modeLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            modeLabel.Location = new Point(3, 3);
             modeLabel.Name = "modeLabel";
-            modeLabel.Size = new Size(94, 60);
+            modeLabel.Size = new Size(94, 48);
             modeLabel.TabIndex = 1;
             modeLabel.Text = "模式";
             // 
             // modeSelect
             // 
             modeSelect.Anchor = AnchorStyles.Left;
-            modeSelect.Font = new Font("Microsoft YaHei UI", 16F);
+            modeSelect.Font = new Font("Microsoft YaHei UI", 12F);
             modeSelect.Items.AddRange(new object[] { "server", "client" });
-            modeSelect.Location = new Point(103, 13);
+            modeSelect.Location = new Point(103, 4);
             modeSelect.Name = "modeSelect";
             modeSelect.SelectedIndex = 0;
             modeSelect.SelectedValue = "server";
-            modeSelect.Size = new Size(120, 60);
+            modeSelect.Size = new Size(150, 45);
             modeSelect.TabIndex = 0;
             modeSelect.Text = "server";
-            modeSelect.SelectedIndexChanged += modeSelect_SelectedIndexChanged; 
+            modeSelect.SelectedIndexChanged += modeSelect_SelectedIndexChanged;
             // 
             // tableLayoutPanel4
             // 
@@ -144,30 +145,30 @@
             tableLayoutPanel4.Controls.Add(addressLabel, 0, 0);
             tableLayoutPanel4.Controls.Add(addressInput, 1, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(3, 96);
+            tableLayoutPanel4.Location = new Point(3, 63);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.Size = new Size(338, 87);
+            tableLayoutPanel4.Size = new Size(288, 54);
             tableLayoutPanel4.TabIndex = 1;
             // 
             // addressLabel
             // 
             addressLabel.Anchor = AnchorStyles.Left;
-            addressLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            addressLabel.Location = new Point(3, 13);
+            addressLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            addressLabel.Location = new Point(3, 3);
             addressLabel.Name = "addressLabel";
-            addressLabel.Size = new Size(94, 60);
+            addressLabel.Size = new Size(94, 48);
             addressLabel.TabIndex = 0;
             addressLabel.Text = "地址";
             // 
             // addressInput
             // 
             addressInput.Anchor = AnchorStyles.Left;
-            addressInput.Font = new Font("Microsoft YaHei UI", 16F);
-            addressInput.Location = new Point(103, 13);
+            addressInput.Font = new Font("Microsoft YaHei UI", 12F);
+            addressInput.Location = new Point(103, 4);
             addressInput.Name = "addressInput";
-            addressInput.Size = new Size(200, 60);
+            addressInput.Size = new Size(150, 45);
             addressInput.TabIndex = 1;
             addressInput.Text = "127.0.0.1";
             // 
@@ -179,22 +180,22 @@
             tableLayoutPanel5.Controls.Add(portInput, 1, 0);
             tableLayoutPanel5.Controls.Add(portLabel, 0, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(3, 189);
+            tableLayoutPanel5.Location = new Point(3, 123);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Size = new Size(338, 87);
+            tableLayoutPanel5.Size = new Size(288, 54);
             tableLayoutPanel5.TabIndex = 2;
             // 
             // portInput
             // 
             portInput.Anchor = AnchorStyles.Left;
-            portInput.Font = new Font("Microsoft YaHei UI", 16F);
-            portInput.Location = new Point(103, 13);
+            portInput.Font = new Font("Microsoft YaHei UI", 12F);
+            portInput.Location = new Point(103, 4);
             portInput.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             portInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             portInput.Name = "portInput";
-            portInput.Size = new Size(120, 60);
+            portInput.Size = new Size(150, 45);
             portInput.TabIndex = 2;
             portInput.Text = "2345";
             portInput.Value = new decimal(new int[] { 2345, 0, 0, 0 });
@@ -202,10 +203,10 @@
             // portLabel
             // 
             portLabel.Anchor = AnchorStyles.Left;
-            portLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            portLabel.Location = new Point(3, 13);
+            portLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            portLabel.Location = new Point(3, 3);
             portLabel.Name = "portLabel";
-            portLabel.Size = new Size(94, 60);
+            portLabel.Size = new Size(94, 48);
             portLabel.TabIndex = 1;
             portLabel.Text = "端口";
             // 
@@ -217,20 +218,20 @@
             tableLayoutPanel6.Controls.Add(connectButton, 1, 0);
             tableLayoutPanel6.Controls.Add(connectLabel, 0, 0);
             tableLayoutPanel6.Dock = DockStyle.Fill;
-            tableLayoutPanel6.Location = new Point(3, 282);
+            tableLayoutPanel6.Location = new Point(3, 183);
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel6.Size = new Size(338, 87);
+            tableLayoutPanel6.Size = new Size(288, 54);
             tableLayoutPanel6.TabIndex = 3;
             // 
             // connectButton
             // 
             connectButton.Anchor = AnchorStyles.Left;
-            connectButton.Font = new Font("Microsoft YaHei UI", 16F);
-            connectButton.Location = new Point(103, 13);
+            connectButton.Font = new Font("Microsoft YaHei UI", 14F);
+            connectButton.Location = new Point(103, 4);
             connectButton.Name = "connectButton";
-            connectButton.Size = new Size(120, 60);
+            connectButton.Size = new Size(150, 45);
             connectButton.TabIndex = 0;
             connectButton.Text = "启动服务";
             connectButton.Type = AntdUI.TTypeMini.Success;
@@ -239,10 +240,10 @@
             // connectLabel
             // 
             connectLabel.Anchor = AnchorStyles.Left;
-            connectLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            connectLabel.Location = new Point(3, 13);
+            connectLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            connectLabel.Location = new Point(3, 3);
             connectLabel.Name = "connectLabel";
-            connectLabel.Size = new Size(94, 60);
+            connectLabel.Size = new Size(94, 48);
             connectLabel.TabIndex = 1;
             connectLabel.Text = "服务";
             // 
@@ -252,11 +253,11 @@
             tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 375);
+            tableLayoutPanel7.Location = new Point(3, 243);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 1;
             tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel7.Size = new Size(338, 88);
+            tableLayoutPanel7.Size = new Size(288, 54);
             tableLayoutPanel7.TabIndex = 4;
             // 
             // tableLayoutPanel8
@@ -270,7 +271,7 @@
             tableLayoutPanel8.RowCount = 2;
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel8.Size = new Size(344, 164);
+            tableLayoutPanel8.Size = new Size(294, 164);
             tableLayoutPanel8.TabIndex = 1;
             // 
             // tableLayoutPanel10
@@ -281,11 +282,11 @@
             tableLayoutPanel10.Controls.Add(sendBtn, 0, 0);
             tableLayoutPanel10.Controls.Add(sendInput, 1, 0);
             tableLayoutPanel10.Dock = DockStyle.Fill;
-            tableLayoutPanel10.Location = new Point(353, 475);
+            tableLayoutPanel10.Location = new Point(303, 475);
             tableLayoutPanel10.Name = "tableLayoutPanel10";
             tableLayoutPanel10.RowCount = 1;
             tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel10.Size = new Size(1044, 164);
+            tableLayoutPanel10.Size = new Size(1094, 164);
             tableLayoutPanel10.TabIndex = 3;
             // 
             // sendBtn
@@ -307,17 +308,17 @@
             sendInput.Location = new Point(173, 3);
             sendInput.Multiline = true;
             sendInput.Name = "sendInput";
-            sendInput.Size = new Size(868, 158);
+            sendInput.Size = new Size(918, 158);
             sendInput.TabIndex = 1;
             // 
             // receivedInput1
             // 
             receivedInput1.Dock = DockStyle.Fill;
-            receivedInput1.Location = new Point(353, 3);
+            receivedInput1.Location = new Point(303, 3);
             receivedInput1.Multiline = true;
             receivedInput1.Name = "receivedInput1";
             receivedInput1.ReadOnly = true;
-            receivedInput1.Size = new Size(1044, 466);
+            receivedInput1.Size = new Size(1094, 466);
             receivedInput1.TabIndex = 4;
             // 
             // TcpServerForm
