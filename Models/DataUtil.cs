@@ -18,7 +18,7 @@ namespace CryptoTool.Models
             },
             { "TCP工具", new List<MenuItems>
                 {
-                    new MenuItems { Text = "TCP-S", Tag = "TCP-S"},
+                    new MenuItems { Text = "Sockets", Tag = "Sockets"},
                 }
             },
             { "文件", new List<MenuItems>

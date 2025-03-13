@@ -302,7 +302,7 @@ namespace CryptoTool
                 case "modbus poll":
                     control = new ModbusPollForm(this);
                     break;
-                case "TCP-S":
+                case "Sockets":
                     control = new TcpServerForm(this);
                     break;
                 default:

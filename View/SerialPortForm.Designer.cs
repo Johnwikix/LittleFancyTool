@@ -523,11 +523,11 @@
             // 
             // sendBtn
             // 
-            sendBtn.Anchor = AnchorStyles.Top;
+            sendBtn.Dock = DockStyle.Fill;
             sendBtn.Font = new Font("Microsoft YaHei UI", 18F);
-            sendBtn.Location = new Point(10, 3);
+            sendBtn.Location = new Point(3, 3);
             sendBtn.Name = "sendBtn";
-            sendBtn.Size = new Size(150, 60);
+            sendBtn.Size = new Size(164, 148);
             sendBtn.TabIndex = 0;
             sendBtn.Text = "发送";
             sendBtn.Type = AntdUI.TTypeMini.Primary;
