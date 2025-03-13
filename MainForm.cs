@@ -239,13 +239,6 @@ namespace CryptoTool
         private void Menu_SelectChanged(object sender, MenuSelectEventArgs e)
         {
             string name = (string)e.Value.Tag;
-
-            // 如果上一个组件是 FloatButtonDemo，清理其浮动按钮窗体
-            //if (currControl is FloatButtonDemo floatButtonDemo)
-            //{
-            //    floatButtonDemo.CloseFloatButtonForm();
-            //}
-
             // 检查是否已存在同名 TabPage
             foreach (var tab in tabs.Pages)
             {

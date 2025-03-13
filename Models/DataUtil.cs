@@ -21,26 +21,18 @@ namespace CryptoTool.Models
                     new MenuItems { Text = "Sockets", Tag = "Sockets"},
                 }
             },
-            { "文件", new List<MenuItems>
+            { "文件加密", new List<MenuItems>
                 {
                     new MenuItems { Text = "文件加密", Tag = "文件加密"},
                 }
             },
-            { "非对称加密", new List<MenuItems>
+            { "文本加密", new List<MenuItems>
                 {
                     new MenuItems { Text = "RSA" , Tag = "RSA"},
-                    new MenuItems { Text = "SM2", Tag = "SM2"}
-                }
-            },
-            { "对称加密", new List<MenuItems>
-                {
+                    new MenuItems { Text = "SM2", Tag = "SM2"},
                     new MenuItems { Text = "AES", Tag = "AES"},
                     new MenuItems { Text = "DES", Tag = "DES"},
-                    new MenuItems { Text = "SM4", Tag = "SM4"}
-                }
-            },
-            { "摘要", new List<MenuItems>
-                {                  
+                    new MenuItems { Text = "SM4", Tag = "SM4"},
                     new MenuItems { Text = "MD5", Tag = "MD5"},
                     new MenuItems { Text = "SHA", Tag = "SHA"},
                     new MenuItems { Text = "SM3", Tag = "SM3"}
@@ -58,12 +50,9 @@ namespace CryptoTool.Models
         {
             { "串口工具", "UsbOutlined" },
             { "TCP工具", "MessageOutlined" },
-            { "非对称加密", "AppstoreAddOutlined" },
-            { "对称加密", "AppstoreOutlined" },
-            { "摘要", "ApartmentOutlined" },
             { "编码", "BlockOutlined" },
-            { "二维码", "QrcodeOutlined" },
-            { "文件", "FileOutlined" },            
+            { "文本加密", "FileTextOutlined" },
+            { "文件加密", "LockOutlined" },            
         };
 
         public static readonly Dictionary<string, List<MenuItems>> MenuItems_enus = new Dictionary<string, List<MenuItems>>()
