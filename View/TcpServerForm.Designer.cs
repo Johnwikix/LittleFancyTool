@@ -313,6 +313,7 @@
             // 
             // receivedInput1
             // 
+            receivedInput1.AutoScroll = true;
             receivedInput1.Dock = DockStyle.Fill;
             receivedInput1.Location = new Point(303, 3);
             receivedInput1.Multiline = true;

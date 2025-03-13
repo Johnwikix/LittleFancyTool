@@ -19,30 +19,18 @@ namespace LittleFancyTool.View
     {
         private AntdUI.Window window;
         private TcpListener server;
-        private Thread listenThread;
         private List<TcpClient> clients = new List<TcpClient>();
         private bool isServerRunning = false;
         private CancellationTokenSource cancellationTokenSource;
         private Socket clientSocket;
-        private Thread receiveThread;
         private bool isConnectionOpen = false;
         private CancellationTokenSource receiveCancellationTokenSource;
         public TcpServerForm(AntdUI.Window _window)
         {
             this.window = _window;
             InitializeComponent();
-            this.Load += TcpServerForm_Load;
             this.VisibleChanged += TcpServerForm_VisibleChanged;
             layoutChange();
-        }
-
-        private void TcpServerForm_Load(object sender, EventArgs e)
-        {
-            Form parentForm = this.FindForm();
-            if (parentForm != null)
-            {
-                parentForm.FormClosing += TcpServerForm_FormClosing;
-            }
         }
 
         private void TcpServerForm_VisibleChanged(object sender, EventArgs e) {
@@ -88,10 +76,6 @@ namespace LittleFancyTool.View
                 try
                 {
                     cancellationTokenSource.Cancel();
-                    if (listenThread != null && listenThread.IsAlive)
-                    {
-                        listenThread.Join();
-                    }
                     foreach (TcpClient client in clients)
                     {
                         if (client.Connected)
@@ -100,7 +84,6 @@ namespace LittleFancyTool.View
                         }
                     }
                     clients.Clear();
-
                     if (server != null && server.Server.IsBound)
                     {
                         server.Stop();
@@ -125,11 +108,6 @@ namespace LittleFancyTool.View
                         receiveCancellationTokenSource.Cancel();
                     }
 
-                    if (receiveThread != null && receiveThread.IsAlive)
-                    {
-                        receiveThread.Join();
-                    }
-
                     if (clientSocket != null && clientSocket.Connected)
                     {
                         clientSocket.Shutdown(SocketShutdown.Both);
@@ -150,7 +128,7 @@ namespace LittleFancyTool.View
                 startServer();
             }
             if (modeSelect.SelectedIndex == 1) {
-                connect2server();
+                Task.Run(() => connect2server());
             }
         }
 
@@ -160,6 +138,7 @@ namespace LittleFancyTool.View
                 try
                 {
                     string serverIp = addressInput.Text;
+                    connectButton.Loading = true;
                     int serverPort = int.Parse(portInput.Text);
                     clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     IPAddress ipAddress = IPAddress.Parse(serverIp);
@@ -167,13 +146,14 @@ namespace LittleFancyTool.View
                     clientSocket.Connect(remoteEndPoint);
                     AntdUI.Message.success(window, "已连接到服务器", autoClose: 3);
                     receiveCancellationTokenSource = new CancellationTokenSource();
-                    receiveThread = new Thread(() => ReceiveMessages(receiveCancellationTokenSource.Token));
-                    receiveThread.Start();
+                    Task.Run(() => ReceiveMessages(receiveCancellationTokenSource.Token));
                     connectButton.Text = "断开";
                     isConnectionOpen = true;
+                    connectButton.Loading = false;
                 }
                 catch (Exception ex)
                 {
+                    connectButton.Loading = false;
                     AntdUI.Message.error(window, $"连接服务器时出错: {ex.Message}", autoClose: 3);
                 }
             }
@@ -188,7 +168,7 @@ namespace LittleFancyTool.View
         {
             try
             {
-                byte[] receiveData = new byte[1024];
+                byte[] receiveData = new byte[8192];
                 while (!cancellationToken.IsCancellationRequested && clientSocket.Connected)
                 {
                     if (clientSocket.Available > 0)
@@ -200,10 +180,6 @@ namespace LittleFancyTool.View
                             receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
                         }
                     }
-                    else
-                    {
-                        Thread.Sleep(100);
-                    }                    
                 }
             }
             catch (Exception ex)
@@ -225,8 +201,7 @@ namespace LittleFancyTool.View
                     server = new TcpListener(ipAddress, port);
                     server.Start();
                     cancellationTokenSource = new CancellationTokenSource();
-                    listenThread = new Thread(() => ListenForClients(cancellationTokenSource.Token));
-                    listenThread.Start();
+                    Task.Run(() => ListenForClients(cancellationTokenSource.Token));
                     AntdUI.Message.success(window, $"服务器已启动，监听端口 {port}", autoClose: 3);
                     connectButton.Text = "停止服务";
                     isServerRunning = true;
@@ -241,10 +216,6 @@ namespace LittleFancyTool.View
                 try
                 {
                     cancellationTokenSource.Cancel();
-                    if (listenThread != null && listenThread.IsAlive)
-                    {
-                        listenThread.Join();
-                    }
                     foreach (TcpClient client in clients)
                     {
                         if (client.Connected)
@@ -277,14 +248,10 @@ namespace LittleFancyTool.View
                     if (server.Pending())
                     {
                         TcpClient client = server.AcceptTcpClient();
+                        client.ReceiveBufferSize = 8192;
                         clients.Add(client);
                         AntdUI.Message.success(window, $"新客户端已连接，当前连接数: {clients.Count}", autoClose: 3);
-                        Thread clientThread = new Thread(() => HandleClientComm(client, cancellationToken));
-                        clientThread.Start();
-                    }
-                    else
-                    {
-                        Thread.Sleep(100);
+                        Task.Run(() => HandleClientComm(client, cancellationToken));
                     }
                 }
                 catch (Exception ex)
@@ -295,15 +262,15 @@ namespace LittleFancyTool.View
         }
         private void HandleClientComm(TcpClient client, CancellationToken cancellationToken)
         {
-            NetworkStream clientStream = client.GetStream();
-            byte[] message = new byte[4096];
+            NetworkStream clientStream = client.GetStream();           
+            byte[] message = new byte[8192];
             int bytesRead;
             while (!cancellationToken.IsCancellationRequested)
             {
                 bytesRead = 0;
                 try
                 {
-                    bytesRead = clientStream.Read(message, 0, 4096);
+                    bytesRead = clientStream.Read(message, 0, 8192);
                 }
                 catch
                 {
@@ -359,21 +326,32 @@ namespace LittleFancyTool.View
         private void client2server() {
             string message = sendInput.Text;
             byte[] sendData = Encoding.UTF8.GetBytes(message);
-
-            // 发送消息
-            clientSocket.Send(sendData);
-            receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {message}\r\n");
+            if (isConnectionOpen)
+            {
+                clientSocket.Send(sendData);
+                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {message}\r\n");
+            }
+            else {
+                AntdUI.Message.error(window, "服务未连接", autoClose: 3);
+            }
         }
 
         private void sendBtn_Click(object sender, EventArgs e)
         {
-            if (modeSelect.SelectedIndex == 0) {
-                server2client();
+            try
+            {
+                if (modeSelect.SelectedIndex == 0)
+                {
+                    server2client();
+                }
+                if (modeSelect.SelectedIndex == 1)
+                {
+                    client2server();
+                }
             }
-            if (modeSelect.SelectedIndex == 1) {
-                client2server();
+            catch (Exception ex) {
+                AntdUI.Message.error(window, $"发送消息时出错: {ex.Message}", autoClose: 3);
             }
-            
         }
     }
 }
