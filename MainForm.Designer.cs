@@ -93,6 +93,7 @@ namespace CryptoTool
             dropdown_translate.TabIndex = 3;
             dropdown_translate.Trigger = AntdUI.Trigger.Hover;
             dropdown_translate.WaveSize = 0;
+            dropdown_translate.Visible = false;
             // 
             // button_color
             // 

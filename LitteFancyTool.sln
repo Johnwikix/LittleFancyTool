@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LittleFancyTool", "LittleFancyTool.csproj", "{8C203F27-E157-44A9-BE23-2CA8F6DCBF54}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LittleFancyToolSetup", "..\LittleFancyToolSetup\LittleFancyToolSetup.vdproj", "{B761DAD5-AFD1-7738-0126-F40B81A3B978}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,9 @@ Global
 		{8C203F27-E157-44A9-BE23-2CA8F6DCBF54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C203F27-E157-44A9-BE23-2CA8F6DCBF54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C203F27-E157-44A9-BE23-2CA8F6DCBF54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B761DAD5-AFD1-7738-0126-F40B81A3B978}.Debug|Any CPU.ActiveCfg = Debug
+		{B761DAD5-AFD1-7738-0126-F40B81A3B978}.Release|Any CPU.ActiveCfg = Release
+		{B761DAD5-AFD1-7738-0126-F40B81A3B978}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,8 @@
-﻿using Modbus.Device;
+﻿using LittleFancyTool.Languages;
+using Modbus.Device;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO.Ports;
 
 namespace LittleFancyTool.View
@@ -28,9 +30,9 @@ namespace LittleFancyTool.View
             _registerDataTable = new DataTable("ModbusData");
             _registerDataTable.Columns.AddRange(new[]
             {
-                new DataColumn("地址", typeof(string)),
-                new DataColumn("值", typeof(ushort)),
-                new DataColumn("更新时间", typeof(DateTime))
+                new DataColumn("address", typeof(string)),
+                new DataColumn("value", typeof(ushort)),
+                new DataColumn("updateTime", typeof(DateTime))
             });
             slaveDataGridView.DataSource = _registerDataTable;
             ConfigureDataGridView();
@@ -45,26 +47,53 @@ namespace LittleFancyTool.View
             slaveDataGridView.Columns.Clear();
             slaveDataGridView.ForeColor = Color.Black;
 
-            slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            string systemLanguage = CultureInfo.CurrentCulture.Name;
+            if (systemLanguage.StartsWith("zh"))
             {
-                DataPropertyName = "地址",
-                HeaderText = "寄存器地址",
-                FillWeight = 25
-            });
+                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "address",
+                    HeaderText = "寄存器地址",
+                    FillWeight = 25
+                });
 
-            slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "值",
-                HeaderText = "数值 (DEC)",
-                FillWeight = 20
-            });
+                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "value",
+                    HeaderText = "数值 (DEC)",
+                    FillWeight = 20
+                });
 
-            slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "updateTime",
+                    HeaderText = "最后更新时间",
+                    FillWeight = 55
+                });
+            }
+            else
             {
-                DataPropertyName = "更新时间",
-                HeaderText = "最后更新时间",
-                FillWeight = 55
-            });
+                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "address",
+                    HeaderText = "Reg Address",
+                    FillWeight = 25
+                });
+
+                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "value",
+                    HeaderText = "Value (DEC)",
+                    FillWeight = 20
+                });
+
+                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "updateTime",
+                    HeaderText = "Last Update Time",
+                    FillWeight = 55
+                });
+            }           
 
             DataGridViewColumn dateTimeColumn = slaveDataGridView.Columns[2];
             dateTimeColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
