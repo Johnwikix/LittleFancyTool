@@ -8,11 +8,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>bitbug_favicon (1).ico</ApplicationIcon>
+    <ApplicationIcon>Resources\bitbug_favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="bitbug_favicon (1).ico" />
+    <Content Include="Resources\bitbug_favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>

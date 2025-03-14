@@ -22,9 +22,9 @@ namespace CryptoTool
         public event EventHandler LanguageChanged;
         public MainForm()
         {
-            InitializeComponent();
-            LoadMenu();
+            InitializeComponent();            
             InitData();
+            LoadMenu();
             BindEventHandler();
         }
 
@@ -60,8 +60,7 @@ namespace CryptoTool
             {
                 dropdown_translate.SelectedValue = dropdown_translate.Items[1];
                 AntdUI.Localization.Provider = new Localizer_enus();
-                AntdUI.Localization.SetLanguage("en-US");
-                
+                AntdUI.Localization.SetLanguage("en-US");                
             }
         }
 

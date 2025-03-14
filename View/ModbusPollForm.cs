@@ -47,8 +47,8 @@ namespace LittleFancyTool.View
             slaveDataGridView.Columns.Clear();
             slaveDataGridView.ForeColor = Color.Black;
 
-            string systemLanguage = CultureInfo.CurrentCulture.Name;
-            if (systemLanguage.StartsWith("zh"))
+            string lang = AntdUI.Localization.CurrentLanguage;
+            if (lang.StartsWith("zh"))
             {
                 slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
                 {
