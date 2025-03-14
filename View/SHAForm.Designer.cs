@@ -44,11 +44,12 @@
             // encryptBtn
             // 
             encryptBtn.Anchor = AnchorStyles.Bottom;
-            encryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            encryptBtn.Location = new Point(3, 54);
+            encryptBtn.Font = new Font("Microsoft YaHei UI", 12F);
+            encryptBtn.LocalizationText = "Encrypt";
+            encryptBtn.Location = new Point(3, 8);
             encryptBtn.Margin = new Padding(2);
             encryptBtn.Name = "encryptBtn";
-            encryptBtn.Size = new Size(140, 60);
+            encryptBtn.Size = new Size(120, 50);
             encryptBtn.TabIndex = 0;
             encryptBtn.Text = "加密>>";
             encryptBtn.Type = AntdUI.TTypeMini.Primary;
@@ -58,35 +59,36 @@
             // 
             inputTextBox.AutoScroll = true;
             inputTextBox.Dock = DockStyle.Fill;
-            inputTextBox.Font = new Font("Microsoft YaHei UI", 16F);
-            inputTextBox.Location = new Point(5, 85);
+            inputTextBox.Font = new Font("Microsoft YaHei UI", 10F);
+            inputTextBox.Location = new Point(5, 66);
             inputTextBox.Margin = new Padding(2);
             inputTextBox.Multiline = true;
             inputTextBox.Name = "inputTextBox";
-            inputTextBox.Size = new Size(618, 392);
+            inputTextBox.Size = new Size(628, 728);
             inputTextBox.TabIndex = 2;
             // 
             // outputTextBox
             // 
             outputTextBox.AutoScroll = true;
             outputTextBox.Dock = DockStyle.Fill;
-            outputTextBox.Font = new Font("Microsoft YaHei UI", 16F);
-            outputTextBox.Location = new Point(777, 85);
+            outputTextBox.Font = new Font("Microsoft YaHei UI", 10F);
+            outputTextBox.Location = new Point(767, 66);
             outputTextBox.Margin = new Padding(2);
             outputTextBox.Multiline = true;
             outputTextBox.Name = "outputTextBox";
-            outputTextBox.Size = new Size(618, 392);
+            outputTextBox.Size = new Size(628, 728);
             outputTextBox.TabIndex = 3;
             // 
             // inputLabel
             // 
             inputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             inputLabel.AutoSizeMode = AntdUI.TAutoSize.Auto;
-            inputLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            inputLabel.Location = new Point(5, 47);
+            inputLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            inputLabel.LocalizationText = "Input";
+            inputLabel.Location = new Point(5, 34);
             inputLabel.Margin = new Padding(2);
             inputLabel.Name = "inputLabel";
-            inputLabel.Size = new Size(83, 34);
+            inputLabel.Size = new Size(69, 28);
             inputLabel.TabIndex = 4;
             inputLabel.Text = "输入框";
             // 
@@ -94,11 +96,12 @@
             // 
             outputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             outputLabel.AutoSizeMode = AntdUI.TAutoSize.Auto;
-            outputLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            outputLabel.Location = new Point(777, 47);
+            outputLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            outputLabel.LocalizationText = "Output";
+            outputLabel.Location = new Point(767, 34);
             outputLabel.Margin = new Padding(2);
             outputLabel.Name = "outputLabel";
-            outputLabel.Size = new Size(83, 34);
+            outputLabel.Size = new Size(69, 28);
             outputLabel.TabIndex = 5;
             outputLabel.Text = "输出框";
             // 
@@ -106,7 +109,7 @@
             // 
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 2);
             tableLayoutPanel1.Controls.Add(outputLabel, 2, 1);
@@ -120,10 +123,10 @@
             tableLayoutPanel1.Padding = new Padding(3, 4, 3, 4);
             tableLayoutPanel1.RowCount = 5;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 0F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
             tableLayoutPanel1.Size = new Size(1400, 800);
             tableLayoutPanel1.TabIndex = 6;
             // 
@@ -135,38 +138,38 @@
             tableLayoutPanel2.Controls.Add(mode, 0, 1);
             tableLayoutPanel2.Controls.Add(upperLowerCase, 0, 2);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(627, 85);
+            tableLayoutPanel2.Location = new Point(637, 66);
             tableLayoutPanel2.Margin = new Padding(2);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 4;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(146, 392);
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(126, 728);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // mode
             // 
             mode.Anchor = AnchorStyles.None;
-            mode.Font = new Font("Microsoft YaHei UI", 16F);
+            mode.Font = new Font("Microsoft YaHei UI", 12F);
             mode.Items.AddRange(new object[] { "SHA1", "SHA256", "SHA384", "SHA512" });
-            mode.Location = new Point(3, 126);
+            mode.Location = new Point(3, 65);
             mode.Margin = new Padding(2);
             mode.Name = "mode";
-            mode.Size = new Size(140, 60);
+            mode.Size = new Size(120, 50);
             mode.TabIndex = 1;
             mode.Text = "算法";
             // 
             // upperLowerCase
             // 
             upperLowerCase.Anchor = AnchorStyles.Top;
-            upperLowerCase.Font = new Font("Microsoft YaHei UI", 16F);
+            upperLowerCase.Font = new Font("Microsoft YaHei UI", 12F);
             upperLowerCase.Items.AddRange(new object[] { "UPPER", "lower" });
-            upperLowerCase.Location = new Point(3, 198);
+            upperLowerCase.Location = new Point(3, 122);
             upperLowerCase.Margin = new Padding(2);
             upperLowerCase.Name = "upperLowerCase";
-            upperLowerCase.Size = new Size(140, 60);
+            upperLowerCase.Size = new Size(120, 50);
             upperLowerCase.TabIndex = 2;
             upperLowerCase.Text = "大小写";
             // 

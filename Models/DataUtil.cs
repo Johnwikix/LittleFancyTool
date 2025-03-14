@@ -12,8 +12,8 @@ namespace CryptoTool.Models
         public static readonly Dictionary<string, List<MenuItems>> MenuItems_zhcn = new Dictionary<string, List<MenuItems>>() {
             { "串口工具", new List<MenuItems>
                 {
-                    new MenuItems { Text = "串口调试", Tag = "串口调试"},
-                    new MenuItems { Text = "modbus poll", Tag = "modbus poll"},
+                    new MenuItems { Text = "串口调试", Tag = "Serial Port Debugging"},
+                    new MenuItems { Text = "Modbus Poll", Tag = "Modbus Poll"},
                 }
             },
             { "TCP工具", new List<MenuItems>
@@ -23,7 +23,7 @@ namespace CryptoTool.Models
             },
             { "文件加密", new List<MenuItems>
                 {
-                    new MenuItems { Text = "文件加密", Tag = "文件加密"},
+                    new MenuItems { Text = "文件加密", Tag = "File Encryption"},
                 }
             },
             { "文本加密", new List<MenuItems>
@@ -35,13 +35,13 @@ namespace CryptoTool.Models
                     new MenuItems { Text = "SM4", Tag = "SM4"},
                     new MenuItems { Text = "MD5", Tag = "MD5"},
                     new MenuItems { Text = "SHA", Tag = "SHA"},
-                    new MenuItems { Text = "SM3", Tag = "SM3"}
+                    new MenuItems { Text = "SM3", Tag = "SM3"},
+                    new MenuItems { Text = "Base64", Tag = "Base64"}
                 }
             },
-            { "编码", new List<MenuItems>
-                {
-                    new MenuItems { Text = "Base64", Tag = "Base64"},
-                    new MenuItems { Text = "图片转Base64", Tag = "图片转Base64"},
+            { "图片处理", new List<MenuItems>
+                {                    
+                    new MenuItems { Text = "图片转Base64", Tag = "Pic2Base64"},
                 }
             },
 
@@ -50,38 +50,56 @@ namespace CryptoTool.Models
         {
             { "串口工具", "UsbOutlined" },
             { "TCP工具", "MessageOutlined" },
-            { "编码", "BlockOutlined" },
+            { "图片处理", "PictureOutlined" },
             { "文本加密", "FileTextOutlined" },
             { "文件加密", "LockOutlined" },            
         };
 
         public static readonly Dictionary<string, List<MenuItems>> MenuItems_enus = new Dictionary<string, List<MenuItems>>()
         {
-            { "General", new List<MenuItems>
+            { "Serial Port Tool", new List<MenuItems>
+                {
+                    new MenuItems { Text = "Serial Port Debugging", Tag = "Serial Port Debugging"},
+                    new MenuItems { Text = "Modbus Poll", Tag = "Modbus Poll"},
+                }
+            },
+            { "TCP Tool", new List<MenuItems>
+                {
+                    new MenuItems { Text = "Sockets", Tag = "Sockets"},
+                }
+            },
+            { "File Encryption", new List<MenuItems>
+                {
+                    new MenuItems { Text = "File Encryption", Tag = "File Encryption"},
+                }
+            },
+            { "Text Encryption", new List<MenuItems>
                 {
                     new MenuItems { Text = "RSA" , Tag = "RSA"},
+                    new MenuItems { Text = "SM2", Tag = "SM2"},
                     new MenuItems { Text = "AES", Tag = "AES"},
                     new MenuItems { Text = "DES", Tag = "DES"},
-                    new MenuItems { Text = "Base64", Tag = "Base64"},
+                    new MenuItems { Text = "SM4", Tag = "SM4"},
                     new MenuItems { Text = "MD5", Tag = "MD5"},
                     new MenuItems { Text = "SHA", Tag = "SHA"},
-                    new MenuItems { Text = "SM4", Tag = "SM4"},
                     new MenuItems { Text = "SM3", Tag = "SM3"},
-                    new MenuItems { Text = "SM2", Tag = "SM2"}
+                    new MenuItems { Text = "Base64", Tag = "Base64"}
                 }
-            }       
+            },
+            { "Image", new List<MenuItems>
+                {                    
+                    new MenuItems { Text = "Pic2Base64", Tag = "Pic2Base64"},
+                }
+            },
         };
 
         public static readonly Dictionary<string, string> MenuIcons_enus = new Dictionary<string, string>
         {
-            { "General", "AppstoreOutlined" },
-            { "Layout", "LayoutOutlined" },
-            { "Navigation", "CompressOutlined" },
-            { "Data Entry", "EditOutlined" },
-            { "Data Display", "BarChartOutlined" },
-            { "Feedback", "NotificationOutlined" },
-            { "Chat", "MessageOutlined" },
-            { "Other", "SettingOutlined" }
+            { "Serial Port Tool", "UsbOutlined" },
+            { "TCP Tool", "MessageOutlined" },
+            { "Image", "PictureOutlined" },
+            { "Text Encryption", "FileTextOutlined" },
+            { "File Encryption", "LockOutlined" },
         };
     }
 }

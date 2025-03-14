@@ -104,6 +104,7 @@ namespace LittleFancyTool.View
                 connectButton.Text = "连接";
                 statusInput.Clear();
                 connectButton.Type = AntdUI.TTypeMini.Success;
+                connectButton.LocalizationText = "connectButton";
                 isPolling = false;                
             }
             else
@@ -127,6 +128,7 @@ namespace LittleFancyTool.View
                     serialPort.WriteTimeout = 500;
                     serialPort.Open();
                     connectButton.Text = "断开";
+                    connectButton.LocalizationText = "disconnect";
                     connectButton.Type = AntdUI.TTypeMini.Error;
                     statusInput.Text = $"已连接 {serialPort.PortName}\r\nBaud:{serialPort.BaudRate}\r\n" +
                         $"Parity:{serialPort.Parity}\r\nDataBits:{serialPort.DataBits}\r\n" +

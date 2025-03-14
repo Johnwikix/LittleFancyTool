@@ -35,10 +35,10 @@
             // 
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Microsoft YaHei UI", 32F);
-            label1.LocalizationText = "welcome";
+            label1.LocalizationText = "LittleFancyTool";
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(750, 150);
+            label1.Size = new Size(750, 150);
             label1.TabIndex = 0;
             label1.Text = "妙妙小工具";
             label1.TextAlign = ContentAlignment.MiddleCenter;

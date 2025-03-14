@@ -57,6 +57,7 @@ namespace LittleFancyTool.View
                 }
                 addressInput.ReadOnly = true;
                 connectButton.Text = "启动服务";
+                connectButton.LocalizationText = "startService";
                 connectLabel.Text = "服务";
                 stopConnection();
             }
@@ -64,6 +65,7 @@ namespace LittleFancyTool.View
             {
                 addressInput.ReadOnly = false;
                 connectButton.Text = "连接";
+                connectButton.LocalizationText = "connectButton";
                 connectLabel.Text = "连接";
                 stopServer();
             }
@@ -148,6 +150,7 @@ namespace LittleFancyTool.View
                     receiveCancellationTokenSource = new CancellationTokenSource();
                     Task.Run(() => ReceiveMessages(receiveCancellationTokenSource.Token));
                     connectButton.Text = "断开";
+                    connectButton.LocalizationText = "disconnect";
                     isConnectionOpen = true;
                     connectButton.Loading = false;
                 }
@@ -159,6 +162,7 @@ namespace LittleFancyTool.View
             }
             else {
                 connectButton.Text = "连接";
+                connectButton.LocalizationText = "connectButton";
                 stopConnection();
                 isConnectionOpen = false;
             }
@@ -204,6 +208,7 @@ namespace LittleFancyTool.View
                     Task.Run(() => ListenForClients(cancellationTokenSource.Token));
                     AntdUI.Message.success(window, $"服务器已启动，监听端口 {port}", autoClose: 3);
                     connectButton.Text = "停止服务";
+                    connectButton.LocalizationText = "stopService";
                     isServerRunning = true;
                 }
                 catch (Exception ex)
@@ -230,6 +235,7 @@ namespace LittleFancyTool.View
                     }
                     AntdUI.Message.success(window, "服务器已停止", autoClose: 3);
                     connectButton.Text = "启动服务";
+                    connectButton.LocalizationText = "startService";
                     isServerRunning = false;
                 }
                 catch (Exception ex)

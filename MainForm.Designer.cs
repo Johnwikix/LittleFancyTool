@@ -57,7 +57,8 @@ namespace CryptoTool
             titlebar.Controls.Add(buttonSZ);
             titlebar.DividerShow = true;
             titlebar.Dock = DockStyle.Top;
-            titlebar.Font = new Font("Microsoft YaHei UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            titlebar.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            titlebar.LocalizationText = "LittleFancyTool";
             titlebar.Location = new Point(0, 0);
             titlebar.Name = "titlebar";
             titlebar.ShowButton = true;
@@ -70,9 +71,9 @@ namespace CryptoTool
             // 
             input_search.AllowClear = true;
             input_search.Dock = DockStyle.Right;
-            input_search.Font = new Font("Microsoft YaHei UI", 16F);
+            input_search.Font = new Font("Microsoft YaHei UI", 12F);
             input_search.LocalizationPlaceholderText = "search";
-            input_search.Location = new Point(1156, 0);
+            input_search.Location = new Point(1106, 0);
             input_search.Name = "input_search";
             input_search.PlaceholderText = "搜索";
             input_search.PrefixSvg = "SearchOutlined";
@@ -81,14 +82,22 @@ namespace CryptoTool
             // 
             // dropdown_translate
             // 
-            dropdown_translate.Location = new Point(0, 0);
+            dropdown_translate.Dock = DockStyle.Right;
+            dropdown_translate.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            dropdown_translate.Ghost = true;
+            dropdown_translate.IconSvg = "TranslationOutlined";
+            dropdown_translate.Items.AddRange(new object[] { "简体中文", "English" });
+            dropdown_translate.Location = new Point(1306, 0);
             dropdown_translate.Name = "dropdown_translate";
-            dropdown_translate.Size = new Size(0, 0);
-            dropdown_translate.TabIndex = 5;
+            dropdown_translate.Size = new Size(50, 40);
+            dropdown_translate.TabIndex = 3;
+            dropdown_translate.Trigger = AntdUI.Trigger.Hover;
+            dropdown_translate.WaveSize = 0;
             // 
             // button_color
             // 
             button_color.Dock = DockStyle.Right;
+            button_color.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 134);
             button_color.Ghost = true;
             button_color.IconRatio = 0.6F;
             button_color.IconSvg = "SunOutlined";
@@ -103,6 +112,7 @@ namespace CryptoTool
             // buttonSZ
             // 
             buttonSZ.Dock = DockStyle.Right;
+            buttonSZ.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 134);
             buttonSZ.Ghost = true;
             buttonSZ.IconSvg = resources.GetString("buttonSZ.IconSvg");
             buttonSZ.Location = new Point(1406, 0);
@@ -141,6 +151,7 @@ namespace CryptoTool
             // tabs
             // 
             tabs.Dock = DockStyle.Fill;
+            tabs.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 134);
             tabs.Gap = 20;
             tabs.Location = new Point(70, 40);
             tabs.Name = "tabs";
@@ -155,10 +166,10 @@ namespace CryptoTool
             // 
             tabPage.Controls.Add(panel_content);
             tabPage.IconSvg = "HomeOutlined";
-            tabPage.Location = new Point(3, 46);
+            tabPage.Location = new Point(3, 42);
             tabPage.Name = "tabPage";
             tabPage.ReadOnly = true;
-            tabPage.Size = new Size(1524, 771);
+            tabPage.Size = new Size(1524, 775);
             tabPage.TabIndex = 1;
             tabPage.Text = "主页";
             // 
@@ -169,14 +180,14 @@ namespace CryptoTool
             panel_content.Location = new Point(0, 0);
             panel_content.Name = "panel_content";
             panel_content.Radius = 0;
-            panel_content.Size = new Size(1524, 771);
+            panel_content.Size = new Size(1524, 775);
             panel_content.TabIndex = 4;
             // 
             // menu
             // 
             menu.Collapsed = true;
             menu.Dock = DockStyle.Left;
-            menu.Font = new Font("Microsoft YaHei UI", 16F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            menu.Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 134);
             menu.IconRatio = 1F;
             menu.Indent = true;
             menu.Location = new Point(0, 40);

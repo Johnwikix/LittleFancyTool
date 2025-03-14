@@ -4,9 +4,11 @@ using CryptoTool.Models;
 using CryptoTool.Utils;
 using CryptoTool.View;
 using CryptoTool.View.SubView;
+using LittleFancyTool.Languages;
 using LittleFancyTool.View;
 using LittleFancyTool.View.SubView;
 using Microsoft.Win32;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -17,7 +19,7 @@ namespace CryptoTool
         private UserControl currControl;
         private bool isUpdatingTabs = false;
         private bool isLight = true;
-        //public event EventHandler LanguageChanged;
+        public event EventHandler LanguageChanged;
         public MainForm()
         {
             InitializeComponent();
@@ -26,9 +28,14 @@ namespace CryptoTool
             BindEventHandler();
         }
 
+        protected virtual void OnLanguageChanged(EventArgs e)
+        {
+            LanguageChanged?.Invoke(this, e);
+        }
+
         private void InitData()
         {
-            dropdown_translate.SelectedValue = dropdown_translate.Items[0];
+            SystemLanguage();
             isLight = ThemeHelper.IsLightMode();
             button_color.Toggle = !isLight;
             ThemeHelper.SetColorMode(this, isLight);
@@ -38,8 +45,26 @@ namespace CryptoTool
             AutoDpi(control);
             panel_content.Controls.Add(control);
             //global
-            //tabs.Pages[0].Text = AntdUI.Localization.Get("home", "主页");
+            tabs.Pages[0].Text = AntdUI.Localization.Get("home", "主页");
         }
+
+        private void SystemLanguage() {
+            string systemLanguage = CultureInfo.CurrentCulture.Name;
+            if (systemLanguage.StartsWith("zh"))
+            {
+                dropdown_translate.SelectedValue = dropdown_translate.Items[0];
+                AntdUI.Localization.Provider = null;
+                AntdUI.Localization.SetLanguage("zh-CN");
+            }
+            else
+            {
+                dropdown_translate.SelectedValue = dropdown_translate.Items[1];
+                AntdUI.Localization.Provider = new Localizer_enus();
+                AntdUI.Localization.SetLanguage("en-US");
+                
+            }
+        }
+
 
         private void BindEventHandler()
         {
@@ -50,10 +75,33 @@ namespace CryptoTool
             button_collapse.Click += Button_collapse_Click;
             tabs.Click += Tabs_Click;
             tabs.SelectedIndexChanged += Tabs_SelectedIndexChanged;
-            //dropdown_translate.SelectedValueChanged += Dropdown_translate_SelectedValueChanged;
+            dropdown_translate.SelectedValueChanged += Dropdown_translate_SelectedValueChanged;
             ////监听系统深浅色变化
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
+
+        private void Dropdown_translate_SelectedValueChanged(object sender, ObjectNEventArgs e)
+        {
+            dropdown_translate.SelectedValue = e.Value;
+            if (e.Value.ToString() == "English")
+            {
+                AntdUI.Localization.Provider = new Localizer_enus();
+                AntdUI.Localization.SetLanguage("en-US");
+            }
+            else
+            {
+                AntdUI.Localization.Provider = null;
+                AntdUI.Localization.SetLanguage("zh-CN");
+            }
+            tabs.Pages[0].Text = AntdUI.Localization.Get("home", "主页");
+
+            Refresh();
+            LoadMenu();
+            SelectMenu();
+            //通知子窗口
+            OnLanguageChanged(EventArgs.Empty);
+        }
+
 
         private void ButtonSZ_Click(object sender, EventArgs e)
         {
@@ -283,16 +331,16 @@ namespace CryptoTool
                 case "SM2":
                     control = new SM2Form(this);
                     break;
-                case "文件加密":
+                case "File Encryption":
                     control = new FileEncryptForm(this);
                     break;
-                case "图片转Base64":
+                case "Pic2Base64":
                     control = new Img2Base64Form(this);
                     break;
-                case "串口调试":
+                case "Serial Port Debugging":
                     control = new SerialPortForm(this);
                     break;
-                case "modbus poll":
+                case "Modbus Poll":
                     control = new ModbusPollForm(this);
                     break;
                 case "Sockets":

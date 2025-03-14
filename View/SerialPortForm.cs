@@ -42,7 +42,7 @@ namespace LittleFancyTool.View
         private void InitializeSerialPort()
         {
             serialPort.DataReceived += SerialPort_DataReceived;
-            dataTimeoutTimer = new System.Timers.Timer(int.Parse(timeLimitInput.Text)); 
+            dataTimeoutTimer = new System.Timers.Timer(int.Parse(timeLimitInput.Text));
             dataTimeoutTimer.AutoReset = false;
             dataTimeoutTimer.Elapsed += DataTimeoutTimer_Elapsed;
         }
@@ -85,6 +85,7 @@ namespace LittleFancyTool.View
             {
                 serialPort.Close();
                 connectButton.Text = "连接";
+                connectButton.LocalizationText = "connectButton";
                 statusInput.Clear();
                 connectButton.Type = AntdUI.TTypeMini.Success;
             }
@@ -110,6 +111,7 @@ namespace LittleFancyTool.View
                     serialPort.WriteTimeout = 2000;
                     serialPort.Open();
                     connectButton.Text = "断开";
+                    connectButton.LocalizationText = "disconnect";
                     connectButton.Type = AntdUI.TTypeMini.Error;
                     statusInput.Text = $"已连接 {serialPort.PortName}\r\nBaud:{serialPort.BaudRate}\r\n" +
                         $"Parity:{serialPort.Parity}\r\nDataBits:{serialPort.DataBits}\r\n" +
@@ -129,16 +131,20 @@ namespace LittleFancyTool.View
                 sendBtn.Loading = true;
                 sendMessage();
             }
+            else {
+                AntdUI.Message.error(window, "请先连接串口", autoClose: 3);
+            }
         }
 
         private Task sendMessage()
         {
-            return Task.Run(() => {
+            return Task.Run(() =>
+            {
                 try
                 {
                     string sendText = sendInput.Text;
                     serialPort.RtsEnable = rs485checkbox.Checked;
-                    byte[] sendData = GetEncodedData(sendText + "\r\n",(EncodingMode)sendSelect.SelectedIndex);
+                    byte[] sendData = GetEncodedData(sendText + "\r\n", (EncodingMode)sendSelect.SelectedIndex);
                     serialPort.Write(sendData, 0, sendData.Length);
                     receivedInput.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendText}\r\n");
                     sendBtn.Loading = false;
@@ -259,12 +265,13 @@ namespace LittleFancyTool.View
             }
             if (prefix == "超时")
             {
-                receivedInput.AppendText(sb.ToString()+"\r\n");
+                receivedInput.AppendText(sb.ToString() + "\r\n");
             }
-            else {
+            else
+            {
                 receivedInput.AppendText(sb.ToString());
             }
-            
+
         }
 
         private Encoding DetectBestEncoding(byte[] data)

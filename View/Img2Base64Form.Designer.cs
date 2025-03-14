@@ -50,11 +50,12 @@ namespace LittleFancyTool.View
             // encryptBtn
             // 
             encryptBtn.Anchor = AnchorStyles.Bottom;
-            encryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            encryptBtn.Location = new Point(3, 172);
+            encryptBtn.Font = new Font("Microsoft YaHei UI", 12F);
+            encryptBtn.LocalizationText = "Encode";
+            encryptBtn.Location = new Point(5, 138);
             encryptBtn.Margin = new Padding(2);
             encryptBtn.Name = "encryptBtn";
-            encryptBtn.Size = new Size(140, 60);
+            encryptBtn.Size = new Size(120, 50);
             encryptBtn.TabIndex = 0;
             encryptBtn.Text = "编码>>";
             encryptBtn.Type = TTypeMini.Primary;
@@ -63,11 +64,12 @@ namespace LittleFancyTool.View
             // decryptBtn
             // 
             decryptBtn.Anchor = AnchorStyles.Top;
-            decryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            decryptBtn.Location = new Point(3, 236);
+            decryptBtn.Font = new Font("Microsoft YaHei UI", 12F);
+            decryptBtn.LocalizationText = "Decode";
+            decryptBtn.Location = new Point(5, 192);
             decryptBtn.Margin = new Padding(2);
             decryptBtn.Name = "decryptBtn";
-            decryptBtn.Size = new Size(140, 60);
+            decryptBtn.Size = new Size(120, 50);
             decryptBtn.TabIndex = 1;
             decryptBtn.Text = "解码<<";
             decryptBtn.Type = TTypeMini.Success;
@@ -77,24 +79,25 @@ namespace LittleFancyTool.View
             // 
             outputTextBox.AutoScroll = true;
             outputTextBox.Dock = DockStyle.Fill;
-            outputTextBox.Font = new Font("Microsoft YaHei UI", 16F);
-            outputTextBox.Location = new Point(777, 85);
+            outputTextBox.Font = new Font("Microsoft YaHei UI", 12F);
+            outputTextBox.Location = new Point(767, 66);
             outputTextBox.Margin = new Padding(2);
             outputTextBox.MaxLength = int.MaxValue;
             outputTextBox.Multiline = true;
             outputTextBox.Name = "outputTextBox";
-            outputTextBox.Size = new Size(618, 352);
+            outputTextBox.Size = new Size(628, 728);
             outputTextBox.TabIndex = 3;
             // 
             // inputLabel
             // 
             inputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             inputLabel.AutoSizeMode = TAutoSize.Auto;
-            inputLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            inputLabel.Location = new Point(2, 37);
+            inputLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            inputLabel.LocalizationText = "pic";
+            inputLabel.Location = new Point(46, 24);
             inputLabel.Margin = new Padding(2);
             inputLabel.Name = "inputLabel";
-            inputLabel.Size = new Size(58, 34);
+            inputLabel.Size = new Size(48, 28);
             inputLabel.TabIndex = 4;
             inputLabel.Text = "图片";
             // 
@@ -102,11 +105,12 @@ namespace LittleFancyTool.View
             // 
             outputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             outputLabel.AutoSizeMode = TAutoSize.Auto;
-            outputLabel.Font = new Font("Microsoft YaHei UI", 18F);
-            outputLabel.Location = new Point(777, 47);
+            outputLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            outputLabel.LocalizationText = "Output";
+            outputLabel.Location = new Point(767, 34);
             outputLabel.Margin = new Padding(2);
             outputLabel.Name = "outputLabel";
-            outputLabel.Size = new Size(83, 34);
+            outputLabel.Size = new Size(69, 28);
             outputLabel.TabIndex = 5;
             outputLabel.Text = "输出框";
             // 
@@ -114,7 +118,7 @@ namespace LittleFancyTool.View
             // 
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 2);
             tableLayoutPanel1.Controls.Add(outputLabel, 2, 1);
@@ -128,10 +132,10 @@ namespace LittleFancyTool.View
             tableLayoutPanel1.Padding = new Padding(3, 4, 3, 4);
             tableLayoutPanel1.RowCount = 5;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 0F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 35F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
             tableLayoutPanel1.Size = new Size(1400, 800);
             tableLayoutPanel1.TabIndex = 6;
             // 
@@ -143,26 +147,27 @@ namespace LittleFancyTool.View
             tableLayoutPanel2.Controls.Add(encryptBtn, 0, 1);
             tableLayoutPanel2.Controls.Add(picUploadDragger, 0, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(627, 85);
-            tableLayoutPanel2.Margin = new Padding(2);
+            tableLayoutPanel2.Location = new Point(635, 64);
+            tableLayoutPanel2.Margin = new Padding(0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 3;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(146, 352);
+            tableLayoutPanel2.RowCount = 4;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 130F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(130, 732);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // picUploadDragger
             // 
-            picUploadDragger.Dock = DockStyle.Fill;
+            picUploadDragger.Anchor = AnchorStyles.None;
             picUploadDragger.Filter = "图片文件|*.jpg;*.jpeg;*.png;*.gif";
             picUploadDragger.Font = new Font("Microsoft YaHei UI", 12F);
-            picUploadDragger.Location = new Point(3, 3);
+            picUploadDragger.LocalizationText = "uploadPic";
+            picUploadDragger.Location = new Point(5, 5);
             picUploadDragger.Multiselect = false;
             picUploadDragger.Name = "picUploadDragger";
-            picUploadDragger.Size = new Size(140, 111);
+            picUploadDragger.Size = new Size(120, 120);
             picUploadDragger.TabIndex = 2;
             picUploadDragger.Text = "上传图片";
             picUploadDragger.DragChanged += UploadDragger_DragChanged;
@@ -170,9 +175,9 @@ namespace LittleFancyTool.View
             // pictureBox
             // 
             pictureBox.Dock = DockStyle.Fill;
-            pictureBox.Location = new Point(6, 86);
+            pictureBox.Location = new Point(6, 67);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(616, 350);
+            pictureBox.Size = new Size(626, 726);
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox.TabIndex = 6;
             pictureBox.TabStop = false;
@@ -181,15 +186,15 @@ namespace LittleFancyTool.View
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 67F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 44F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.Controls.Add(inputLabel, 0, 0);
-            tableLayoutPanel3.Controls.Add(downloadPicBtn, 1, 0);
+            tableLayoutPanel3.Controls.Add(inputLabel, 1, 0);
+            tableLayoutPanel3.Controls.Add(downloadPicBtn, 0, 0);
             tableLayoutPanel3.Location = new Point(6, 7);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.Size = new Size(616, 73);
+            tableLayoutPanel3.Size = new Size(616, 54);
             tableLayoutPanel3.TabIndex = 7;
             // 
             // downloadPicBtn
@@ -198,9 +203,9 @@ namespace LittleFancyTool.View
             downloadPicBtn.Font = new Font("Microsoft YaHei UI", 14F);
             downloadPicBtn.Ghost = true;
             downloadPicBtn.IconSvg = "DownloadOutlined";
-            downloadPicBtn.Location = new Point(70, 37);
+            downloadPicBtn.Location = new Point(3, 18);
             downloadPicBtn.Name = "downloadPicBtn";
-            downloadPicBtn.Size = new Size(42, 33);
+            downloadPicBtn.Size = new Size(38, 33);
             downloadPicBtn.TabIndex = 5;
             downloadPicBtn.Type = TTypeMini.Primary;
             downloadPicBtn.Click += downloadPicBtn_Click;

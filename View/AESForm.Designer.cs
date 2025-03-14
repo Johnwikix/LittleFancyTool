@@ -57,11 +57,12 @@
             // encryptBtn
             // 
             encryptBtn.Anchor = AnchorStyles.Bottom;
-            encryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            encryptBtn.Location = new Point(3, 71);
+            encryptBtn.Font = new Font("Microsoft YaHei UI", 12F);
+            encryptBtn.LocalizationText = "Encrypt";
+            encryptBtn.Location = new Point(5, 8);
             encryptBtn.Margin = new Padding(2);
             encryptBtn.Name = "encryptBtn";
-            encryptBtn.Size = new Size(140, 60);
+            encryptBtn.Size = new Size(120, 50);
             encryptBtn.TabIndex = 0;
             encryptBtn.Text = "加密>>";
             encryptBtn.Type = AntdUI.TTypeMini.Primary;
@@ -70,11 +71,12 @@
             // decryptBtn
             // 
             decryptBtn.Anchor = AnchorStyles.None;
-            decryptBtn.Font = new Font("Microsoft YaHei UI", 16F);
-            decryptBtn.Location = new Point(3, 143);
+            decryptBtn.Font = new Font("Microsoft YaHei UI", 12F);
+            decryptBtn.LocalizationText = "Decrypt";
+            decryptBtn.Location = new Point(5, 65);
             decryptBtn.Margin = new Padding(2);
             decryptBtn.Name = "decryptBtn";
-            decryptBtn.Size = new Size(140, 60);
+            decryptBtn.Size = new Size(120, 50);
             decryptBtn.TabIndex = 1;
             decryptBtn.Text = "解密<<";
             decryptBtn.Type = AntdUI.TTypeMini.Success;
@@ -84,30 +86,31 @@
             // 
             inputTextBox.AutoScroll = true;
             inputTextBox.Dock = DockStyle.Fill;
-            inputTextBox.Font = new Font("Microsoft YaHei UI", 16F);
+            inputTextBox.Font = new Font("Microsoft YaHei UI", 12F);
             inputTextBox.Location = new Point(5, 86);
             inputTextBox.Margin = new Padding(2);
             inputTextBox.Multiline = true;
             inputTextBox.Name = "inputTextBox";
-            inputTextBox.Size = new Size(618, 428);
+            inputTextBox.Size = new Size(628, 428);
             inputTextBox.TabIndex = 2;
             // 
             // outputTextBox
             // 
             outputTextBox.AutoScroll = true;
             outputTextBox.Dock = DockStyle.Fill;
-            outputTextBox.Font = new Font("Microsoft YaHei UI", 16F);
-            outputTextBox.Location = new Point(777, 86);
+            outputTextBox.Font = new Font("Microsoft YaHei UI", 12F);
+            outputTextBox.Location = new Point(767, 86);
             outputTextBox.Margin = new Padding(2);
             outputTextBox.Multiline = true;
             outputTextBox.Name = "outputTextBox";
-            outputTextBox.Size = new Size(618, 428);
+            outputTextBox.Size = new Size(628, 428);
             outputTextBox.TabIndex = 3;
             // 
             // inputLabel
             // 
             inputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            inputLabel.Font = new Font("Microsoft YaHei UI", 18F);
+            inputLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            inputLabel.LocalizationText = "Input";
             inputLabel.Location = new Point(5, 32);
             inputLabel.Margin = new Padding(2);
             inputLabel.Name = "inputLabel";
@@ -118,7 +121,8 @@
             // outputLabel
             // 
             outputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            outputLabel.Font = new Font("Microsoft YaHei UI", 18F);
+            outputLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            outputLabel.LocalizationText = "Output";
             outputLabel.Location = new Point(2, 22);
             outputLabel.Margin = new Padding(2);
             outputLabel.Name = "outputLabel";
@@ -129,49 +133,50 @@
             // paddingModeComboBox
             // 
             paddingModeComboBox.Anchor = AnchorStyles.None;
-            paddingModeComboBox.Font = new Font("Microsoft YaHei UI", 16F);
+            paddingModeComboBox.Font = new Font("Microsoft YaHei UI", 12F);
             paddingModeComboBox.Items.AddRange(new object[] { "PKCS7", "Zeros", "None" });
             paddingModeComboBox.ListAutoWidth = true;
-            paddingModeComboBox.Location = new Point(3, 223);
+            paddingModeComboBox.Location = new Point(5, 125);
             paddingModeComboBox.Margin = new Padding(2);
             paddingModeComboBox.Name = "paddingModeComboBox";
             paddingModeComboBox.SelectedIndex = 0;
             paddingModeComboBox.SelectedValue = "PKCS7";
-            paddingModeComboBox.Size = new Size(140, 60);
+            paddingModeComboBox.Size = new Size(120, 50);
             paddingModeComboBox.TabIndex = 0;
             paddingModeComboBox.Text = "PKCS7";
             // 
             // keyTextBox
             // 
             keyTextBox.Dock = DockStyle.Fill;
-            keyTextBox.Font = new Font("Microsoft YaHei UI", 16F);
+            keyTextBox.Font = new Font("Microsoft YaHei UI", 12F);
             keyTextBox.Location = new Point(5, 598);
             keyTextBox.Margin = new Padding(2);
             keyTextBox.Multiline = true;
             keyTextBox.Name = "keyTextBox";
-            keyTextBox.Size = new Size(618, 196);
+            keyTextBox.Size = new Size(628, 196);
             keyTextBox.TabIndex = 6;
             // 
             // ivTextBox
             // 
             ivTextBox.Dock = DockStyle.Fill;
-            ivTextBox.Font = new Font("Microsoft YaHei UI", 16F);
-            ivTextBox.Location = new Point(777, 598);
+            ivTextBox.Font = new Font("Microsoft YaHei UI", 12F);
+            ivTextBox.Location = new Point(767, 598);
             ivTextBox.Margin = new Padding(2);
             ivTextBox.Multiline = true;
             ivTextBox.Name = "ivTextBox";
-            ivTextBox.Size = new Size(618, 196);
+            ivTextBox.Size = new Size(628, 196);
             ivTextBox.TabIndex = 7;
             // 
             // key
             // 
             key.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             key.AutoSizeMode = AntdUI.TAutoSize.Auto;
-            key.Font = new Font("Microsoft YaHei UI", 18F);
-            key.Location = new Point(5, 560);
+            key.Font = new Font("Microsoft YaHei UI", 15F);
+            key.LocalizationText = "Key";
+            key.Location = new Point(5, 566);
             key.Margin = new Padding(2);
             key.Name = "key";
-            key.Size = new Size(58, 34);
+            key.Size = new Size(48, 28);
             key.TabIndex = 8;
             key.Text = "密钥";
             // 
@@ -179,11 +184,12 @@
             // 
             iv.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             iv.AutoSizeMode = AntdUI.TAutoSize.Auto;
-            iv.Font = new Font("Microsoft YaHei UI", 18F);
-            iv.Location = new Point(777, 560);
+            iv.Font = new Font("Microsoft YaHei UI", 15F);
+            iv.LocalizationText = "Iv";
+            iv.Location = new Point(767, 566);
             iv.Margin = new Padding(2);
             iv.Name = "iv";
-            iv.Size = new Size(58, 34);
+            iv.Size = new Size(48, 28);
             iv.TabIndex = 9;
             iv.Text = "偏移";
             // 
@@ -192,7 +198,7 @@
             tableLayoutPanel1.BackColor = Color.Transparent;
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(inputTextBox, 0, 2);
             tableLayoutPanel1.Controls.Add(iv, 2, 3);
@@ -227,28 +233,27 @@
             tableLayoutPanel2.Controls.Add(paddingModeComboBox, 0, 2);
             tableLayoutPanel2.Controls.Add(encryptModeSelect, 0, 3);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(627, 86);
-            tableLayoutPanel2.Margin = new Padding(2);
+            tableLayoutPanel2.Location = new Point(635, 84);
+            tableLayoutPanel2.Margin = new Padding(0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.Padding = new Padding(0, 35, 0, 35);
             tableLayoutPanel2.RowCount = 4;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 49.9987526F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50.0012436F));
-            tableLayoutPanel2.Size = new Size(146, 428);
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 99.99999F));
+            tableLayoutPanel2.Size = new Size(130, 432);
             tableLayoutPanel2.TabIndex = 11;
             // 
             // encryptModeSelect
             // 
             encryptModeSelect.Anchor = AnchorStyles.Top;
-            encryptModeSelect.Font = new Font("Microsoft YaHei UI", 16F);
+            encryptModeSelect.Font = new Font("Microsoft YaHei UI", 12F);
             encryptModeSelect.Items.AddRange(new object[] { "ECB", "CBC" });
-            encryptModeSelect.Location = new Point(3, 296);
+            encryptModeSelect.Location = new Point(5, 183);
             encryptModeSelect.Name = "encryptModeSelect";
             encryptModeSelect.SelectedIndex = 0;
             encryptModeSelect.SelectedValue = "ECB";
-            encryptModeSelect.Size = new Size(140, 60);
+            encryptModeSelect.Size = new Size(120, 50);
             encryptModeSelect.TabIndex = 2;
             encryptModeSelect.Text = "ECB";
             // 
@@ -260,7 +265,7 @@
             tableLayoutPanel3.Controls.Add(outputLabel, 0, 0);
             tableLayoutPanel3.Controls.Add(outputTypeSelect, 1, 0);
             tableLayoutPanel3.Dock = DockStyle.Left;
-            tableLayoutPanel3.Location = new Point(778, 7);
+            tableLayoutPanel3.Location = new Point(768, 7);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -270,13 +275,13 @@
             // outputTypeSelect
             // 
             outputTypeSelect.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            outputTypeSelect.Font = new Font("Microsoft YaHei UI", 16F);
+            outputTypeSelect.Font = new Font("Microsoft YaHei UI", 12F);
             outputTypeSelect.Items.AddRange(new object[] { "base64", "hex" });
             outputTypeSelect.Location = new Point(103, 21);
             outputTypeSelect.Name = "outputTypeSelect";
             outputTypeSelect.SelectedIndex = 0;
             outputTypeSelect.SelectedValue = "base64";
-            outputTypeSelect.Size = new Size(140, 50);
+            outputTypeSelect.Size = new Size(120, 50);
             outputTypeSelect.TabIndex = 6;
             outputTypeSelect.Text = "base64";
             // 
@@ -288,38 +293,39 @@
             tableLayoutPanel4.Controls.Add(genKeyIv, 0, 0);
             tableLayoutPanel4.Controls.Add(keyIvTypeSelect, 0, 2);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(628, 599);
+            tableLayoutPanel4.Location = new Point(638, 599);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 3;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel4.Size = new Size(144, 194);
+            tableLayoutPanel4.Size = new Size(124, 194);
             tableLayoutPanel4.TabIndex = 15;
             // 
             // keyLengthComboBox
             // 
             keyLengthComboBox.Anchor = AnchorStyles.None;
-            keyLengthComboBox.Font = new Font("Microsoft YaHei UI", 16F);
+            keyLengthComboBox.Font = new Font("Microsoft YaHei UI", 12F);
             keyLengthComboBox.Items.AddRange(new object[] { "128", "192", "256" });
             keyLengthComboBox.ListAutoWidth = true;
-            keyLengthComboBox.Location = new Point(2, 66);
+            keyLengthComboBox.Location = new Point(2, 71);
             keyLengthComboBox.Margin = new Padding(2);
             keyLengthComboBox.Name = "keyLengthComboBox";
             keyLengthComboBox.SelectedIndex = 0;
             keyLengthComboBox.SelectedValue = "128";
-            keyLengthComboBox.Size = new Size(140, 60);
+            keyLengthComboBox.Size = new Size(120, 50);
             keyLengthComboBox.TabIndex = 13;
             keyLengthComboBox.Text = "128";
             // 
             // genKeyIv
             // 
             genKeyIv.Anchor = AnchorStyles.Bottom;
-            genKeyIv.Font = new Font("Microsoft YaHei UI", 16F);
-            genKeyIv.Location = new Point(2, 2);
+            genKeyIv.Font = new Font("Microsoft YaHei UI", 12F);
+            genKeyIv.LocalizationText = "GenKeyIv";
+            genKeyIv.Location = new Point(2, 12);
             genKeyIv.Margin = new Padding(2);
             genKeyIv.Name = "genKeyIv";
-            genKeyIv.Size = new Size(140, 60);
+            genKeyIv.Size = new Size(120, 50);
             genKeyIv.TabIndex = 12;
             genKeyIv.Text = "生成密钥iv";
             genKeyIv.Type = AntdUI.TTypeMini.Primary;
@@ -328,13 +334,13 @@
             // keyIvTypeSelect
             // 
             keyIvTypeSelect.Anchor = AnchorStyles.Top;
-            keyIvTypeSelect.Font = new Font("Microsoft YaHei UI", 16F);
+            keyIvTypeSelect.Font = new Font("Microsoft YaHei UI", 12F);
             keyIvTypeSelect.Items.AddRange(new object[] { "text", "base64", "hex" });
             keyIvTypeSelect.Location = new Point(3, 131);
             keyIvTypeSelect.Name = "keyIvTypeSelect";
             keyIvTypeSelect.SelectedIndex = 0;
             keyIvTypeSelect.SelectedValue = "text";
-            keyIvTypeSelect.Size = new Size(138, 60);
+            keyIvTypeSelect.Size = new Size(118, 50);
             keyIvTypeSelect.TabIndex = 14;
             keyIvTypeSelect.Text = "text";
             // 

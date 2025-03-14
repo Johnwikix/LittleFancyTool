@@ -29,13 +29,19 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            statusInput = new AntdUI.Input();
             tableLayoutPanel2 = new TableLayoutPanel();
+            tableLayoutPanel14 = new TableLayoutPanel();
+            timeLimitLabel = new AntdUI.Label();
+            timeLimitInput = new AntdUI.InputNumber();
             tableLayoutPanel3 = new TableLayoutPanel();
             portSelect = new AntdUI.Select();
             tableLayoutPanel11 = new TableLayoutPanel();
             portLabel = new AntdUI.Label();
             button1 = new AntdUI.Button();
+            tableLayoutPanel8 = new TableLayoutPanel();
+            connectButton = new AntdUI.Button();
+            connectLabel = new AntdUI.Label();
+            rs485checkbox = new AntdUI.Checkbox();
             tableLayoutPanel4 = new TableLayoutPanel();
             baudRateLabel = new AntdUI.Label();
             baudRateSelect = new AntdUI.Select();
@@ -48,10 +54,7 @@
             tableLayoutPanel7 = new TableLayoutPanel();
             StopBitsLabel = new AntdUI.Label();
             stopBitsSelect = new AntdUI.Select();
-            tableLayoutPanel8 = new TableLayoutPanel();
-            connectButton = new AntdUI.Button();
-            connectLabel = new AntdUI.Label();
-            rs485checkbox = new AntdUI.Checkbox();
+            statusInput = new AntdUI.Input();
             tableLayoutPanel9 = new TableLayoutPanel();
             receivedInput = new AntdUI.Input();
             tableLayoutPanel12 = new TableLayoutPanel();
@@ -63,56 +66,38 @@
             tableLayoutPanel10 = new TableLayoutPanel();
             sendBtn = new AntdUI.Button();
             sendInput = new AntdUI.Input();
-            tableLayoutPanel14 = new TableLayoutPanel();
-            timeLimitLabel = new AntdUI.Label();
-            timeLimitInput = new AntdUI.InputNumber();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel14.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel11.SuspendLayout();
+            tableLayoutPanel8.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
             tableLayoutPanel6.SuspendLayout();
             tableLayoutPanel7.SuspendLayout();
-            tableLayoutPanel8.SuspendLayout();
             tableLayoutPanel9.SuspendLayout();
             tableLayoutPanel12.SuspendLayout();
             tableLayoutPanel13.SuspendLayout();
             tableLayoutPanel10.SuspendLayout();
-            tableLayoutPanel14.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Controls.Add(statusInput, 0, 2);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel8, 0, 1);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel9, 1, 0);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel10, 1, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 170F));
             tableLayoutPanel1.Size = new Size(1400, 800);
             tableLayoutPanel1.TabIndex = 0;
-            // 
-            // statusInput
-            // 
-            statusInput.AutoScroll = true;
-            statusInput.Dock = DockStyle.Fill;
-            statusInput.Font = new Font("Microsoft YaHei UI", 12F);
-            statusInput.Location = new Point(3, 643);
-            statusInput.Multiline = true;
-            statusInput.Name = "statusInput";
-            statusInput.ReadOnly = true;
-            statusInput.Size = new Size(294, 154);
-            statusInput.TabIndex = 4;
             // 
             // tableLayoutPanel2
             // 
@@ -120,23 +105,68 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.Controls.Add(tableLayoutPanel14, 0, 5);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel8, 0, 6);
+            tableLayoutPanel2.Controls.Add(statusInput, 0, 7);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel4, 0, 1);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel5, 0, 2);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel6, 0, 3);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel7, 0, 4);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 3);
+            tableLayoutPanel2.Location = new Point(0, 0);
+            tableLayoutPanel2.Margin = new Padding(0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 7;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowCount = 8;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 100F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(294, 474);
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new Size(250, 630);
             tableLayoutPanel2.TabIndex = 0;
+            // 
+            // tableLayoutPanel14
+            // 
+            tableLayoutPanel14.ColumnCount = 2;
+            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel14.Controls.Add(timeLimitLabel, 0, 0);
+            tableLayoutPanel14.Controls.Add(timeLimitInput, 1, 0);
+            tableLayoutPanel14.Dock = DockStyle.Fill;
+            tableLayoutPanel14.Location = new Point(0, 250);
+            tableLayoutPanel14.Margin = new Padding(0);
+            tableLayoutPanel14.Name = "tableLayoutPanel14";
+            tableLayoutPanel14.RowCount = 1;
+            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel14.Size = new Size(250, 50);
+            tableLayoutPanel14.TabIndex = 5;
+            // 
+            // timeLimitLabel
+            // 
+            timeLimitLabel.Anchor = AnchorStyles.Left;
+            timeLimitLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            timeLimitLabel.LocalizationText = "FrameBreakInterval";
+            timeLimitLabel.Location = new Point(3, 6);
+            timeLimitLabel.Name = "timeLimitLabel";
+            timeLimitLabel.Size = new Size(113, 38);
+            timeLimitLabel.TabIndex = 2;
+            timeLimitLabel.Text = "断帧间隔(ms)";
+            // 
+            // timeLimitInput
+            // 
+            timeLimitInput.Anchor = AnchorStyles.None;
+            timeLimitInput.Font = new Font("Microsoft YaHei UI", 10F);
+            timeLimitInput.Location = new Point(126, 2);
+            timeLimitInput.Margin = new Padding(0);
+            timeLimitInput.Name = "timeLimitInput";
+            timeLimitInput.Size = new Size(122, 45);
+            timeLimitInput.TabIndex = 3;
+            timeLimitInput.Text = "50";
+            timeLimitInput.Value = new decimal(new int[] { 50, 0, 0, 0 });
             // 
             // tableLayoutPanel3
             // 
@@ -146,20 +176,22 @@
             tableLayoutPanel3.Controls.Add(portSelect, 1, 0);
             tableLayoutPanel3.Controls.Add(tableLayoutPanel11, 0, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(3, 3);
+            tableLayoutPanel3.Location = new Point(0, 0);
+            tableLayoutPanel3.Margin = new Padding(0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.Size = new Size(288, 54);
+            tableLayoutPanel3.Size = new Size(250, 50);
             tableLayoutPanel3.TabIndex = 0;
             // 
             // portSelect
             // 
             portSelect.Anchor = AnchorStyles.None;
-            portSelect.Font = new Font("Microsoft YaHei UI", 14F);
-            portSelect.Location = new Point(148, 4);
+            portSelect.Font = new Font("Microsoft YaHei UI", 10F);
+            portSelect.Location = new Point(126, 2);
+            portSelect.Margin = new Padding(0);
             portSelect.Name = "portSelect";
-            portSelect.Size = new Size(135, 45);
+            portSelect.Size = new Size(122, 45);
             portSelect.TabIndex = 0;
             portSelect.Text = "串口号";
             // 
@@ -167,39 +199,93 @@
             // 
             tableLayoutPanel11.Anchor = AnchorStyles.Left;
             tableLayoutPanel11.ColumnCount = 2;
-            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 61.3496933F));
-            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38.6503067F));
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 73.4513245F));
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26.5486717F));
             tableLayoutPanel11.Controls.Add(portLabel, 0, 0);
             tableLayoutPanel11.Controls.Add(button1, 1, 0);
-            tableLayoutPanel11.Location = new Point(3, 3);
+            tableLayoutPanel11.Location = new Point(0, 6);
+            tableLayoutPanel11.Margin = new Padding(0);
             tableLayoutPanel11.Name = "tableLayoutPanel11";
             tableLayoutPanel11.RowCount = 1;
             tableLayoutPanel11.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel11.Size = new Size(138, 48);
+            tableLayoutPanel11.Size = new Size(113, 38);
             tableLayoutPanel11.TabIndex = 1;
             // 
             // portLabel
             // 
             portLabel.Anchor = AnchorStyles.Left;
-            portLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            portLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            portLabel.LocalizationText = "serialPort";
             portLabel.Location = new Point(3, 3);
             portLabel.Name = "portLabel";
-            portLabel.Size = new Size(78, 42);
+            portLabel.Size = new Size(63, 32);
             portLabel.TabIndex = 1;
             portLabel.Text = "串口号";
             // 
             // button1
             // 
             button1.Anchor = AnchorStyles.None;
-            button1.Font = new Font("Microsoft YaHei UI", 16F);
+            button1.Font = new Font("Microsoft YaHei UI", 12F);
             button1.Ghost = true;
             button1.IconSvg = "UndoOutlined";
-            button1.Location = new Point(96, 9);
+            button1.Location = new Point(86, 4);
             button1.Name = "button1";
-            button1.Size = new Size(30, 30);
+            button1.Size = new Size(24, 30);
             button1.TabIndex = 2;
             button1.Type = AntdUI.TTypeMini.Primary;
             button1.Click += button1_Click;
+            // 
+            // tableLayoutPanel8
+            // 
+            tableLayoutPanel8.ColumnCount = 2;
+            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel8.Controls.Add(connectButton, 1, 0);
+            tableLayoutPanel8.Controls.Add(connectLabel, 0, 0);
+            tableLayoutPanel8.Controls.Add(rs485checkbox, 0, 1);
+            tableLayoutPanel8.Dock = DockStyle.Fill;
+            tableLayoutPanel8.Location = new Point(0, 300);
+            tableLayoutPanel8.Margin = new Padding(0);
+            tableLayoutPanel8.Name = "tableLayoutPanel8";
+            tableLayoutPanel8.RowCount = 2;
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel8.Size = new Size(250, 100);
+            tableLayoutPanel8.TabIndex = 1;
+            // 
+            // connectButton
+            // 
+            connectButton.Anchor = AnchorStyles.None;
+            connectButton.Font = new Font("Microsoft YaHei UI", 12F);
+            connectButton.LocalizationText = "connectButton";
+            connectButton.Location = new Point(128, 3);
+            connectButton.Name = "connectButton";
+            connectButton.Size = new Size(119, 44);
+            connectButton.TabIndex = 0;
+            connectButton.Text = "连接";
+            connectButton.Type = AntdUI.TTypeMini.Success;
+            connectButton.Click += connectButton_Click;
+            // 
+            // connectLabel
+            // 
+            connectLabel.Anchor = AnchorStyles.Left;
+            connectLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            connectLabel.LocalizationText = "connectLabel";
+            connectLabel.Location = new Point(3, 4);
+            connectLabel.Name = "connectLabel";
+            connectLabel.Size = new Size(113, 41);
+            connectLabel.TabIndex = 1;
+            connectLabel.Text = "连接";
+            // 
+            // rs485checkbox
+            // 
+            rs485checkbox.Anchor = AnchorStyles.None;
+            rs485checkbox.Font = new Font("Microsoft YaHei UI", 10F);
+            rs485checkbox.Location = new Point(6, 54);
+            rs485checkbox.Name = "rs485checkbox";
+            rs485checkbox.Size = new Size(113, 41);
+            rs485checkbox.TabIndex = 3;
+            rs485checkbox.Text = "RTS";
             // 
             // tableLayoutPanel4
             // 
@@ -209,33 +295,36 @@
             tableLayoutPanel4.Controls.Add(baudRateLabel, 0, 0);
             tableLayoutPanel4.Controls.Add(baudRateSelect, 1, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(3, 63);
+            tableLayoutPanel4.Location = new Point(0, 50);
+            tableLayoutPanel4.Margin = new Padding(0);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.Size = new Size(288, 54);
+            tableLayoutPanel4.Size = new Size(250, 50);
             tableLayoutPanel4.TabIndex = 1;
             // 
             // baudRateLabel
             // 
             baudRateLabel.Anchor = AnchorStyles.Left;
-            baudRateLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            baudRateLabel.Location = new Point(3, 3);
+            baudRateLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            baudRateLabel.LocalizationText = "baudRate";
+            baudRateLabel.Location = new Point(3, 6);
             baudRateLabel.Name = "baudRateLabel";
-            baudRateLabel.Size = new Size(120, 48);
+            baudRateLabel.Size = new Size(113, 38);
             baudRateLabel.TabIndex = 2;
             baudRateLabel.Text = "波特率";
             // 
             // baudRateSelect
             // 
             baudRateSelect.Anchor = AnchorStyles.None;
-            baudRateSelect.Font = new Font("Microsoft YaHei UI", 14F);
+            baudRateSelect.Font = new Font("Microsoft YaHei UI", 10F);
             baudRateSelect.Items.AddRange(new object[] { "300", "600", "1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200" });
-            baudRateSelect.Location = new Point(148, 4);
+            baudRateSelect.Location = new Point(126, 2);
+            baudRateSelect.Margin = new Padding(0);
             baudRateSelect.Name = "baudRateSelect";
             baudRateSelect.SelectedIndex = 5;
             baudRateSelect.SelectedValue = "9600";
-            baudRateSelect.Size = new Size(135, 45);
+            baudRateSelect.Size = new Size(122, 45);
             baudRateSelect.TabIndex = 0;
             baudRateSelect.Text = "9600";
             // 
@@ -247,33 +336,36 @@
             tableLayoutPanel5.Controls.Add(parityLabel, 0, 0);
             tableLayoutPanel5.Controls.Add(paritySelect, 1, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(3, 123);
+            tableLayoutPanel5.Location = new Point(0, 100);
+            tableLayoutPanel5.Margin = new Padding(0);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel5.Size = new Size(288, 54);
+            tableLayoutPanel5.Size = new Size(250, 50);
             tableLayoutPanel5.TabIndex = 2;
             // 
             // parityLabel
             // 
             parityLabel.Anchor = AnchorStyles.Left;
-            parityLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            parityLabel.Location = new Point(3, 3);
+            parityLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            parityLabel.LocalizationText = "parity";
+            parityLabel.Location = new Point(3, 6);
             parityLabel.Name = "parityLabel";
-            parityLabel.Size = new Size(120, 48);
+            parityLabel.Size = new Size(113, 38);
             parityLabel.TabIndex = 2;
             parityLabel.Text = "校验位";
             // 
             // paritySelect
             // 
             paritySelect.Anchor = AnchorStyles.None;
-            paritySelect.Font = new Font("Microsoft YaHei UI", 14F);
+            paritySelect.Font = new Font("Microsoft YaHei UI", 10F);
             paritySelect.Items.AddRange(new object[] { "None", "Odd", "Even", "Mark", "Space" });
-            paritySelect.Location = new Point(148, 4);
+            paritySelect.Location = new Point(126, 2);
+            paritySelect.Margin = new Padding(0);
             paritySelect.Name = "paritySelect";
             paritySelect.SelectedIndex = 0;
             paritySelect.SelectedValue = "None";
-            paritySelect.Size = new Size(135, 45);
+            paritySelect.Size = new Size(122, 45);
             paritySelect.TabIndex = 1;
             paritySelect.Text = "None";
             // 
@@ -285,33 +377,36 @@
             tableLayoutPanel6.Controls.Add(dataBitsLabel, 0, 0);
             tableLayoutPanel6.Controls.Add(dataBitsSelect, 1, 0);
             tableLayoutPanel6.Dock = DockStyle.Fill;
-            tableLayoutPanel6.Location = new Point(3, 183);
+            tableLayoutPanel6.Location = new Point(0, 150);
+            tableLayoutPanel6.Margin = new Padding(0);
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Size = new Size(288, 54);
+            tableLayoutPanel6.Size = new Size(250, 50);
             tableLayoutPanel6.TabIndex = 3;
             // 
             // dataBitsLabel
             // 
             dataBitsLabel.Anchor = AnchorStyles.Left;
-            dataBitsLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            dataBitsLabel.Location = new Point(3, 3);
+            dataBitsLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            dataBitsLabel.LocalizationText = "dataBits";
+            dataBitsLabel.Location = new Point(3, 6);
             dataBitsLabel.Name = "dataBitsLabel";
-            dataBitsLabel.Size = new Size(120, 48);
+            dataBitsLabel.Size = new Size(113, 38);
             dataBitsLabel.TabIndex = 2;
             dataBitsLabel.Text = "数据位";
             // 
             // dataBitsSelect
             // 
             dataBitsSelect.Anchor = AnchorStyles.None;
-            dataBitsSelect.Font = new Font("Microsoft YaHei UI", 14F);
+            dataBitsSelect.Font = new Font("Microsoft YaHei UI", 10F);
             dataBitsSelect.Items.AddRange(new object[] { "5", "6", "7", "8" });
-            dataBitsSelect.Location = new Point(148, 4);
+            dataBitsSelect.Location = new Point(126, 2);
+            dataBitsSelect.Margin = new Padding(0);
             dataBitsSelect.Name = "dataBitsSelect";
             dataBitsSelect.SelectedIndex = 3;
             dataBitsSelect.SelectedValue = "8";
-            dataBitsSelect.Size = new Size(135, 45);
+            dataBitsSelect.Size = new Size(122, 45);
             dataBitsSelect.TabIndex = 0;
             dataBitsSelect.Text = "8";
             // 
@@ -323,85 +418,51 @@
             tableLayoutPanel7.Controls.Add(StopBitsLabel, 0, 0);
             tableLayoutPanel7.Controls.Add(stopBitsSelect, 1, 0);
             tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 243);
+            tableLayoutPanel7.Location = new Point(0, 200);
+            tableLayoutPanel7.Margin = new Padding(0);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 1;
             tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel7.Size = new Size(288, 54);
+            tableLayoutPanel7.Size = new Size(250, 50);
             tableLayoutPanel7.TabIndex = 4;
             // 
             // StopBitsLabel
             // 
             StopBitsLabel.Anchor = AnchorStyles.Left;
-            StopBitsLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            StopBitsLabel.Location = new Point(3, 3);
+            StopBitsLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            StopBitsLabel.LocalizationText = "StopBits";
+            StopBitsLabel.Location = new Point(3, 6);
             StopBitsLabel.Name = "StopBitsLabel";
-            StopBitsLabel.Size = new Size(120, 48);
+            StopBitsLabel.Size = new Size(113, 38);
             StopBitsLabel.TabIndex = 2;
             StopBitsLabel.Text = "结束位";
             // 
             // stopBitsSelect
             // 
             stopBitsSelect.Anchor = AnchorStyles.None;
-            stopBitsSelect.Font = new Font("Microsoft YaHei UI", 14F);
+            stopBitsSelect.Font = new Font("Microsoft YaHei UI", 10F);
             stopBitsSelect.Items.AddRange(new object[] { "1", "1.5", "2" });
-            stopBitsSelect.Location = new Point(148, 4);
+            stopBitsSelect.Location = new Point(126, 2);
+            stopBitsSelect.Margin = new Padding(0);
             stopBitsSelect.Name = "stopBitsSelect";
             stopBitsSelect.SelectedIndex = 0;
             stopBitsSelect.SelectedValue = "1";
-            stopBitsSelect.Size = new Size(135, 45);
+            stopBitsSelect.Size = new Size(122, 45);
             stopBitsSelect.TabIndex = 0;
             stopBitsSelect.Text = "1";
             // 
-            // tableLayoutPanel8
+            // statusInput
             // 
-            tableLayoutPanel8.ColumnCount = 2;
-            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel8.Controls.Add(connectButton, 1, 0);
-            tableLayoutPanel8.Controls.Add(connectLabel, 0, 0);
-            tableLayoutPanel8.Controls.Add(rs485checkbox, 1, 1);
-            tableLayoutPanel8.Dock = DockStyle.Fill;
-            tableLayoutPanel8.Location = new Point(3, 483);
-            tableLayoutPanel8.Name = "tableLayoutPanel8";
-            tableLayoutPanel8.RowCount = 2;
-            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel8.Size = new Size(294, 154);
-            tableLayoutPanel8.TabIndex = 1;
-            // 
-            // connectButton
-            // 
-            connectButton.Anchor = AnchorStyles.None;
-            connectButton.Font = new Font("Microsoft YaHei UI", 14F);
-            connectButton.Location = new Point(153, 8);
-            connectButton.Name = "connectButton";
-            connectButton.Size = new Size(135, 60);
-            connectButton.TabIndex = 0;
-            connectButton.Text = "连接";
-            connectButton.Type = AntdUI.TTypeMini.Success;
-            connectButton.Click += connectButton_Click;
-            // 
-            // connectLabel
-            // 
-            connectLabel.Anchor = AnchorStyles.Left;
-            connectLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            connectLabel.Location = new Point(3, 8);
-            connectLabel.Name = "connectLabel";
-            connectLabel.Size = new Size(120, 60);
-            connectLabel.TabIndex = 1;
-            connectLabel.Text = "连接";
-            // 
-            // rs485checkbox
-            // 
-            rs485checkbox.Anchor = AnchorStyles.None;
-            rs485checkbox.Font = new Font("Microsoft YaHei UI", 14F);
-            rs485checkbox.Location = new Point(160, 85);
-            rs485checkbox.Name = "rs485checkbox";
-            rs485checkbox.Size = new Size(120, 60);
-            rs485checkbox.TabIndex = 3;
-            rs485checkbox.Text = "RTS";
+            statusInput.AutoScroll = true;
+            statusInput.Dock = DockStyle.Fill;
+            statusInput.Font = new Font("Microsoft YaHei UI", 10F);
+            statusInput.Location = new Point(3, 403);
+            statusInput.Multiline = true;
+            statusInput.Name = "statusInput";
+            statusInput.ReadOnly = true;
+            statusInput.Size = new Size(244, 224);
+            statusInput.TabIndex = 4;
             // 
             // tableLayoutPanel9
             // 
@@ -411,12 +472,12 @@
             tableLayoutPanel9.Controls.Add(receivedInput, 1, 1);
             tableLayoutPanel9.Controls.Add(tableLayoutPanel12, 1, 0);
             tableLayoutPanel9.Dock = DockStyle.Fill;
-            tableLayoutPanel9.Location = new Point(303, 3);
+            tableLayoutPanel9.Location = new Point(253, 3);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
             tableLayoutPanel9.RowCount = 2;
-            tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
+            tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
             tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel9.Size = new Size(1094, 474);
+            tableLayoutPanel9.Size = new Size(1144, 624);
             tableLayoutPanel9.TabIndex = 2;
             // 
             // receivedInput
@@ -424,86 +485,92 @@
             receivedInput.AutoScroll = true;
             receivedInput.Dock = DockStyle.Fill;
             receivedInput.Font = new Font("Microsoft YaHei UI", 14F);
-            receivedInput.Location = new Point(3, 73);
+            receivedInput.Location = new Point(3, 63);
             receivedInput.Multiline = true;
             receivedInput.Name = "receivedInput";
             receivedInput.ReadOnly = true;
-            receivedInput.Size = new Size(1088, 398);
+            receivedInput.Size = new Size(1138, 558);
             receivedInput.TabIndex = 1;
             // 
             // tableLayoutPanel12
             // 
+            tableLayoutPanel12.AutoSize = true;
             tableLayoutPanel12.ColumnCount = 3;
-            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 140F));
+            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108F));
+            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 215F));
             tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel12.Controls.Add(label2, 0, 0);
+            tableLayoutPanel12.Controls.Add(label2, 1, 0);
             tableLayoutPanel12.Controls.Add(tableLayoutPanel13, 2, 0);
-            tableLayoutPanel12.Controls.Add(receivedModeSelect, 1, 0);
+            tableLayoutPanel12.Controls.Add(receivedModeSelect, 0, 0);
             tableLayoutPanel12.Dock = DockStyle.Fill;
             tableLayoutPanel12.Location = new Point(3, 3);
             tableLayoutPanel12.Name = "tableLayoutPanel12";
             tableLayoutPanel12.RowCount = 1;
             tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel12.Size = new Size(1088, 64);
+            tableLayoutPanel12.Size = new Size(1138, 54);
             tableLayoutPanel12.TabIndex = 3;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Left;
+            label2.AutoSizeMode = AntdUI.TAutoSize.Auto;
             label2.Font = new Font("Microsoft YaHei UI", 15F);
-            label2.Location = new Point(3, 3);
+            label2.LocalizationText = "ReceivedFormat";
+            label2.Location = new Point(111, 13);
             label2.Name = "label2";
-            label2.Size = new Size(111, 58);
+            label2.Size = new Size(90, 28);
             label2.TabIndex = 3;
             label2.Text = "接收格式";
             // 
             // tableLayoutPanel13
             // 
+            tableLayoutPanel13.AutoSize = true;
             tableLayoutPanel13.ColumnCount = 2;
-            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 140F));
-            tableLayoutPanel13.Controls.Add(sendSelect, 1, 0);
-            tableLayoutPanel13.Controls.Add(label1, 0, 0);
-            tableLayoutPanel13.Location = new Point(263, 3);
+            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 107F));
+            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 153F));
+            tableLayoutPanel13.Controls.Add(sendSelect, 0, 0);
+            tableLayoutPanel13.Controls.Add(label1, 1, 0);
+            tableLayoutPanel13.Location = new Point(326, 3);
             tableLayoutPanel13.Name = "tableLayoutPanel13";
             tableLayoutPanel13.RowCount = 1;
             tableLayoutPanel13.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel13.Size = new Size(298, 58);
+            tableLayoutPanel13.Size = new Size(260, 48);
             tableLayoutPanel13.TabIndex = 4;
             // 
             // sendSelect
             // 
             sendSelect.Items.AddRange(new object[] { "Auto", "UTF8", "ASCII", "GB2312", "HEX" });
-            sendSelect.Location = new Point(123, 3);
+            sendSelect.Location = new Point(3, 3);
             sendSelect.Name = "sendSelect";
             sendSelect.SelectedIndex = 1;
             sendSelect.SelectedValue = "UTF8";
-            sendSelect.Size = new Size(120, 50);
+            sendSelect.Size = new Size(100, 42);
             sendSelect.TabIndex = 4;
             sendSelect.Text = "UTF8";
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Left;
+            label1.AutoSizeMode = AntdUI.TAutoSize.Auto;
             label1.Font = new Font("Microsoft YaHei UI", 15F);
-            label1.Location = new Point(3, 3);
+            label1.LocalizationText = "SendFormat";
+            label1.Location = new Point(110, 10);
             label1.Name = "label1";
-            label1.Size = new Size(101, 52);
+            label1.Size = new Size(90, 28);
             label1.TabIndex = 2;
             label1.Text = "发送格式";
             // 
             // receivedModeSelect
             // 
             receivedModeSelect.Anchor = AnchorStyles.Left;
-            receivedModeSelect.Items.AddRange(new object[] { "自动检测", "UTF8", "ASCII", "GB2312", "HEX" });
-            receivedModeSelect.Location = new Point(123, 7);
+            receivedModeSelect.Items.AddRange(new object[] { "Auto", "UTF8", "ASCII", "GB2312", "HEX" });
+            receivedModeSelect.Location = new Point(3, 4);
             receivedModeSelect.Name = "receivedModeSelect";
             receivedModeSelect.SelectedIndex = 0;
-            receivedModeSelect.SelectedValue = "自动检测";
-            receivedModeSelect.Size = new Size(120, 50);
+            receivedModeSelect.SelectedValue = "Auto";
+            receivedModeSelect.Size = new Size(100, 45);
             receivedModeSelect.TabIndex = 4;
-            receivedModeSelect.Text = "自动检测";
+            receivedModeSelect.Text = "Auto";
             // 
             // tableLayoutPanel10
             // 
@@ -513,20 +580,21 @@
             tableLayoutPanel10.Controls.Add(sendBtn, 0, 0);
             tableLayoutPanel10.Controls.Add(sendInput, 1, 0);
             tableLayoutPanel10.Dock = DockStyle.Fill;
-            tableLayoutPanel10.Location = new Point(303, 483);
+            tableLayoutPanel10.Location = new Point(253, 633);
             tableLayoutPanel10.Name = "tableLayoutPanel10";
             tableLayoutPanel10.RowCount = 1;
             tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel10.Size = new Size(1094, 154);
+            tableLayoutPanel10.Size = new Size(1144, 164);
             tableLayoutPanel10.TabIndex = 3;
             // 
             // sendBtn
             // 
             sendBtn.Dock = DockStyle.Fill;
-            sendBtn.Font = new Font("Microsoft YaHei UI", 18F);
+            sendBtn.Font = new Font("Microsoft YaHei UI", 15F);
+            sendBtn.LocalizationText = "send";
             sendBtn.Location = new Point(3, 3);
             sendBtn.Name = "sendBtn";
-            sendBtn.Size = new Size(164, 148);
+            sendBtn.Size = new Size(164, 158);
             sendBtn.TabIndex = 0;
             sendBtn.Text = "发送";
             sendBtn.Type = AntdUI.TTypeMini.Primary;
@@ -540,45 +608,8 @@
             sendInput.Location = new Point(173, 3);
             sendInput.Multiline = true;
             sendInput.Name = "sendInput";
-            sendInput.Size = new Size(918, 148);
+            sendInput.Size = new Size(968, 158);
             sendInput.TabIndex = 0;
-            // 
-            // tableLayoutPanel14
-            // 
-            tableLayoutPanel14.ColumnCount = 2;
-            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel14.Controls.Add(timeLimitLabel, 0, 0);
-            tableLayoutPanel14.Controls.Add(timeLimitInput, 1, 0);
-            tableLayoutPanel14.Dock = DockStyle.Fill;
-            tableLayoutPanel14.Location = new Point(3, 303);
-            tableLayoutPanel14.Name = "tableLayoutPanel14";
-            tableLayoutPanel14.RowCount = 1;
-            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel14.Size = new Size(288, 54);
-            tableLayoutPanel14.TabIndex = 5;
-            // 
-            // timeLimitLabel
-            // 
-            timeLimitLabel.Anchor = AnchorStyles.Left;
-            timeLimitLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            timeLimitLabel.Location = new Point(3, 3);
-            timeLimitLabel.Name = "timeLimitLabel";
-            timeLimitLabel.Size = new Size(138, 48);
-            timeLimitLabel.TabIndex = 2;
-            timeLimitLabel.Text = "断帧间隔(ms)";
-            // 
-            // timeLimitInput
-            // 
-            timeLimitInput.Anchor = AnchorStyles.None;
-            timeLimitInput.Font = new Font("Microsoft YaHei UI", 14F);
-            timeLimitInput.Location = new Point(148, 4);
-            timeLimitInput.Name = "timeLimitInput";
-            timeLimitInput.Size = new Size(135, 45);
-            timeLimitInput.TabIndex = 3;
-            timeLimitInput.Text = "50";
-            timeLimitInput.Value = new decimal(new int[] { 50, 0, 0, 0 });
             // 
             // SerialPortForm
             // 
@@ -588,18 +619,21 @@
             Size = new Size(1400, 800);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel14.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel11.ResumeLayout(false);
+            tableLayoutPanel8.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel6.ResumeLayout(false);
             tableLayoutPanel7.ResumeLayout(false);
-            tableLayoutPanel8.ResumeLayout(false);
             tableLayoutPanel9.ResumeLayout(false);
+            tableLayoutPanel9.PerformLayout();
             tableLayoutPanel12.ResumeLayout(false);
+            tableLayoutPanel12.PerformLayout();
             tableLayoutPanel13.ResumeLayout(false);
+            tableLayoutPanel13.PerformLayout();
             tableLayoutPanel10.ResumeLayout(false);
-            tableLayoutPanel14.ResumeLayout(false);
             ResumeLayout(false);
         }
 
