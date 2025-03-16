@@ -1,5 +1,8 @@
-﻿using LittleFancyTool.Languages;
+﻿using AntdUI;
+using LittleFancyTool.Languages;
+using LittleFancyTool.Models;
 using Modbus.Device;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
@@ -13,7 +16,6 @@ namespace LittleFancyTool.View
         private ModbusSerialMaster modbusMaster;
         private AntdUI.Window window;
         private bool isPolling = false;
-        private DataTable _registerDataTable;
         private readonly object _dataLock = new object();
         private int txCount = 0;
         private int errCount = 0;
@@ -27,76 +29,26 @@ namespace LittleFancyTool.View
                      ControlStyles.UserPaint, true);
             InitializeComponent();
             RefreshPortList();
-            _registerDataTable = new DataTable("ModbusData");
-            _registerDataTable.Columns.AddRange(new[]
-            {
-                new DataColumn("address", typeof(string)),
-                new DataColumn("value", typeof(ushort)),
-                new DataColumn("updateTime", typeof(DateTime))
-            });
-            slaveDataGridView.DataSource = _registerDataTable;
-            ConfigureDataGridView();
+            InitialTableData();
             TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
+        }        
+
+        private void InitialTableData() {
+            
+            slaveTable.Columns = new AntdUI.ColumnCollection {
+                new AntdUI.Column("address", "寄存器地址").SetFixed().SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("valueDec", "数值(DEC)").SetFixed().SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("lastUpdate", "最后更新时间").SetLocalizationTitleID("Table.Column."),
+            };
+            int regNum = int.Parse(numRegistersInput.Text);
+            slaveTable.DataSource = GetPageData(regNum);
         }
 
-        private void ConfigureDataGridView()
+        object GetPageData(int regNum)
         {
-            // 列配置
-            slaveDataGridView.AutoGenerateColumns = false;
-            slaveDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            slaveDataGridView.Columns.Clear();
-            slaveDataGridView.ForeColor = Color.Black;
-
-            string lang = AntdUI.Localization.CurrentLanguage;
-            if (lang.StartsWith("zh"))
-            {
-                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "address",
-                    HeaderText = "寄存器地址",
-                    FillWeight = 25
-                });
-
-                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "value",
-                    HeaderText = "数值 (DEC)",
-                    FillWeight = 20
-                });
-
-                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "updateTime",
-                    HeaderText = "最后更新时间",
-                    FillWeight = 55
-                });
-            }
-            else
-            {
-                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "address",
-                    HeaderText = "Reg Address",
-                    FillWeight = 25
-                });
-
-                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "value",
-                    HeaderText = "Value (DEC)",
-                    FillWeight = 20
-                });
-
-                slaveDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = "updateTime",
-                    HeaderText = "Last Update Time",
-                    FillWeight = 55
-                });
-            }           
-
-            DataGridViewColumn dateTimeColumn = slaveDataGridView.Columns[2];
-            dateTimeColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
+            var list = new List<TestClass>(regNum);
+            list.Add(new TestClass("0", "0", DateTime.Now));
+            return list;
         }
 
         private async Task pollingAsync(int time)
@@ -186,7 +138,7 @@ namespace LittleFancyTool.View
             {
                 var registers = await modbusMaster.ReadHoldingRegistersAsync(slaveId, startAddress, numRegisters);
                 outputInput.AppendText($"读取成功: {string.Join(", ", registers)}\r\n");
-                UpdateDataGridView(startAddress, registers);
+                UpdateDataTable(startAddress, registers,numRegisters);
             }
             catch (OperationCanceledException ex)
             {
@@ -196,7 +148,6 @@ namespace LittleFancyTool.View
             {
                 errCount++;
                 TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
-                //AntdUI.Message.error(window, $"port读取失败: {ex.Message}", autoClose: 3);
             }
         }
 
@@ -215,43 +166,19 @@ namespace LittleFancyTool.View
             RefreshPortList();
         }
 
-        private void UpdateDataGridView(ushort startAddress, ushort[] registers)
-        {
+        private void UpdateDataTable(ushort startAddress, ushort[] registers,ushort regNum) {
             this.Invoke((MethodInvoker)delegate
             {
                 lock (_dataLock)
                 {
                     var now = DateTime.Now;
-                    if (_registerDataTable.Rows.Count != registers.Length)
+                    var list = new List<TestClass>(regNum);
+                    for (int i = 0; i < regNum; i++)
                     {
-                        _registerDataTable.Rows.Clear();
-                        for (int i = 0; i < registers.Length; i++)
-                        {
-                            var address = startAddress + i;
-                            _registerDataTable.Rows.Add(
-                                $"0x{address:X4}",
-                                registers[i],
-                                now
-                            );
-                        }
+                        var address = startAddress + i;
+                        list.Add(new TestClass($"0x{address:X4}", registers[i].ToString(), now));
                     }
-                    else
-                    {
-                        slaveDataGridView.SuspendLayout();
-                        for (int i = 0; i < registers.Length; i++)
-                        {
-                            var row = _registerDataTable.Rows[i];
-                            if ((ushort)row["值"] != registers[i])
-                            {
-                                row.BeginEdit();
-                                row["值"] = registers[i];
-                                row["更新时间"] = now;
-                                row.EndEdit();
-                                slaveDataGridView.Rows[i].Cells[1].Style.BackColor = Color.LightYellow;
-                            }
-                        }
-                        slaveDataGridView.ResumeLayout();
-                    }
+                    slaveTable.DataSource = list;
                 }
             });
         }

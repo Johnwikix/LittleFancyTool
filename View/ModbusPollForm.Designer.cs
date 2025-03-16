@@ -48,6 +48,7 @@
             tableLayoutPanel7 = new TableLayoutPanel();
             StopBitsLabel = new AntdUI.Label();
             stopBitsSelect = new AntdUI.Select();
+            slaveTable = new AntdUI.Table();
             tableLayoutPanel9 = new TableLayoutPanel();
             outputInput = new AntdUI.Input();
             tableLayoutPanel10 = new TableLayoutPanel();
@@ -62,7 +63,6 @@
             connectLabel = new AntdUI.Label();
             connectButton = new AntdUI.Button();
             TXStatusLabel = new AntdUI.Label();
-            slaveDataGridView = new DataGridView();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -73,7 +73,6 @@
             tableLayoutPanel7.SuspendLayout();
             tableLayoutPanel9.SuspendLayout();
             tableLayoutPanel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)slaveDataGridView).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -366,6 +365,14 @@
             stopBitsSelect.TabIndex = 0;
             stopBitsSelect.Text = "1";
             // 
+            // slaveTable
+            // 
+            slaveTable.Dock = DockStyle.Fill;
+            slaveTable.Location = new Point(700, 3);
+            slaveTable.Name = "slaveTable";
+            slaveTable.Size = new Size(441, 788);
+            slaveTable.TabIndex = 5;
+            // 
             // tableLayoutPanel9
             // 
             tableLayoutPanel9.ColumnCount = 3;
@@ -374,7 +381,7 @@
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel9.Controls.Add(outputInput, 1, 0);
             tableLayoutPanel9.Controls.Add(tableLayoutPanel10, 0, 0);
-            tableLayoutPanel9.Controls.Add(slaveDataGridView, 2, 0);
+            tableLayoutPanel9.Controls.Add(slaveTable, 2, 0);
             tableLayoutPanel9.Dock = DockStyle.Fill;
             tableLayoutPanel9.Location = new Point(253, 3);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
@@ -549,16 +556,6 @@
             TXStatusLabel.TabIndex = 8;
             TXStatusLabel.Text = "TX=0 Err=0";
             // 
-            // slaveDataGridView
-            // 
-            slaveDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            slaveDataGridView.Dock = DockStyle.Fill;
-            slaveDataGridView.Location = new Point(705, 8);
-            slaveDataGridView.Margin = new Padding(8);
-            slaveDataGridView.Name = "slaveDataGridView";
-            slaveDataGridView.Size = new Size(431, 778);
-            slaveDataGridView.TabIndex = 2;
-            // 
             // ModbusPollForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -575,7 +572,6 @@
             tableLayoutPanel7.ResumeLayout(false);
             tableLayoutPanel9.ResumeLayout(false);
             tableLayoutPanel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)slaveDataGridView).EndInit();
             ResumeLayout(false);
         }
 
@@ -614,7 +610,7 @@
         private AntdUI.Label slaveIdLabel;
         private AntdUI.InputNumber scanTimeInput;
         private AntdUI.Label scanTimeLabel;
-        private DataGridView slaveDataGridView;
         private AntdUI.Label TXStatusLabel;
+        private AntdUI.Table slaveTable;
     }
 }
