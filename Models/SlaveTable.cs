@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LittleFancyTool.Models
 {
-    class TestClass: AntdUI.NotifyProperty
+    class SlaveTable: AntdUI.NotifyProperty
     {
-        public TestClass(string address, string valueDec, DateTime lastUpdate)
+        public SlaveTable(string address, string valueDec, DateTime lastUpdate)
         {
             _address = address;
             _valueDec = valueDec;

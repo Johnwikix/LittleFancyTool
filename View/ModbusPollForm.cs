@@ -46,8 +46,8 @@ namespace LittleFancyTool.View
 
         object GetPageData(int regNum)
         {
-            var list = new List<TestClass>(regNum);
-            list.Add(new TestClass("0", "0", DateTime.Now));
+            var list = new List<SlaveTable>(regNum);
+            list.Add(new SlaveTable("0", "0", DateTime.Now));
             return list;
         }
 
@@ -172,11 +172,11 @@ namespace LittleFancyTool.View
                 lock (_dataLock)
                 {
                     var now = DateTime.Now;
-                    var list = new List<TestClass>(regNum);
+                    var list = new List<SlaveTable>(regNum);
                     for (int i = 0; i < regNum; i++)
                     {
                         var address = startAddress + i;
-                        list.Add(new TestClass($"0x{address:X4}", registers[i].ToString(), now));
+                        list.Add(new SlaveTable($"0x{address:X4}", registers[i].ToString(), now));
                     }
                     slaveTable.DataSource = list;
                 }
