@@ -48,7 +48,6 @@
             tableLayoutPanel7 = new TableLayoutPanel();
             StopBitsLabel = new AntdUI.Label();
             stopBitsSelect = new AntdUI.Select();
-            slaveTable = new AntdUI.Table();
             tableLayoutPanel9 = new TableLayoutPanel();
             outputInput = new AntdUI.Input();
             tableLayoutPanel10 = new TableLayoutPanel();
@@ -63,6 +62,7 @@
             connectLabel = new AntdUI.Label();
             connectButton = new AntdUI.Button();
             TXStatusLabel = new AntdUI.Label();
+            slaveTable = new AntdUI.Table();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -365,14 +365,6 @@
             stopBitsSelect.TabIndex = 0;
             stopBitsSelect.Text = "1";
             // 
-            // slaveTable
-            // 
-            slaveTable.Dock = DockStyle.Fill;
-            slaveTable.Location = new Point(700, 3);
-            slaveTable.Name = "slaveTable";
-            slaveTable.Size = new Size(441, 788);
-            slaveTable.TabIndex = 5;
-            // 
             // tableLayoutPanel9
             // 
             tableLayoutPanel9.ColumnCount = 3;
@@ -536,7 +528,7 @@
             // connectButton
             // 
             connectButton.Anchor = AnchorStyles.None;
-            connectButton.Font = new Font("Microsoft YaHei UI", 14F);
+            connectButton.Font = new Font("Microsoft YaHei UI", 12F);
             connectButton.LocalizationText = "connectButton";
             connectButton.Location = new Point(122, 200);
             connectButton.Margin = new Padding(0);
@@ -555,6 +547,14 @@
             TXStatusLabel.Size = new Size(116, 23);
             TXStatusLabel.TabIndex = 8;
             TXStatusLabel.Text = "TX=0 Err=0";
+            // 
+            // slaveTable
+            // 
+            slaveTable.Dock = DockStyle.Fill;
+            slaveTable.Location = new Point(700, 3);
+            slaveTable.Name = "slaveTable";
+            slaveTable.Size = new Size(441, 788);
+            slaveTable.TabIndex = 5;
             // 
             // ModbusPollForm
             // 

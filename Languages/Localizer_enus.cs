@@ -141,6 +141,14 @@ namespace LittleFancyTool.Languages
                 case "stopService":
                     return "Stop Service";
                 #endregion
+                #region TABLE
+                case "Table.Column.address":
+                    return "reg address";
+                case "Table.Column.valueDec":
+                    return "value(DEC)";
+                case "Table.Column.lastUpdate":
+                    return "Last Update";
+                #endregion
                 default:
                     return null;
 
