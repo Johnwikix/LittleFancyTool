@@ -108,6 +108,16 @@ namespace LittleFancyTool.Languages
                     return "service is not connected";
                 case "发送消息时出错:":
                     return "error occurred when sending message:";
+                case "请先选择图片！":
+                    return "please select an image first!";
+                case "转换成功！":
+                    return "conversion successful!";
+                case "转换失败：":
+                    return "conversion failed:";
+                case "没有ico可供保存":
+                    return "no ico available for saving";
+                case "图标已保存至：":
+                    return "icon saved to:";
                 default:
                     return key;
             }

@@ -59,25 +59,5 @@ namespace LittleFancyTool.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap bitbug_favicon__1_ {
-            get {
-                object obj = ResourceManager.GetObject("bitbug_favicon (1)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap FE37356A3C57ADD1570827248672383 {
-            get {
-                object obj = ResourceManager.GetObject("FE37356A3C57ADD1570827248672383", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

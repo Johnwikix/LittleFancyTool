@@ -74,14 +74,18 @@ namespace LittleFancyTool.Languages
                 #endregion
 
                 #region Pic2Base64
-                case "uploadPic":
-                    return "UploadPic";
-                case "pic":
-                    return "Picture";
+                case "openImg":
+                    return "OpenImg";
+                case "img":
+                    return "Image";
                 case "Encode":
                     return "Encode >>";
                 case "Decode":
                     return "Decode <<";
+                case "convert":
+                    return "Convert >>";
+                case "ico":
+                    return "Output Ico";
                 #endregion
 
                 #region Modbus Poll

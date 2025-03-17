@@ -105,11 +105,18 @@ namespace LittleFancyTool.View
         {
             DateTime startTime = DateTime.Now;
             string[] filePaths = e.Value;
-            Task task = new Task(() =>
+            Task.Run(() =>
             {
-                pictureBox.Image = Image.FromFile(filePaths[0]);
+                Image image = Image.FromFile(filePaths[0]);
+                pictureBox.Invoke((MethodInvoker)delegate
+                {
+                    if (pictureBox.Image != null)
+                    {
+                        pictureBox.Image.Dispose();
+                    }
+                    pictureBox.Image = image;
+                });
             });
-            task.Start();
             Debug.WriteLine("DragChanged耗时: " + (DateTime.Now - startTime).TotalMilliseconds);
         }
 

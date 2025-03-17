@@ -42,8 +42,8 @@ namespace LittleFancyTool.View
         private void InitialTableData() {
             
             slaveTable.Columns = new AntdUI.ColumnCollection {
-                new AntdUI.Column("address", "寄存器地址").SetFixed().SetLocalizationTitleID("Table.Column."),
-                new AntdUI.Column("valueDec", "数值(DEC)").SetFixed().SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("address", "寄存器地址").SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("valueDec", "数值(DEC)").SetLocalizationTitleID("Table.Column."),
                 new AntdUI.Column("lastUpdate", "最后更新时间").SetLocalizationTitleID("Table.Column."),
             };
             int regNum = int.Parse(numRegistersInput.Text);

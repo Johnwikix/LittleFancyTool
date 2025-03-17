@@ -333,7 +333,7 @@ namespace CryptoTool
                 case "File Encryption":
                     control = new FileEncryptForm(this);
                     break;
-                case "Pic2Base64":
+                case "Img2Base64":
                     control = new Img2Base64Form(this);
                     break;
                 case "Serial Port Debugging":
@@ -344,6 +344,9 @@ namespace CryptoTool
                     break;
                 case "Sockets":
                     control = new TcpServerForm(this);
+                    break;
+                case "Img2ico":
+                    control = new Img2ico(this);
                     break;
                 default:
                     break;

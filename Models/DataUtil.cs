@@ -41,7 +41,8 @@ namespace CryptoTool.Models
             },
             { "图片处理", new List<MenuItems>
                 {                    
-                    new MenuItems { Text = "图片转Base64", Tag = "Pic2Base64"},
+                    new MenuItems { Text = "图片转Base64", Tag = "Img2Base64"},
+                    new MenuItems { Text = "图片转ico", Tag = "Img2ico"}
                 }
             },
 
@@ -88,7 +89,8 @@ namespace CryptoTool.Models
             },
             { "Image", new List<MenuItems>
                 {                    
-                    new MenuItems { Text = "Pic2Base64", Tag = "Pic2Base64"},
+                    new MenuItems { Text = "Img2Base64", Tag = "Img2Base64"},
+                    new MenuItems { Text = "Img2ico", Tag = "Img2ico"}
                 }
             },
         };
