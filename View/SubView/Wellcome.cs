@@ -34,21 +34,20 @@ namespace LittleFancyTool.View.SubView
             {
                 rotationTimer.Stop();
             }
-            if (!rotationTimer.Enabled)
-            {
+            else {
                 rotationTimer.Start();
-            }
-            if (ToolMethod.GetRandomBoolean(4))
-            {
-                playSound(Properties.Resources.short114);
-            }
-            else
-            {
-                if (ToolMethod.GetRandomBoolean(1))
+                if (ToolMethod.GetRandomBoolean(4))
                 {
-                    playSound(Properties.Resources.origin114);
+                    playSound(Properties.Resources.short114);
                 }
-            }
+                else
+                {
+                    if (ToolMethod.GetRandomBoolean(1))
+                    {
+                        playSound(Properties.Resources.origin114);
+                    }
+                }
+            }            
         }
 
         private void playSound(byte[] sound) {
@@ -66,7 +65,6 @@ namespace LittleFancyTool.View.SubView
 
         private void RotationTimer_Tick(object sender, EventArgs e)
         {
-            // 增加旋转角度
             rotationAngle += 6;
             if (rotationAngle >= 360)
             {
@@ -78,25 +76,21 @@ namespace LittleFancyTool.View.SubView
             float scale = Math.Min(scaleX, scaleY);
             int scaledWidth = (int)(originalImage.Width * scale);
             int scaledHeight = (int)(originalImage.Height * scale);
-            // 创建一个新的 Bitmap 对象，大小为 PictureBox 的大小
             Bitmap rotatedImage = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             using (Graphics g = Graphics.FromImage(rotatedImage))
             {
                 // 计算旋转中心（基于缩放后的图像）
                 int centerX = pictureBox1.Width / 2;
                 int centerY = pictureBox1.Height / 2;
-
                 // 设置旋转中心
                 g.TranslateTransform(centerX, centerY);
                 // 旋转图形
                 g.RotateTransform(rotationAngle);
                 // 恢复变换
                 g.TranslateTransform(-centerX, -centerY);
-
                 // 计算绘制图像的位置（使图像居中）
                 int x = (pictureBox1.Width - scaledWidth) / 2;
                 int y = (pictureBox1.Height - scaledHeight) / 2;
-
                 // 绘制缩放后的原始图像
                 g.DrawImage(originalImage, x, y, scaledWidth, scaledHeight);
             }
