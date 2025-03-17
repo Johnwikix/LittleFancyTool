@@ -14,7 +14,6 @@ namespace LittleFancyTool.View.SubView
 {
     public partial class Wellcome : UserControl
     {
-        private int count = 0;
         private System.Windows.Forms.Timer rotationTimer;
         private float rotationAngle = 0;
         private Image originalImage;
@@ -31,27 +30,24 @@ namespace LittleFancyTool.View.SubView
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            count++;
             if (rotationTimer.Enabled)
             {
                 rotationTimer.Stop();
             }
-            if (count == 3) {
-
-                if (!rotationTimer.Enabled)
+            if (!rotationTimer.Enabled)
+            {
+                rotationTimer.Start();
+            }
+            if (ToolMethod.GetRandomBoolean(4))
+            {
+                playSound(Properties.Resources.short114);
+            }
+            else
+            {
+                if (ToolMethod.GetRandomBoolean(1))
                 {
-                    rotationTimer.Start();
+                    playSound(Properties.Resources.origin114);
                 }
-                if (ToolMethod.GetRandomBoolean(10))
-                {
-                    playSound(Properties.Resources.short114);
-                }
-                else {
-                    if (ToolMethod.GetRandomBoolean(5)) {
-                        playSound(Properties.Resources.origin114);
-                    }
-                }                
-                count = 0;
             }
         }
 
