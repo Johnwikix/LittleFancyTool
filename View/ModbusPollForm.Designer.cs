@@ -30,6 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
+            functionSelect = new AntdUI.Select();
             tableLayoutPanel3 = new TableLayoutPanel();
             portSelect = new AntdUI.Select();
             tableLayoutPanel11 = new TableLayoutPanel();
@@ -38,7 +39,6 @@
             tableLayoutPanel4 = new TableLayoutPanel();
             baudRateLabel = new AntdUI.Label();
             baudRateSelect = new AntdUI.Select();
-            statusInput = new AntdUI.Input();
             tableLayoutPanel5 = new TableLayoutPanel();
             parityLabel = new AntdUI.Label();
             paritySelect = new AntdUI.Select();
@@ -48,6 +48,7 @@
             tableLayoutPanel7 = new TableLayoutPanel();
             StopBitsLabel = new AntdUI.Label();
             stopBitsSelect = new AntdUI.Select();
+            statusInput = new AntdUI.Input();
             tableLayoutPanel9 = new TableLayoutPanel();
             outputInput = new AntdUI.Input();
             tableLayoutPanel10 = new TableLayoutPanel();
@@ -96,12 +97,13 @@
             // 
             tableLayoutPanel2.ColumnCount = 1;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(functionSelect, 0, 5);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel4, 0, 1);
-            tableLayoutPanel2.Controls.Add(statusInput, 0, 5);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel5, 0, 2);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel6, 0, 3);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel7, 0, 4);
+            tableLayoutPanel2.Controls.Add(statusInput, 0, 6);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -111,10 +113,24 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 250F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.Size = new Size(244, 794);
             tableLayoutPanel2.TabIndex = 0;
+            // 
+            // functionSelect
+            // 
+            functionSelect.Anchor = AnchorStyles.None;
+            functionSelect.Font = new Font("Microsoft YaHei UI", 10F);
+            functionSelect.Items.AddRange(new object[] { "01 Read Coils", "02 Read Discrete Inputs", "03 Read Holding Registers", "04 Read Input Registers" });
+            functionSelect.Location = new Point(0, 252);
+            functionSelect.Margin = new Padding(0);
+            functionSelect.Name = "functionSelect";
+            functionSelect.SelectedIndex = 2;
+            functionSelect.SelectedValue = "03 Read Holding Registers";
+            functionSelect.Size = new Size(244, 45);
+            functionSelect.TabIndex = 0;
+            functionSelect.Text = "03 Read Holding Registers";
             // 
             // tableLayoutPanel3
             // 
@@ -226,18 +242,6 @@
             baudRateSelect.Size = new Size(122, 45);
             baudRateSelect.TabIndex = 0;
             baudRateSelect.Text = "9600";
-            // 
-            // statusInput
-            // 
-            statusInput.AutoScroll = true;
-            statusInput.Dock = DockStyle.Fill;
-            statusInput.Location = new Point(0, 250);
-            statusInput.Margin = new Padding(0);
-            statusInput.Multiline = true;
-            statusInput.Name = "statusInput";
-            statusInput.ReadOnly = true;
-            statusInput.Size = new Size(244, 250);
-            statusInput.TabIndex = 4;
             // 
             // tableLayoutPanel5
             // 
@@ -364,6 +368,17 @@
             stopBitsSelect.Size = new Size(122, 45);
             stopBitsSelect.TabIndex = 0;
             stopBitsSelect.Text = "1";
+            // 
+            // statusInput
+            // 
+            statusInput.AutoScroll = true;
+            statusInput.Location = new Point(0, 300);
+            statusInput.Margin = new Padding(0);
+            statusInput.Multiline = true;
+            statusInput.Name = "statusInput";
+            statusInput.ReadOnly = true;
+            statusInput.Size = new Size(244, 250);
+            statusInput.TabIndex = 4;
             // 
             // tableLayoutPanel9
             // 
@@ -612,5 +627,6 @@
         private AntdUI.Label scanTimeLabel;
         private AntdUI.Label TXStatusLabel;
         private AntdUI.Table slaveTable;
+        private AntdUI.Select functionSelect;
     }
 }

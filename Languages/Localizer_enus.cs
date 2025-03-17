@@ -68,9 +68,9 @@ namespace LittleFancyTool.Languages
                 case "outputPath":
                     return "Output Path";
                 case "chooseFile":
-                    return "Choose File";
+                    return "Select File";
                 case "choosePath":
-                    return "Choose Path";
+                    return "Select Path";
                 #endregion
 
                 #region Pic2Base64

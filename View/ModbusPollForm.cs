@@ -10,6 +10,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO.Ports;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LittleFancyTool.View
@@ -141,7 +142,7 @@ namespace LittleFancyTool.View
             ushort numRegisters = ushort.Parse(numRegistersInput.Text);
             try
             {
-                var registers = await modbusMaster.ReadHoldingRegistersAsync(slaveId, startAddress, numRegisters);
+                var registers = await ReadModbusDataAsync(slaveId, startAddress, numRegisters);
                 outputInput.AppendText($"registers: {string.Join(", ", registers)}\r\n");
                 UpdateDataTable(startAddress, registers,numRegisters);
             }
@@ -154,6 +155,29 @@ namespace LittleFancyTool.View
                 errCount++;
                 TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
             }
+        }
+
+        private async Task<ushort[]> ReadModbusDataAsync(byte slaveId, ushort startAddress, ushort numRegisters)
+        {
+            if (functionSelect.SelectedValue.ToString() == "01 Read Coils")
+            {
+                var coils = await modbusMaster.ReadCoilsAsync(slaveId, startAddress, numRegisters);
+                return Array.ConvertAll(coils, b => (ushort)(b ? 1 : 0));
+            }
+            if (functionSelect.SelectedValue.ToString() == "02 Read Discrete Inputs")
+            {
+                var inputs = await modbusMaster.ReadInputsAsync(slaveId, startAddress, numRegisters);
+                return Array.ConvertAll(inputs, b => (ushort)(b ? 1 : 0));
+            }
+            if (functionSelect.SelectedValue.ToString() == "03 Read Holding Registers")
+            {
+                return await modbusMaster.ReadHoldingRegistersAsync(slaveId, startAddress, numRegisters);
+            }
+            if (functionSelect.SelectedValue.ToString() == "04 Read Input Registers")
+            {
+                return await modbusMaster.ReadInputRegistersAsync(slaveId, startAddress, numRegisters);
+            }
+            return null;
         }
 
         private bool ValidateInputs()
