@@ -10,12 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LittleFancyTool.Utils;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 
 namespace LittleFancyTool.View
 {
     public partial class SM2Form: UserControl
     {
         private AntdUI.Window window;
+        private IMessageService messageService = new MessageService();  
         public SM2Form(AntdUI.Window _window)
         {
             window = _window;
@@ -27,11 +30,11 @@ namespace LittleFancyTool.View
             string publicKey = publicKeyTextBox.Text;
             if (string.IsNullOrEmpty(publicKey))
             {
-                AntdUI.Message.error(window, "缺少公钥", autoClose: 3);
+                messageService.InternationalizationMessage("缺少公钥", null, "error", window);
                 return;
             }
             if (string.IsNullOrEmpty(input)) {
-                AntdUI.Message.error(window, "请输入要加密的文本", autoClose: 3);
+                messageService.InternationalizationMessage("请输入要加密的文本", null, "error", window);
                 return;
             }
             string paddingMode = paddingModeComboBox.SelectedValue.ToString();
@@ -43,7 +46,7 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
         }
 
@@ -53,7 +56,7 @@ namespace LittleFancyTool.View
             string privateKey = privateKeyTextBox.Text;
             if (string.IsNullOrEmpty(privateKey))
             {
-                AntdUI.Message.error(window, "缺少私钥", autoClose: 3);
+                messageService.InternationalizationMessage("缺少私钥", null, "error", window);
                 return;
             }
             string paddingMode = paddingModeComboBox.SelectedValue?.ToString();
@@ -65,7 +68,7 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
 
         }

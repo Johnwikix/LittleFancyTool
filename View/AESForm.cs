@@ -1,4 +1,6 @@
 ﻿using CryptoTool.Algorithms;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
@@ -17,6 +19,7 @@ namespace CryptoTool.View
     public partial class AESForm : UserControl
     {
         private AntdUI.Window window;
+        private IMessageService messageService = new MessageService();
         public AESForm(AntdUI.Window _window)
         {
             window = _window;
@@ -36,11 +39,11 @@ namespace CryptoTool.View
             string? encryptModeStr = encryptModeSelect.SelectedValue.ToString();
             string? outputType = outputTypeSelect.SelectedValue?.ToString();
             string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
-            if (!ValidateAesIvLength(iv, window, keyIvTypeSelect.SelectedValue.ToString()))
+            if (!ValidateAesIvLength(iv, window, keyIvType))
             {
                 return;
             }
-            if (!ValidateAesKeyLength(key, window, keyIvTypeSelect.SelectedValue.ToString()))
+            if (!ValidateAesKeyLength(key, window, keyIvType))
             {
                 return;
             }
@@ -52,7 +55,7 @@ namespace CryptoTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
 
         }
@@ -66,11 +69,11 @@ namespace CryptoTool.View
             string? encryptModeStr = encryptModeSelect.SelectedValue.ToString();
             string? outputType = outputTypeSelect.SelectedValue?.ToString();
             string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
-            if (!ValidateAesIvLength(iv, window, keyIvTypeSelect.SelectedValue.ToString()))
+            if (!ValidateAesIvLength(iv, window, keyIvType))
             {
                 return;
             }
-            if (ValidateAesKeyLength(key, window, keyIvTypeSelect.SelectedValue.ToString()))
+            if (ValidateAesKeyLength(key, window, keyIvType))
             {
                 return;
             }
@@ -82,16 +85,16 @@ namespace CryptoTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
 
         }
 
-        public static bool ValidateAesKeyLength(string keyStr, AntdUI.Window window, string keyIvType)
+        public bool ValidateAesKeyLength(string keyStr, AntdUI.Window window, string keyIvType)
         {
             if (string.IsNullOrEmpty(keyStr))
             {
-                AntdUI.Message.error(window, "密钥字符串不能为空", autoClose: 3);
+                messageService.InternationalizationMessage("密钥字符串不能为空", null, "error", window);
                 return false;
             }
             byte[] key = Encoding.UTF8.GetBytes(keyStr);
@@ -105,17 +108,17 @@ namespace CryptoTool.View
             }
             if (!(key.Length == 16 || key.Length == 24 || key.Length == 32))
             {
-                AntdUI.Message.error(window, "密钥字符串长度必须为16字节或24字节或32字节", autoClose: 3);
+                messageService.InternationalizationMessage("密钥字符串长度必须为16字节或24字节或32字节",null, "error", window);
                 return false;
             }
             return true;
         }
 
-        public static bool ValidateAesIvLength(string ivStr, AntdUI.Window window, string keyIvType)
+        public bool ValidateAesIvLength(string ivStr, AntdUI.Window window, string keyIvType)
         {
             if (string.IsNullOrEmpty(ivStr))
             {
-                AntdUI.Message.error(window, "iv字符串不能为空", autoClose: 3);
+                messageService.InternationalizationMessage("iv字符串不能为空", null, "error", window);
                 return false;
             }
             byte[] iv = Encoding.UTF8.GetBytes(ivStr);
@@ -129,7 +132,7 @@ namespace CryptoTool.View
             }
             if (iv.Length != 16)
             {
-                AntdUI.Message.error(window, "iv字符串长度必须为16字节", autoClose: 3);
+                messageService.InternationalizationMessage("iv字符串长度必须为16字节", null, "error", window);
                 return false;
             }
             return true;

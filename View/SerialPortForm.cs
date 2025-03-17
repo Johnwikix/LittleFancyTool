@@ -1,4 +1,6 @@
-﻿using Org.BouncyCastle.Utilities;
+﻿using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +25,7 @@ namespace LittleFancyTool.View
         private SerialPort serialPort = new SerialPort();
         private AntdUI.Window window;
         private System.Timers.Timer dataTimeoutTimer;
+        private IMessageService messageService = new MessageService();
         private enum EncodingMode
         {
             Auto,
@@ -67,7 +70,7 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
         }
 
@@ -93,7 +96,7 @@ namespace LittleFancyTool.View
             {
                 if (portSelect.SelectedValue == null)
                 {
-                    AntdUI.Message.error(window, "请选择有效串口", autoClose: 3);
+                    messageService.InternationalizationMessage("请选择有效串口:", null, "warn", window);
                     return;
                 }
                 try
@@ -119,7 +122,7 @@ namespace LittleFancyTool.View
                 }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"连接失败: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
                 }
             }
         }
@@ -132,7 +135,7 @@ namespace LittleFancyTool.View
                 sendMessage();
             }
             else {
-                AntdUI.Message.error(window, "请先连接串口", autoClose: 3);
+                messageService.InternationalizationMessage("请先打开串口连接", null, "warn", window);
             }
         }
 
@@ -153,7 +156,7 @@ namespace LittleFancyTool.View
                 catch (Exception ex)
                 {
                     sendBtn.Loading = false;
-                    AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                    messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
                 }
             });
         }
@@ -223,7 +226,7 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
         }
 

@@ -1,12 +1,16 @@
 ﻿using AntdUI;
 using LittleFancyTool.Languages;
 using LittleFancyTool.Models;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
+using LittleFancyTool.Utils;
 using Modbus.Device;
 using System;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO.Ports;
+using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
@@ -19,6 +23,7 @@ namespace LittleFancyTool.View
         private readonly object _dataLock = new object();
         private int txCount = 0;
         private int errCount = 0;
+        private IMessageService messageService = new MessageService();
 
         public ModbusPollForm(AntdUI.Window _window)
         {
@@ -44,7 +49,7 @@ namespace LittleFancyTool.View
             slaveTable.DataSource = GetPageData(regNum);
         }
 
-        object GetPageData(int regNum)
+        private object GetPageData(int regNum)
         {
             var list = new List<SlaveTable>(regNum);
             list.Add(new SlaveTable("0", "0", DateTime.Now));
@@ -63,7 +68,7 @@ namespace LittleFancyTool.View
                 }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"数据读取失败: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("数据读取失败:",ex.Message,"error",window);
                 }
                 await Task.Delay(time);
             }
@@ -92,7 +97,7 @@ namespace LittleFancyTool.View
             {
                 if (portSelect.SelectedValue == null)
                 {
-                    AntdUI.Message.error(window, "请选择有效串口", autoClose: 3);
+                    messageService.InternationalizationMessage("请选择有效串口:", null, "error", window);
                     return;
                 }
                 try
@@ -121,7 +126,7 @@ namespace LittleFancyTool.View
                     await pollingAsync(time);                }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"连接失败: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
                 }
             }
         }
@@ -137,7 +142,7 @@ namespace LittleFancyTool.View
             try
             {
                 var registers = await modbusMaster.ReadHoldingRegistersAsync(slaveId, startAddress, numRegisters);
-                outputInput.AppendText($"读取成功: {string.Join(", ", registers)}\r\n");
+                outputInput.AppendText($"registers: {string.Join(", ", registers)}\r\n");
                 UpdateDataTable(startAddress, registers,numRegisters);
             }
             catch (OperationCanceledException ex)
@@ -155,7 +160,7 @@ namespace LittleFancyTool.View
         {
             if (modbusMaster == null || !serialPort.IsOpen)
             {
-                AntdUI.Message.error(window, "请先打开串口连接", autoClose: 3);
+                messageService.InternationalizationMessage("请先打开串口连接", null, "error", window);
                 return false;
             }
             return true;
@@ -166,19 +171,37 @@ namespace LittleFancyTool.View
             RefreshPortList();
         }
 
-        private void UpdateDataTable(ushort startAddress, ushort[] registers,ushort regNum) {
-            this.Invoke((MethodInvoker)delegate
+        private void UpdateDataTable(ushort startAddress, ushort[] registers, ushort regNum)
+        {
+            _ = this.Invoke((MethodInvoker)delegate
             {
                 lock (_dataLock)
                 {
                     var now = DateTime.Now;
+                    List<SlaveTable> oldList = slaveTable.DataSource as List<SlaveTable>;
                     var list = new List<SlaveTable>(regNum);
-                    for (int i = 0; i < regNum; i++)
+                    if (oldList == null || oldList.Count != regNum)
                     {
-                        var address = startAddress + i;
-                        list.Add(new SlaveTable($"0x{address:X4}", registers[i].ToString(), now));
+                        for (int i = 0; i < regNum; i++)
+                        {
+                            var address = startAddress + i;
+                            list.Add(new SlaveTable($"0x{address:X4}", registers[i].ToString(), now));
+                        }
+                        slaveTable.DataSource = list;
                     }
-                    slaveTable.DataSource = list;
+                    else
+                    {
+                        for (int i = 0; i < regNum; i++)
+                        {
+                            var address = startAddress + i;
+                            if (oldList[i].valueDec != registers[i].ToString())
+                            {
+                                oldList[i].valueDec = registers[i].ToString();
+                                oldList[i].lastUpdate = now;
+                            }
+                        }
+                        slaveTable.DataSource = oldList;
+                    }
                 }
             });
         }

@@ -1,6 +1,8 @@
 ﻿using CryptoTool.Algorithms;
 using LittleFancyTool.Algorithms;
 using LittleFancyTool.Algorithms.Encryption;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +18,7 @@ namespace LittleFancyTool.View
     public partial class SM3Form: UserControl
     {
         private AntdUI.Window window;
+        private IMessageService messageService = new MessageService();
         public SM3Form(AntdUI.Window _window)
         {
             window = _window;
@@ -35,7 +38,7 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
         }
     }

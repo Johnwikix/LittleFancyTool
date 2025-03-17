@@ -1,4 +1,6 @@
 ﻿using AntdUI;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace LittleFancyTool.View
     public partial class Img2Base64Form : UserControl
     {
         private AntdUI.Window window;
+        private IMessageService messageService = new MessageService();
         public Img2Base64Form(AntdUI.Window _window)
         {
             this.window = _window;
@@ -36,7 +39,8 @@ namespace LittleFancyTool.View
             }
             else
             {
-                AntdUI.Message.warn(window, "请先选择一张图片。", autoClose: 3);
+                encryptBtn.Loading = false;
+                messageService.InternationalizationMessage("请先选择一张图片", null, "warn", window);
             }
         }
 
@@ -87,12 +91,14 @@ namespace LittleFancyTool.View
                 }
                 catch (FormatException ex)
                 {
-                    AntdUI.Message.error(window, $"输入的 Base64 字符串格式不正确:{ex.Message}", autoClose: 3);
+                    decryptBtn.Loading = false;
+                    messageService.InternationalizationMessage("输入的Base64字符串格式不正确:", ex.Message, "error", window);
                 }
             }
             else
             {
-                AntdUI.Message.warn(window, "请先输入 Base64 字符串。", autoClose: 3);
+                decryptBtn.Loading = false;
+                messageService.InternationalizationMessage("请先输入Base64字符串", null, "warn", window);
             }
         }
         private void UploadDragger_DragChanged(object sender, AntdUI.StringsEventArgs e)
@@ -121,17 +127,17 @@ namespace LittleFancyTool.View
                     try
                     {
                         pictureBox.Image.Save(saveFileDialog.FileName);
-                        AntdUI.Message.success(window, "图片保存成功。", autoClose: 3);
+                        messageService.InternationalizationMessage("图片保存成功", null, "success", window);
                     }
                     catch (Exception ex)
                     {
-                        AntdUI.Message.error(window, $"保存图片时出错: {ex.Message}", autoClose: 3);
+                        messageService.InternationalizationMessage("保存图片时出错:", ex.Message, "error", window);
                     }
                 }
             }
             else
             {
-                AntdUI.Message.warn(window, "没有图片可供保存。", autoClose: 3);
+                messageService.InternationalizationMessage("没有图片可供保存", null, "warn", window);
             }
         }
 
@@ -152,7 +158,7 @@ namespace LittleFancyTool.View
             }
             else
             {
-                AntdUI.Message.warn(window, "没有图片可以预览。", autoClose: 3);
+                messageService.InternationalizationMessage("没有图片可供预览", null, "warn", window);
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using CryptoTool.Algorithms;
 using LittleFancyTool.Algorithms;
 using LittleFancyTool.Algorithms.Encryption;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +18,7 @@ namespace CryptoTool.View
     public partial class RSAForm: UserControl
     {
         private AntdUI.Window window;
+        private IMessageService messageService = new MessageService();
         public RSAForm(AntdUI.Window _window)
         {
             window = _window;
@@ -31,12 +34,12 @@ namespace CryptoTool.View
             string publicKey = rsaPublicKeyTextBox.Text;
             if (string.IsNullOrEmpty(input))
             {
-                AntdUI.Message.error(window, "请输入要加密的文本", autoClose: 3);
+                messageService.InternationalizationMessage("请输入要加密的文本", null, "error", window);
                 return;
             }
             if (string.IsNullOrEmpty(publicKey))
             {
-                AntdUI.Message.error(window, "缺少公钥", autoClose: 3);
+                messageService.InternationalizationMessage("缺少公钥", null, "error", window);
                 return;
             }
             string paddingMode = rsaPaddingModeComboBox.SelectedValue.ToString();
@@ -49,7 +52,7 @@ namespace CryptoTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
         }
 
@@ -58,7 +61,7 @@ namespace CryptoTool.View
             string input = rsaOutputTextBox.Text;
             string privateKey = rsaPrivateKeyTextBox.Text;
             if (string.IsNullOrEmpty(privateKey)) {
-                AntdUI.Message.error(window, "缺少私钥", autoClose: 3);
+                messageService.InternationalizationMessage("缺少私钥", null, "error", window);
                 return;
             }
             string paddingMode = rsaPaddingModeComboBox.SelectedValue?.ToString();
@@ -70,7 +73,7 @@ namespace CryptoTool.View
                 rsaInputTextBox.Text = decryptedText;
             }
             catch (Exception ex) {
-                AntdUI.Message.error(window, ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
             
         }

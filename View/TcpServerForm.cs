@@ -1,4 +1,6 @@
 ﻿using AntdUI;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +27,7 @@ namespace LittleFancyTool.View
         private Socket clientSocket;
         private bool isConnectionOpen = false;
         private CancellationTokenSource receiveCancellationTokenSource;
+        private IMessageService messageService = new MessageService();
         public TcpServerForm(AntdUI.Window _window)
         {
             this.window = _window;
@@ -90,12 +93,12 @@ namespace LittleFancyTool.View
                     {
                         server.Stop();
                     }
-                    AntdUI.Message.success(window, "服务器已停止", autoClose: 3);
+                    messageService.InternationalizationMessage("服务器已停止", null, "success", window);
                     isServerRunning = false;
                 }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"关闭服务器时出错: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("关闭服务器时出错:", ex.Message, "error", window);
                 }
             }
         }
@@ -115,11 +118,11 @@ namespace LittleFancyTool.View
                         clientSocket.Shutdown(SocketShutdown.Both);
                         clientSocket.Close();
                     }
-                    AntdUI.Message.success(window,"连接关闭", autoClose: 3);
+                    messageService.InternationalizationMessage("连接关闭", null, "success", window);
                 }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"关闭连接时出错: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("连接关闭时出错:", ex.Message, "error", window);
                 }
             }
         }
@@ -146,7 +149,7 @@ namespace LittleFancyTool.View
                     IPAddress ipAddress = IPAddress.Parse(serverIp);
                     IPEndPoint remoteEndPoint = new IPEndPoint(ipAddress, serverPort);
                     clientSocket.Connect(remoteEndPoint);
-                    AntdUI.Message.success(window, "已连接到服务器", autoClose: 3);
+                    messageService.InternationalizationMessage("已连接到服务器", null, "success", window);
                     receiveCancellationTokenSource = new CancellationTokenSource();
                     Task.Run(() => ReceiveMessages(receiveCancellationTokenSource.Token));
                     connectButton.Text = "断开";
@@ -157,7 +160,7 @@ namespace LittleFancyTool.View
                 catch (Exception ex)
                 {
                     connectButton.Loading = false;
-                    AntdUI.Message.error(window, $"连接服务器时出错: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("连接服务器时出错:", ex.Message, "error", window);
                 }
             }
             else {
@@ -190,7 +193,7 @@ namespace LittleFancyTool.View
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    AntdUI.Message.error(window, $"接收消息时出错: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("接收消息时出错:", ex.Message, "error", window);
                 }                
             }
         }
@@ -206,43 +209,24 @@ namespace LittleFancyTool.View
                     server.Start();
                     cancellationTokenSource = new CancellationTokenSource();
                     Task.Run(() => ListenForClients(cancellationTokenSource.Token));
-                    AntdUI.Message.success(window, $"服务器已启动，监听端口 {port}", autoClose: 3);
+                    messageService.InternationalizationMessage("服务器已启动，监听端口:", port.ToString(), "success", window);
                     connectButton.Text = "停止服务";
                     connectButton.LocalizationText = "stopService";
                     isServerRunning = true;
                 }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"启动服务器时出错: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("启动服务器时出错:", ex.Message, "error", window);
                 }
             }
             else
             {
-                try
-                {
-                    cancellationTokenSource.Cancel();
-                    foreach (TcpClient client in clients)
-                    {
-                        if (client.Connected)
-                        {
-                            client.Close();
-                        }
-                    }
-                    clients.Clear();
-                    if (server != null && server.Server.IsBound)
-                    {
-                        server.Stop();
-                    }
-                    AntdUI.Message.success(window, "服务器已停止", autoClose: 3);
-                    connectButton.Text = "启动服务";
-                    connectButton.LocalizationText = "startService";
-                    isServerRunning = false;
-                }
-                catch (Exception ex)
-                {
-                    AntdUI.Message.error(window, $"停止服务器时出错: {ex.Message}", autoClose: 3);
-                }
+                stopServer();
+                connectButton.Text = "启动服务";
+                connectButton.LocalizationText = "startService";
+                isServerRunning = false;
             }
+            
         }
 
         private void ListenForClients(CancellationToken cancellationToken)
@@ -256,13 +240,13 @@ namespace LittleFancyTool.View
                         TcpClient client = server.AcceptTcpClient();
                         client.ReceiveBufferSize = 8192;
                         clients.Add(client);
-                        AntdUI.Message.success(window, $"新客户端已连接，当前连接数: {clients.Count}", autoClose: 3);
+                        messageService.InternationalizationMessage("新客户端已连接，当前连接数:", clients.Count.ToString(), "success", window);
                         Task.Run(() => HandleClientComm(client, cancellationToken));
                     }
                 }
                 catch (Exception ex)
                 {
-                    AntdUI.Message.error(window, $"接受客户端连接时出错: {ex.Message}", autoClose: 3);
+                    messageService.InternationalizationMessage("接受客户端连接时出错:", ex.Message, "error", window);
                 }
             }            
         }
@@ -291,7 +275,7 @@ namespace LittleFancyTool.View
             }
             clients.Remove(client);
             client.Close();
-            AntdUI.Message.success(window, $"客户端已断开连接，当前连接数: {clients.Count}", autoClose: 3);
+            messageService.InternationalizationMessage("客户端已断开连接，当前连接数:", clients.Count.ToString(), "success", window);
         }
 
         private void TcpServerForm_FormClosing(object? sender, FormClosingEventArgs e)
@@ -317,7 +301,7 @@ namespace LittleFancyTool.View
                         }
                         catch (Exception ex)
                         {
-                            AntdUI.Message.error(window, $"发送消息给客户端时出错: {ex.Message}", autoClose: 3);
+                            messageService.InternationalizationMessage("发送消息给客户端时出错:", ex.Message, "error", window);
                         }
                     }
                 }
@@ -325,7 +309,7 @@ namespace LittleFancyTool.View
             }
             else
             {
-                AntdUI.Message.error(window, "客户端未连接", autoClose: 3);
+                messageService.InternationalizationMessage("客户端未连接", null, "error", window);
             }
         }
 
@@ -338,7 +322,7 @@ namespace LittleFancyTool.View
                 receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {message}\r\n");
             }
             else {
-                AntdUI.Message.error(window, "服务未连接", autoClose: 3);
+                messageService.InternationalizationMessage("服务未连接", null, "error", window);
             }
         }
 
@@ -356,7 +340,7 @@ namespace LittleFancyTool.View
                 }
             }
             catch (Exception ex) {
-                AntdUI.Message.error(window, $"发送消息时出错: {ex.Message}", autoClose: 3);
+                messageService.InternationalizationMessage("发送消息时出错:", ex.Message, "error", window);
             }
         }
     }

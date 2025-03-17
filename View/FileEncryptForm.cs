@@ -1,5 +1,7 @@
 ﻿using LittleFancyTool.Algorithms;
 using LittleFancyTool.Algorithms.Encryption;
+using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace LittleFancyTool.View
         private string inputFilePath;
         private string outputDirectory;
         private AntdUI.Window window;
+        private IMessageService messageService = new MessageService();
         public FileEncryptForm(AntdUI.Window _window)
         {
             this.window = _window;
@@ -57,7 +60,7 @@ namespace LittleFancyTool.View
         {
             if (string.IsNullOrEmpty(keyInput.Text) || string.IsNullOrEmpty(ivInput.Text))
             {
-                AntdUI.Message.warn(window, "请选择输入密钥和iv", autoClose: 3);
+                messageService.InternationalizationMessage("请选择输入密钥和iv", null, "warn", window);
                 return;
             }
             string multiLineString = filePathInput.Text;
@@ -66,7 +69,7 @@ namespace LittleFancyTool.View
                                        .ToArray();
             if (filePaths.Length == 0)
             {
-                MessageBox.Show("请先选择要加密的文件！");
+                messageService.InternationalizationMessage("请先选择要加密的文件！", null, "warn", window);
                 return;
             }
             var startTime = DateTime.Now;
@@ -91,12 +94,12 @@ namespace LittleFancyTool.View
                 var endTime = DateTime.Now;
                 var elapsedTime = endTime - startTime;
                 encryptBtn.Loading = false;
-                AntdUI.Message.success(window, $"所有文件加密完成,耗时: {elapsedTime.TotalSeconds:0.00} 秒", autoClose: 3);
+                messageService.InternationalizationMessage("所有文件加密完成,耗时: ", $"{elapsedTime.TotalSeconds:0.00}", "success", window);
             }
             catch (Exception ex)
             {
                 encryptBtn.Loading = false;
-                AntdUI.Message.error(window, "加密过程中出现错误:" + ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("加密过程中出现错误:", ex.Message, "error", window);
             }
         }
 
@@ -123,13 +126,13 @@ namespace LittleFancyTool.View
         {
             if (string.IsNullOrEmpty(outputPathInput.Text))
             {
-                AntdUI.Message.warn(window, "请选择输出目录!", autoClose: 3);
+                messageService.InternationalizationMessage("请选择输出目录!", null, "warn", window);
                 return;
             }
 
             if (string.IsNullOrEmpty(keyInput.Text) || string.IsNullOrEmpty(ivInput.Text))
             {
-                AntdUI.Message.warn(window, "请选择输入密钥和iv", autoClose: 3);
+                messageService.InternationalizationMessage("请选择输入密钥和iv", null, "warn", window);
                 return;
             }
 
@@ -139,7 +142,7 @@ namespace LittleFancyTool.View
                                        .ToArray();
             if (filePaths.Length == 0)
             {
-                AntdUI.Message.warn(window, "请先选择要解密的文件", autoClose: 3);
+                messageService.InternationalizationMessage("请先选择要解密的文件！", null, "warn", window);
                 return;
             }
             decryptBtn.Loading = true;
@@ -152,7 +155,7 @@ namespace LittleFancyTool.View
                     string originalFileName = Path.GetFileName(filePath);
                     if (Path.GetExtension(originalFileName) != ".encrypted")
                     {
-                        AntdUI.Message.success(window, "请选择加密后的文件", autoClose: 3);
+                        messageService.InternationalizationMessage("请选择加密后的文件", null, "warn", window);
                         decryptBtn.Loading = false;
                         return;
                     }
@@ -174,12 +177,12 @@ namespace LittleFancyTool.View
                 var endTime = DateTime.Now;
                 var elapsedTime = endTime - startTime;
                 decryptBtn.Loading = false;
-                AntdUI.Message.success(window, $"所有文件解密完成,耗时: {elapsedTime.TotalSeconds:0.00} 秒", autoClose: 3);
+                messageService.InternationalizationMessage("所有文件解密完成,耗时: ", $"{elapsedTime.TotalSeconds:0.00}", "success", window);
             }
             catch (Exception ex)
             {
                 decryptBtn.Loading = false;
-                AntdUI.Message.error(window, "解密过程中出现错误:" + ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("解密过程中出现错误:", ex.Message, "error", window);
             }
         }
 
@@ -217,7 +220,7 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, "打开目录时出现错误:" + ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("打开目录时出现错误:", ex.Message, "error", window);
             }
 
         }
@@ -233,7 +236,7 @@ namespace LittleFancyTool.View
             }
             catch (Exception ex)
             {
-                AntdUI.Message.error(window, "写入日志文件时出现错误:" + ex.Message, autoClose: 3);
+                messageService.InternationalizationMessage("写入日志文件时出现错误:", ex.Message, "error", window);
             }
         }
     }
