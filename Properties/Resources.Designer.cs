@@ -59,5 +59,35 @@ namespace LittleFancyTool.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] icon {
+            get {
+                object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] origin114 {
+            get {
+                object obj = ResourceManager.GetObject("origin114", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] short114 {
+            get {
+                object obj = ResourceManager.GetObject("short114", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

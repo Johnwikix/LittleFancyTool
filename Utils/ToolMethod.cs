@@ -82,5 +82,12 @@ namespace LittleFancyTool.Utils
                     throw new NotSupportedException("不支持的填充方式");
             }
         }
+
+        public static bool GetRandomBoolean(int x)
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(100);
+            return randomNumber < x;
+        }
     }
 }
