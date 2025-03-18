@@ -14,6 +14,7 @@ namespace CryptoTool.Models
                 {
                     new MenuItems { Text = "串口调试", Tag = "Serial Port Debugging"},
                     new MenuItems { Text = "Modbus Poll", Tag = "Modbus Poll"},
+                    new MenuItems { Text = "Modbus Slave", Tag = "Modbus Slave"}
                 }
             },
             { "TCP工具", new List<MenuItems>
@@ -62,6 +63,7 @@ namespace CryptoTool.Models
                 {
                     new MenuItems { Text = "Serial Port Debugging", Tag = "Serial Port Debugging"},
                     new MenuItems { Text = "Modbus Poll", Tag = "Modbus Poll"},
+                    new MenuItems { Text = "Modbus Slave", Tag = "Modbus Slave"}
                 }
             },
             { "TCP Tool", new List<MenuItems>

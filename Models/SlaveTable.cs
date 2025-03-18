@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AntdUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace LittleFancyTool.Models
 {
-    class SlaveTable: AntdUI.NotifyProperty
+    public class SlaveTable : AntdUI.NotifyProperty
     {
-        public SlaveTable(string address, string valueDec, DateTime lastUpdate)
+        public SlaveTable(string address, string valueDec,bool enable)
         {
             _address = address;
             _valueDec = valueDec;
-            _lastUpdate = lastUpdate;
+            _enabled = enable;
+            _btns = new AntdUI.CellLink[] {
+                        new AntdUI.CellButton("edit","编辑",AntdUI.TTypeMini.Primary)
+                    };
         }
-
         string _valueDec;
         public string valueDec
         {
@@ -26,17 +29,6 @@ namespace LittleFancyTool.Models
                 OnPropertyChanged();
             }
         }
-        DateTime _lastUpdate;
-        public DateTime lastUpdate
-        {
-            get => _lastUpdate;
-            set
-            {
-                if (_lastUpdate == value) return;
-                _lastUpdate = value;
-                OnPropertyChanged();
-            }
-        }
         string _address;
         public string address
         {
@@ -45,6 +37,30 @@ namespace LittleFancyTool.Models
             {
                 if (_address == value) return;
                 _address = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _enabled = false;
+
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                if (_enabled == value) return;
+                _enabled = value;
+                OnPropertyChanged(nameof(Enabled));
+            }
+        }
+
+        AntdUI.CellLink[] _btns;
+        public AntdUI.CellLink[] btns
+        {
+            get => _btns;
+            set
+            {
+                _btns = value;
                 OnPropertyChanged();
             }
         }

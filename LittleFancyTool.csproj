@@ -8,11 +8,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Resources\sd.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\storeIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Resources\sd.ico" />
+    <Content Include="Resources\storeIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

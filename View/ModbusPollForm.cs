@@ -46,14 +46,14 @@ namespace LittleFancyTool.View
                 new AntdUI.Column("valueDec", "数值(DEC)").SetLocalizationTitleID("Table.Column."),
                 new AntdUI.Column("lastUpdate", "最后更新时间").SetLocalizationTitleID("Table.Column."),
             };
-            int regNum = int.Parse(numRegistersInput.Text);
+            int regNum = (int)numRegistersInput.Value;
             slaveTable.DataSource = GetPageData(regNum);
         }
 
         private object GetPageData(int regNum)
         {
-            var list = new List<SlaveTable>(regNum);
-            list.Add(new SlaveTable("0", "0", DateTime.Now));
+            var list = new List<PollTable>(regNum);
+            list.Add(new PollTable("0x0000", "0", DateTime.Now));
             return list;
         }
 
@@ -137,9 +137,9 @@ namespace LittleFancyTool.View
             if (!ValidateInputs())
                 return;
 
-            byte slaveId = byte.Parse(slaveIdInput.Text);
-            ushort startAddress = ushort.Parse(addressInput.Text);
-            ushort numRegisters = ushort.Parse(numRegistersInput.Text);
+            byte slaveId = (byte)slaveIdInput.Value;
+            ushort startAddress = (ushort)addressInput.Value;
+            ushort numRegisters = (ushort)numRegistersInput.Value;
             try
             {
                 var registers = await ReadModbusDataAsync(slaveId, startAddress, numRegisters);
@@ -153,6 +153,7 @@ namespace LittleFancyTool.View
             catch (Exception ex)
             {
                 errCount++;
+                Debug.WriteLine(ex);
                 TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
             }
         }
@@ -171,10 +172,21 @@ namespace LittleFancyTool.View
             }
             if (functionSelect.SelectedValue.ToString() == "03 Read Holding Registers")
             {
+                if (numRegisters > 125) {
+                    numRegisters = 125;
+                    numRegistersInput.Value = 125;
+                    messageService.InternationalizationMessage("最大读取寄存器数量为125", null, "error", window);
+                }
                 return await modbusMaster.ReadHoldingRegistersAsync(slaveId, startAddress, numRegisters);
             }
             if (functionSelect.SelectedValue.ToString() == "04 Read Input Registers")
             {
+                if (numRegisters > 125)
+                {
+                    numRegisters = 125;
+                    numRegistersInput.Value = 125;
+                    messageService.InternationalizationMessage("最大读取寄存器数量为125", null, "error", window);
+                }
                 return await modbusMaster.ReadInputRegistersAsync(slaveId, startAddress, numRegisters);
             }
             return null;
@@ -202,14 +214,14 @@ namespace LittleFancyTool.View
                 lock (_dataLock)
                 {
                     var now = DateTime.Now;
-                    List<SlaveTable> oldList = slaveTable.DataSource as List<SlaveTable>;
-                    var list = new List<SlaveTable>(regNum);
+                    List<PollTable> oldList = slaveTable.DataSource as List<PollTable>;
+                    var list = new List<PollTable>(regNum);
                     if (oldList == null || oldList.Count != regNum)
                     {
                         for (int i = 0; i < regNum; i++)
                         {
                             var address = startAddress + i;
-                            list.Add(new SlaveTable($"0x{address:X4}", registers[i].ToString(), now));
+                            list.Add(new PollTable($"0x{address:X4}", registers[i].ToString(), now));
                         }
                         slaveTable.DataSource = list;
                     }

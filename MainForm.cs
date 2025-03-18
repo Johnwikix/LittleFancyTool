@@ -342,6 +342,9 @@ namespace CryptoTool
                 case "Modbus Poll":
                     control = new ModbusPollForm(this);
                     break;
+                case "Modbus Slave":
+                    control = new ModbusSlaveForm(this);
+                    break;
                 case "Sockets":
                     control = new TcpServerForm(this);
                     break;

@@ -1,6 +1,6 @@
 ﻿namespace LittleFancyTool.View
 {
-    partial class ModbusPollForm
+    partial class ModbusSlaveForm
     {
         /// <summary>
         /// Required designer variable.
@@ -50,10 +50,9 @@
             stopBitsSelect = new AntdUI.Select();
             statusInput = new AntdUI.Input();
             tableLayoutPanel9 = new TableLayoutPanel();
-            outputInput = new AntdUI.Input();
             tableLayoutPanel10 = new TableLayoutPanel();
-            scanTimeInput = new AntdUI.InputNumber();
-            scanTimeLabel = new AntdUI.Label();
+            incrementTimeInput = new AntdUI.InputNumber();
+            incrementTimeLabel = new AntdUI.Label();
             numRegistersLabel = new AntdUI.Label();
             addressLabel = new AntdUI.Label();
             slaveIdLabel = new AntdUI.Label();
@@ -62,7 +61,6 @@
             numRegistersInput = new AntdUI.InputNumber();
             connectLabel = new AntdUI.Label();
             connectButton = new AntdUI.Button();
-            TXStatusLabel = new AntdUI.Label();
             slaveTable = new AntdUI.Table();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -122,15 +120,15 @@
             // 
             functionSelect.Anchor = AnchorStyles.None;
             functionSelect.Font = new Font("Microsoft YaHei UI", 10F);
-            functionSelect.Items.AddRange(new object[] { "01 Read Coils", "02 Read Discrete Inputs", "03 Read Holding Registers", "04 Read Input Registers" });
+            functionSelect.Items.AddRange(new object[] { "01 Coil Status", "02 Input Status", "03 Holding Register", "04 Input Registers" });
             functionSelect.Location = new Point(0, 252);
             functionSelect.Margin = new Padding(0);
             functionSelect.Name = "functionSelect";
             functionSelect.SelectedIndex = 2;
-            functionSelect.SelectedValue = "03 Read Holding Registers";
+            functionSelect.SelectedValue = "03 Holding Register";
             functionSelect.Size = new Size(244, 45);
             functionSelect.TabIndex = 0;
-            functionSelect.Text = "03 Read Holding Registers";
+            functionSelect.Text = "03 Holding Register";
             // 
             // tableLayoutPanel3
             // 
@@ -384,11 +382,10 @@
             // 
             tableLayoutPanel9.ColumnCount = 3;
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel9.Controls.Add(outputInput, 1, 0);
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4F));
             tableLayoutPanel9.Controls.Add(tableLayoutPanel10, 0, 0);
-            tableLayoutPanel9.Controls.Add(slaveTable, 2, 0);
+            tableLayoutPanel9.Controls.Add(slaveTable, 1, 0);
             tableLayoutPanel9.Dock = DockStyle.Fill;
             tableLayoutPanel9.Location = new Point(253, 3);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
@@ -397,24 +394,13 @@
             tableLayoutPanel9.Size = new Size(1144, 794);
             tableLayoutPanel9.TabIndex = 6;
             // 
-            // outputInput
-            // 
-            outputInput.AutoScroll = true;
-            outputInput.Dock = DockStyle.Fill;
-            outputInput.Location = new Point(253, 3);
-            outputInput.Multiline = true;
-            outputInput.Name = "outputInput";
-            outputInput.ReadOnly = true;
-            outputInput.Size = new Size(441, 788);
-            outputInput.TabIndex = 0;
-            // 
             // tableLayoutPanel10
             // 
             tableLayoutPanel10.ColumnCount = 2;
             tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel10.Controls.Add(scanTimeInput, 1, 3);
-            tableLayoutPanel10.Controls.Add(scanTimeLabel, 0, 3);
+            tableLayoutPanel10.Controls.Add(incrementTimeInput, 1, 3);
+            tableLayoutPanel10.Controls.Add(incrementTimeLabel, 0, 3);
             tableLayoutPanel10.Controls.Add(numRegistersLabel, 0, 2);
             tableLayoutPanel10.Controls.Add(addressLabel, 0, 1);
             tableLayoutPanel10.Controls.Add(slaveIdLabel, 0, 0);
@@ -423,7 +409,6 @@
             tableLayoutPanel10.Controls.Add(numRegistersInput, 1, 2);
             tableLayoutPanel10.Controls.Add(connectLabel, 0, 4);
             tableLayoutPanel10.Controls.Add(connectButton, 1, 4);
-            tableLayoutPanel10.Controls.Add(TXStatusLabel, 0, 5);
             tableLayoutPanel10.Dock = DockStyle.Fill;
             tableLayoutPanel10.Location = new Point(3, 3);
             tableLayoutPanel10.Name = "tableLayoutPanel10";
@@ -438,28 +423,28 @@
             tableLayoutPanel10.Size = new Size(244, 788);
             tableLayoutPanel10.TabIndex = 1;
             // 
-            // scanTimeInput
+            // incrementTimeInput
             // 
-            scanTimeInput.Anchor = AnchorStyles.None;
-            scanTimeInput.Location = new Point(122, 150);
-            scanTimeInput.Margin = new Padding(0);
-            scanTimeInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
-            scanTimeInput.Name = "scanTimeInput";
-            scanTimeInput.Size = new Size(122, 50);
-            scanTimeInput.TabIndex = 7;
-            scanTimeInput.Text = "1000";
-            scanTimeInput.Value = new decimal(new int[] { 1000, 0, 0, 0 });
+            incrementTimeInput.Anchor = AnchorStyles.None;
+            incrementTimeInput.Location = new Point(122, 150);
+            incrementTimeInput.Margin = new Padding(0);
+            incrementTimeInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+            incrementTimeInput.Name = "incrementTimeInput";
+            incrementTimeInput.Size = new Size(122, 50);
+            incrementTimeInput.TabIndex = 8;
+            incrementTimeInput.Text = "1000";
+            incrementTimeInput.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
-            // scanTimeLabel
+            // incrementTimeLabel
             // 
-            scanTimeLabel.Anchor = AnchorStyles.Left;
-            scanTimeLabel.Font = new Font("Microsoft YaHei UI", 12F);
-            scanTimeLabel.LocalizationText = "scanTime";
-            scanTimeLabel.Location = new Point(3, 153);
-            scanTimeLabel.Name = "scanTimeLabel";
-            scanTimeLabel.Size = new Size(116, 44);
-            scanTimeLabel.TabIndex = 6;
-            scanTimeLabel.Text = "轮询(ms)";
+            incrementTimeLabel.Anchor = AnchorStyles.Left;
+            incrementTimeLabel.Font = new Font("Microsoft YaHei UI", 12F);
+            incrementTimeLabel.LocalizationText = "scanTime";
+            incrementTimeLabel.Location = new Point(3, 153);
+            incrementTimeLabel.Name = "incrementTimeLabel";
+            incrementTimeLabel.Size = new Size(116, 44);
+            incrementTimeLabel.TabIndex = 7;
+            incrementTimeLabel.Text = "自增(ms)";
             // 
             // numRegistersLabel
             // 
@@ -555,28 +540,19 @@
             connectButton.Type = AntdUI.TTypeMini.Success;
             connectButton.Click += connectButton_Click;
             // 
-            // TXStatusLabel
-            // 
-            TXStatusLabel.Anchor = AnchorStyles.Left;
-            TXStatusLabel.Location = new Point(3, 263);
-            TXStatusLabel.Name = "TXStatusLabel";
-            TXStatusLabel.Size = new Size(116, 23);
-            TXStatusLabel.TabIndex = 8;
-            TXStatusLabel.Text = "TX=0 Err=0";
-            // 
             // slaveTable
             // 
             slaveTable.Dock = DockStyle.Fill;
-            slaveTable.Location = new Point(700, 3);
+            slaveTable.Location = new Point(253, 3);
             slaveTable.Name = "slaveTable";
-            slaveTable.Size = new Size(441, 788);
+            slaveTable.Size = new Size(884, 788);
             slaveTable.TabIndex = 5;
             // 
-            // ModbusPollForm
+            // ModbusSlaveForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             Controls.Add(tableLayoutPanel1);
-            Name = "ModbusPollForm";
+            Name = "ModbusSlaveForm";
             Size = new Size(1400, 800);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
@@ -616,7 +592,6 @@
         private TableLayoutPanel tableLayoutPanel11;
         private AntdUI.Button refreshBtn;
         private TableLayoutPanel tableLayoutPanel9;
-        private AntdUI.Input outputInput;
         private TableLayoutPanel tableLayoutPanel10;
         private AntdUI.InputNumber slaveIdInput;
         private AntdUI.InputNumber addressInput;
@@ -624,10 +599,9 @@
         private AntdUI.Label numRegistersLabel;
         private AntdUI.Label addressLabel;
         private AntdUI.Label slaveIdLabel;
-        private AntdUI.InputNumber scanTimeInput;
-        private AntdUI.Label scanTimeLabel;
-        private AntdUI.Label TXStatusLabel;
         private AntdUI.Table slaveTable;
         private AntdUI.Select functionSelect;
+        private AntdUI.Label incrementTimeLabel;
+        private AntdUI.InputNumber incrementTimeInput;
     }
 }
