@@ -7,6 +7,7 @@ using LittleFancyTool.View.SubView;
 using Microsoft.VisualBasic.ApplicationServices;
 using Modbus.Device;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,8 +27,9 @@ namespace LittleFancyTool.View
         private SerialPort serialPort = new SerialPort();
         private ModbusSerialMaster modbusMaster;
         private IMessageService messageService = new MessageService();
-        private List<SlaveTable> dataList;
-        private List<SlaveTable> paddingList;
+        private List<SlaveTable> dataList = [];
+        private List<SlaveTable> paddingList = [];
+        private List<SlaveTable> combinedList= [];
         private SlaveTable slaveTableObj;
         public ModbusSlaveForm(AntdUI.Window _window)
         {
@@ -36,24 +38,29 @@ namespace LittleFancyTool.View
             InitializeSerialPort();
             RefreshPortList();
             InitialTableData();
-            numRegistersInput.ValueChanged += valueChange;
-            addressInput.ValueChanged += startAddrChange;
+            numRegistersInput.TextChanged += valueChange;
+            addressInput.TextChanged += startAddrChange;
             slaveTable.CellButtonClick += Table_base_CellButtonClick;
         }
 
         private void startAddrChange(object sender, EventArgs e)
         {
-            if (addressInput.Value > 0)
+            slaveTable.DataSource = PaddingChange();
+        }
+
+        private List<SlaveTable> PaddingChange() {
+            int padding = (int)addressInput.Value;
+            paddingList = new List<SlaveTable>(padding);
+            for (int i = 0; i < padding; i++)
             {
-                int padding = (int)addressInput.Value;
-                paddingList = new List<SlaveTable>(padding);
-                for (int i = 0; i < padding; i++)
-                {
-                    paddingList.Add(new SlaveTable($"0x{i:X4}", "", false));
-                }
-                paddingList.AddRange(dataList);
-                slaveTable.DataSource = paddingList;
+                paddingList.Add(new SlaveTable($"0x{i:X4}", "", false));
             }
+            combinedList = paddingList.Concat(dataList).ToList();
+            for (int i = 0; i < combinedList.Count; i++)
+            {
+                combinedList[i].address = $"0x{(i):X4}";
+            }
+            return combinedList;
         }
 
         private void valueChange(object sender, EventArgs e)
@@ -79,7 +86,12 @@ namespace LittleFancyTool.View
                     dataList.RemoveAt(dataList.Count - 1);
                 }
             }
-            slaveTable.DataSource = dataList;
+            combinedList = paddingList.Concat(dataList).ToList();
+            for (int i = 0; i < combinedList.Count; i++)
+            {
+                combinedList[i].address = $"0x{(i):X4}";
+            }
+            slaveTable.DataSource = combinedList;
         }
 
         private void InitialTableData()
@@ -92,14 +104,14 @@ namespace LittleFancyTool.View
                     Call= (value,record, i_row, i_col) =>{
                         return value;
                     }
-                }.SetFixed().SetWidth("auto"),
-                new AntdUI.Column("btns", "操作").SetFixed().SetWidth("auto").SetLocalizationTitleID("Table.Column."),
+                }.SetFixed().SetWidth("auto").SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("btns", "操作").SetLocalizationTitleID("Table.Column."),
             };
             int regNum = int.Parse(numRegistersInput.Text);
-            slaveTable.DataSource = GetPageData(regNum);
+            slaveTable.DataSource = paddingList.Concat(GetPageData(regNum)).ToList();
         }
 
-        private object GetPageData(int regNum)
+        private List<SlaveTable> GetPageData(int regNum)
         {            
             dataList = new List<SlaveTable>(regNum);
             for (int i = 0; i < regNum; i++) {
@@ -244,7 +256,11 @@ namespace LittleFancyTool.View
             byte functionCode = request[1];
             ushort startAddress = (ushort)((request[2] << 8) | request[3]);
             ushort quantity = (ushort)((request[4] << 8) | request[5]);
-            if (slaveAddress!= ushort.Parse(slaveIdInput.Text)||startAddress != ushort.Parse(addressInput.Text)) {
+            if (slaveAddress!= ushort.Parse(slaveIdInput.Text)) {
+                return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
+            }
+            if (startAddress < ushort.Parse(addressInput.Text))
+            {
                 return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
             }
             if (quantity > ushort.Parse(numRegistersInput.Text)) {
@@ -255,13 +271,13 @@ namespace LittleFancyTool.View
             switch (functionCode)
             {
                 case 0x01: // 读取线圈状态
-                    return modbusSlaveService.ProcessReadCoils(slaveAddress, startAddress, quantity, dataList);
+                    return modbusSlaveService.ProcessReadCoils(slaveAddress, startAddress, quantity, combinedList);
                 case 0x02: // 读取离散输入状态
-                    return modbusSlaveService.ProcessReadDiscreteInputs(slaveAddress, startAddress, quantity, dataList);
+                    return modbusSlaveService.ProcessReadDiscreteInputs(slaveAddress, startAddress, quantity, combinedList);
                 case 0x03: // 读取保持寄存器
-                    return modbusSlaveService.ProcessReadHoldingRegisters(slaveAddress, startAddress, quantity, dataList);
+                    return modbusSlaveService.ProcessReadHoldingRegisters(slaveAddress, startAddress, quantity, combinedList);
                 case 0x04: // 读取输入寄存器
-                    return modbusSlaveService.ProcessReadInputRegisters(slaveAddress, startAddress, quantity, dataList);
+                    return modbusSlaveService.ProcessReadInputRegisters(slaveAddress, startAddress, quantity, combinedList);
                 default:
                     // 不支持的功能码，返回异常响应
                     return [slaveAddress, (byte)(functionCode + 0x80), 0x01];

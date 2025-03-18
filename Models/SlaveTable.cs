@@ -12,11 +12,13 @@ namespace LittleFancyTool.Models
         public SlaveTable(string address, string valueDec,bool enable)
         {
             _address = address;
-            _valueDec = valueDec;
-            _enabled = enable;
-            _btns = new AntdUI.CellLink[] {
+            _valueDec = valueDec;            
+            if (valueDec.Length > 0) {
+                _enabled = enable;
+                _btns = new AntdUI.CellLink[] {
                         new AntdUI.CellButton("edit","编辑",AntdUI.TTypeMini.Primary)
                     };
+            }            
         }
         string _valueDec;
         public string valueDec

@@ -20,7 +20,7 @@ namespace LittleFancyTool.Service.Impl
             response.Add((byte)byteCount);
             byte currentByte = 0;
             int bitIndex = 0;
-            for (int i = 0; i < quantity; i++)
+            for (int i = startAddress; i < quantity; i++)
             {
                 if (ushort.Parse(dataList[i].valueDec) != 0)
                 {
@@ -53,7 +53,7 @@ namespace LittleFancyTool.Service.Impl
             response.Add((byte)inputByteCount);
             byte inputCurrentByte = 0;
             int inputBitIndex = 0;
-            for (int i = 0; i < quantity; i++) {
+            for (int i = startAddress; i < quantity; i++) {
                 if (ushort.Parse(dataList[i].valueDec) != 0)
                 {
                     inputCurrentByte |= (byte)(1 << (inputBitIndex % 8));
@@ -85,7 +85,7 @@ namespace LittleFancyTool.Service.Impl
             response.Add((byte)byteCount); // 字节数
 
             // 添加寄存器值
-            for (int i = 0; i < quantity; i++) {
+            for (int i = startAddress; i < quantity; i++) {
                 response.Add((byte)(ushort.Parse(dataList[i].valueDec) >> 8)); // 高字节
                 response.Add((byte)(ushort.Parse(dataList[i].valueDec) & 0xFF)); // 低字节
             }
@@ -104,7 +104,7 @@ namespace LittleFancyTool.Service.Impl
             response.Add(0x04);
             int inputRegisterByteCount = quantity * 2;
             response.Add((byte)inputRegisterByteCount);
-            for (int i = 0; i < quantity; i++)
+            for (int i = startAddress; i < quantity; i++)
             {
                 response.Add((byte)(ushort.Parse(dataList[i].valueDec) >> 8)); // 高字节
                 response.Add((byte)(ushort.Parse(dataList[i].valueDec) & 0xFF)); // 低字节
