@@ -266,6 +266,10 @@ namespace LittleFancyTool.View
             if (quantity > ushort.Parse(numRegistersInput.Text)) {
                 return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
             }
+            if (startAddress+quantity > ushort.Parse(addressInput.Text)+ ushort.Parse(numRegistersInput.Text))
+            {
+                return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
+            }
             IModbusSlaveService modbusSlaveService = new ModbusSlaveService();
 
             switch (functionCode)
