@@ -111,5 +111,32 @@ namespace LittleFancyTool.Utils
             return crc;
         }
 
+        public static string GetErrorInfo(int key) {
+            switch (key) {
+                case 1:
+                    return "非法功能码";
+                case 2:
+                    return "非法数据地址";
+                case 3:
+                    return "非法数据值";
+                case 4:
+                    return "从站设备故障";
+                case 5:
+                    return "确认";
+                case 6:
+                    return "从站设备忙";
+                case 7:
+                    return "存储奇偶校验错误";
+                case 8:
+                    return "网关路径不可用";
+                case 9:
+                    return "网关目标设备响应失败";
+                default:
+                    return null;
+
+            }               
+
+        }
+
     }
 }

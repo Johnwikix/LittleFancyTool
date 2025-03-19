@@ -118,6 +118,24 @@ namespace LittleFancyTool.Languages
                     return "no ico available for saving";
                 case "图标已保存至：":
                     return "icon saved to:";
+                case "非法功能码":
+                    return "Illegal function code";
+                case "非法数据地址":
+                    return "Illegal data address";
+                case "非法数据值":
+                    return "Illegal data value";
+                case "从站设备故障":
+                    return "Slave device failure";
+                case "确认":
+                    return "confirm";
+                case "从站设备忙":
+                    return "Slave device busy";
+                case "存储奇偶校验错误":
+                    return "Storage parity error";
+                case "网关路径不可用":
+                    return "Gateway path not available";
+                case "网关目标设备响应失败":
+                    return "Gateway target device response failed";
                 default:
                     return key;
             }

@@ -439,7 +439,7 @@
             // 
             incrementTimeLabel.Anchor = AnchorStyles.Left;
             incrementTimeLabel.Font = new Font("Microsoft YaHei UI", 12F);
-            incrementTimeLabel.LocalizationText = "scanTime";
+            incrementTimeLabel.LocalizationText = "incrementTime";
             incrementTimeLabel.Location = new Point(3, 153);
             incrementTimeLabel.Name = "incrementTimeLabel";
             incrementTimeLabel.Size = new Size(116, 44);

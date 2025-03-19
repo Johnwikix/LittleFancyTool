@@ -5,6 +5,7 @@ using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using Modbus.Device;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -136,15 +137,12 @@ namespace LittleFancyTool.View
         {
             if (!ValidateInputs())
                 return;
-
             byte slaveId = (byte)slaveIdInput.Value;
-            ushort startAddress = (ushort)addressInput.Value;
-            ushort numRegisters = (ushort)numRegistersInput.Value;
             try
             {
-                var registers = await ReadModbusDataAsync(slaveId, startAddress, numRegisters);
+                var registers = await ReadModbusDataAsync(slaveId, (ushort)addressInput.Value, (ushort)numRegistersInput.Value);
                 outputInput.AppendText($"registers: {string.Join(", ", registers)}\r\n");
-                UpdateDataTable(startAddress, registers,numRegisters);
+                UpdateDataTable((ushort)addressInput.Value, registers, (ushort)numRegistersInput.Value);
             }
             catch (OperationCanceledException ex)
             {
@@ -153,8 +151,19 @@ namespace LittleFancyTool.View
             catch (Exception ex)
             {
                 errCount++;
-                Debug.WriteLine(ex);
                 TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
+                if (ex.Message.Contains("Exception Code:"))
+                {
+                    int index = ex.Message.IndexOf("Exception Code:") + "Exception Code:".Length;
+                    string remaining = ex.Message.Substring(index).TrimStart();
+                    int nextSpaceIndex = remaining.IndexOf(' ');
+                    if (nextSpaceIndex != -1)
+                    {
+                        string value = remaining.Substring(0, nextSpaceIndex);
+                       messageService.InternationalizationMessage(ToolMethod.GetErrorInfo(int.Parse(value)), null, "error", window);
+
+                    }                    
+                }               
             }
         }
 
@@ -230,6 +239,7 @@ namespace LittleFancyTool.View
                         for (int i = 0; i < regNum; i++)
                         {
                             var address = startAddress + i;
+                            oldList[i].address = $"0x{address:X4}";
                             if (oldList[i].valueDec != registers[i].ToString())
                             {
                                 oldList[i].valueDec = registers[i].ToString();

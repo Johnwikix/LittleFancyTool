@@ -111,6 +111,20 @@ namespace LittleFancyTool.Languages
                     return "Address";
                 case "disconnect":
                     return "Disconnect";
+                case "Table.Column.Enabled":
+                    return "enable auto increment/auto variation";
+                case "Table.Column.btns":
+                    return "Operate";
+                case "submit":
+                    return "Submit";
+                case "cancel":
+                    return "Cancel";
+                case "regAddress":
+                    return "Reg Address";
+                case "value":
+                    return "Value";
+                case "incrementTime":
+                    return "Increment Time(ms)";
                 #endregion
 
                 #region Serial Port

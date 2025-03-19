@@ -15,8 +15,8 @@ namespace LittleFancyTool.Models
             _valueDec = valueDec;            
             if (valueDec.Length > 0) {
                 _enabled = enable;
-                _btns = new AntdUI.CellLink[] {
-                        new AntdUI.CellButton("edit","编辑",AntdUI.TTypeMini.Primary)
+                _btns = new CellLink[] {
+                        new CellButton("edit","Edit",AntdUI.TTypeMini.Primary)
                     };
             }            
         }

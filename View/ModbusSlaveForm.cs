@@ -5,6 +5,7 @@ using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using LittleFancyTool.View.SubView;
 using Microsoft.VisualBasic.ApplicationServices;
+using Modbus.Data;
 using Modbus.Device;
 using System;
 using System.Collections;
@@ -25,7 +26,7 @@ namespace LittleFancyTool.View
     {
         private AntdUI.Window window;
         private SerialPort serialPort = new SerialPort();
-        private ModbusSerialMaster modbusMaster;
+        private ModbusSlave modbusSerialSlave;
         private IMessageService messageService = new MessageService();
         private List<SlaveTable> dataList = [];
         private List<SlaveTable> paddingList = [];
@@ -97,32 +98,32 @@ namespace LittleFancyTool.View
         private void InitialTableData()
         {
             slaveTable.Columns = new AntdUI.ColumnCollection {
-                new AntdUI.Column("address", "寄存器地址").SetLocalizationTitleID("Table.Column."),
-                new AntdUI.Column("valueDec", "数值(DEC)").SetLocalizationTitleID("Table.Column."),
-                new AntdUI.ColumnSwitch("Enabled", "是否启用自增/自变", ColumnAlign.Left){
+                new Column("address", "寄存器地址").SetLocalizationTitleID("Table.Column."),
+                new Column("valueDec", "数值(DEC)").SetLocalizationTitleID("Table.Column."),
+                new ColumnSwitch("Enabled", "是否启用自增/自变", ColumnAlign.Left){
                     //支持点击回调
                     Call= (value,record, i_row, i_col) =>{
                         return value;
                     }
                 }.SetFixed().SetWidth("auto").SetLocalizationTitleID("Table.Column."),
-                new AntdUI.Column("btns", "操作").SetLocalizationTitleID("Table.Column."),
+                new Column("btns", "操作").SetLocalizationTitleID("Table.Column."),
             };
             int regNum = int.Parse(numRegistersInput.Text);
-            slaveTable.DataSource = paddingList.Concat(GetPageData(regNum)).ToList();
+            combinedList = paddingList.Concat(GetPageData(regNum)).ToList();
+            slaveTable.DataSource = combinedList;
         }
 
         private List<SlaveTable> GetPageData(int regNum)
         {            
             dataList = new List<SlaveTable>(regNum);
             for (int i = 0; i < regNum; i++) {
-                dataList.Add(new SlaveTable($"0x{i:X4}", "0", false));
+                dataList.Add(new SlaveTable($"0x{i:X4}","0", false));
             }
             return dataList;
         }
         private void InitializeSerialPort()
         {
             serialPort = new SerialPort();
-            serialPort.DataReceived += SerialPort_DataReceived;
         }
 
         private void RefreshPortList()
@@ -146,7 +147,7 @@ namespace LittleFancyTool.View
                 slaveTableObj = table;
                 switch (buttontext)
                 {
-                    case "编辑":
+                    case "Edit":
                         var form = new SlaveTableEdit(window, table) { Size = new Size(500, 300) };
                         AntdUI.Drawer.open(new AntdUI.Drawer.Config(window, form));
                         break;
@@ -172,26 +173,6 @@ namespace LittleFancyTool.View
                 }                
             }
         }
-
-        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            try
-            {
-                int bytesToRead = serialPort.BytesToRead;
-                byte[] buffer = new byte[bytesToRead];
-                serialPort.Read(buffer, 0, bytesToRead);
-                // 处理 Modbus 请求
-                byte[] response = ProcessModbusRequest(buffer);
-                if (response != null)
-                {
-                    serialPort.Write(response, 0, response.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                messageService.InternationalizationMessage("数据接收错误:", ex.Message, "error", window);
-            }
-        }
         private void OpenSerialPort() {
             serialPort.RtsEnable = false;
             serialPort.Handshake = Handshake.None;
@@ -207,6 +188,68 @@ namespace LittleFancyTool.View
             statusInput.Text = $"已连接 {serialPort.PortName}\r\nBaud:{serialPort.BaudRate}\r\n" +
                 $"Parity:{serialPort.Parity}\r\nDataBits:{serialPort.DataBits}\r\n" +
                 $"StopBits:{serialPort.StopBits}";
+            modbusSerialSlave = ModbusSerialSlave.CreateRtu((byte)slaveIdInput.Value, serialPort);            
+            RunSlave();
+            Task.Run(() =>
+            {
+                try
+                {
+                    modbusSerialSlave.Listen();
+                }
+                catch (OperationCanceledException ex)
+                {
+                    Debug.WriteLine($"操作被取消: {ex.Message}");
+                }
+            });
+        }
+
+        private void DataStore_DataStoreReadFrom(object? sender, DataStoreEventArgs e)
+        {
+            if (e.StartAddress < addressInput.Value) {
+                throw new Modbus.InvalidModbusRequestException("illegal startAddr", 0x02);
+            }
+        }
+
+        private void RunSlave() {
+            try{
+                modbusSerialSlave.DataStore = DataStoreFactory.CreateDefaultDataStore(
+                        (ushort)combinedList.Count,
+                        (ushort)combinedList.Count,
+                        (ushort)combinedList.Count,
+                        (ushort)combinedList.Count);
+                modbusSerialSlave.DataStore.DataStoreReadFrom += DataStore_DataStoreReadFrom;
+                ushort quantity = (ushort)numRegistersInput.Value;
+                ushort startAddr = (ushort)addressInput.Value;
+                for (int i = startAddr; i < combinedList.Count; i++)
+                {
+
+                    ushort listAddr = Convert.ToUInt16(combinedList[i].address.Replace("0x", ""), 16);
+                    ushort offset = (ushort)(listAddr - startAddr);
+                    ushort value = 0;
+                    string valueDec = combinedList[i].valueDec;
+                    if (valueDec != "")
+                    {
+                        value = ushort.Parse(valueDec);
+                    }
+                    if (functionSelect.Text == "01 Coil Status") {
+                        modbusSerialSlave.DataStore.CoilDiscretes[i + 1] = value > 0 ? true:false;
+                    }
+                    if (functionSelect.Text == "02 Input Status")
+                    {
+                        modbusSerialSlave.DataStore.InputDiscretes[i + 1] = value > 0 ? true : false;
+                    }
+                    if (functionSelect.Text == "03 Holding Register") {
+                        modbusSerialSlave.DataStore.HoldingRegisters[i + 1] = value;
+                    }
+                    if (functionSelect.Text == "04 Input Registers") {
+                        modbusSerialSlave.DataStore.InputRegisters[i + 1] = value;
+                    }                     
+                }
+            }           
+            catch (Exception ex)
+            {
+                messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
+            }
         }
 
         private void connectButton_Click(object sender, EventArgs e)
@@ -235,6 +278,7 @@ namespace LittleFancyTool.View
                     Task.Run(async () => {
                         while (serialPort.IsOpen) {
                             updateDateTable();
+                            RunSlave();
                             await Task.Delay((int)incrementTimeInput.Value);
                         }                       
                     });
@@ -244,48 +288,6 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
                 }
             }
-        }
-
-        private byte[] ProcessModbusRequest(byte[] request)
-        {
-            if (request.Length < 8) // 最小 Modbus 请求长度
-            {
-                return null;
-            }
-            byte slaveAddress = request[0];
-            byte functionCode = request[1];
-            ushort startAddress = (ushort)((request[2] << 8) | request[3]);
-            ushort quantity = (ushort)((request[4] << 8) | request[5]);
-            if (slaveAddress!= ushort.Parse(slaveIdInput.Text)) {
-                return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
-            }
-            if (startAddress < ushort.Parse(addressInput.Text))
-            {
-                return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
-            }
-            if (quantity > ushort.Parse(numRegistersInput.Text)) {
-                return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
-            }
-            if (startAddress+quantity > ushort.Parse(addressInput.Text)+ ushort.Parse(numRegistersInput.Text))
-            {
-                return [slaveAddress, (byte)(functionCode + 0x80), 0x02];
-            }
-            IModbusSlaveService modbusSlaveService = new ModbusSlaveService();
-
-            switch (functionCode)
-            {
-                case 0x01: // 读取线圈状态
-                    return modbusSlaveService.ProcessReadCoils(slaveAddress, startAddress, quantity, combinedList);
-                case 0x02: // 读取离散输入状态
-                    return modbusSlaveService.ProcessReadDiscreteInputs(slaveAddress, startAddress, quantity, combinedList);
-                case 0x03: // 读取保持寄存器
-                    return modbusSlaveService.ProcessReadHoldingRegisters(slaveAddress, startAddress, quantity, combinedList);
-                case 0x04: // 读取输入寄存器
-                    return modbusSlaveService.ProcessReadInputRegisters(slaveAddress, startAddress, quantity, combinedList);
-                default:
-                    // 不支持的功能码，返回异常响应
-                    return [slaveAddress, (byte)(functionCode + 0x80), 0x01];
-            }
-        }
+        }        
     }
 }

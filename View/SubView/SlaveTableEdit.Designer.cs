@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             panel1 = new AntdUI.Panel();
+            input_value = new AntdUI.Input();
+            valueLabel = new AntdUI.Label();
             input_addr = new AntdUI.Input();
             addrLabel = new AntdUI.Label();
             divider1 = new AntdUI.Divider();
             stackPanel1 = new AntdUI.StackPanel();
             button_cancel = new AntdUI.Button();
             button_ok = new AntdUI.Button();
-            label2 = new AntdUI.Label();
-            input_value = new AntdUI.Input();
             panel1.SuspendLayout();
             stackPanel1.SuspendLayout();
             SuspendLayout();
@@ -44,7 +44,7 @@
             // panel1
             // 
             panel1.Controls.Add(input_value);
-            panel1.Controls.Add(label2);
+            panel1.Controls.Add(valueLabel);
             panel1.Controls.Add(input_addr);
             panel1.Controls.Add(addrLabel);
             panel1.Controls.Add(divider1);
@@ -57,6 +57,27 @@
             panel1.Size = new Size(500, 386);
             panel1.TabIndex = 0;
             panel1.Text = "panel1";
+            // 
+            // input_value
+            // 
+            input_value.Dock = DockStyle.Top;
+            input_value.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            input_value.Location = new Point(18, 160);
+            input_value.Name = "input_value";
+            input_value.Radius = 3;
+            input_value.Size = new Size(464, 38);
+            input_value.TabIndex = 20;
+            // 
+            // valueLabel
+            // 
+            valueLabel.Dock = DockStyle.Top;
+            valueLabel.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            valueLabel.LocalizationText = "value";
+            valueLabel.Location = new Point(18, 136);
+            valueLabel.Name = "valueLabel";
+            valueLabel.Size = new Size(464, 24);
+            valueLabel.TabIndex = 19;
+            valueLabel.Text = "值";
             // 
             // input_addr
             // 
@@ -72,6 +93,7 @@
             // 
             addrLabel.Dock = DockStyle.Top;
             addrLabel.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            addrLabel.LocalizationText = "regAddress";
             addrLabel.Location = new Point(18, 74);
             addrLabel.Name = "addrLabel";
             addrLabel.Size = new Size(464, 24);
@@ -121,26 +143,6 @@
             button_ok.Text = "提交";
             button_ok.Type = AntdUI.TTypeMini.Primary;
             // 
-            // label2
-            // 
-            label2.Dock = DockStyle.Top;
-            label2.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
-            label2.Location = new Point(18, 136);
-            label2.Name = "label2";
-            label2.Size = new Size(464, 24);
-            label2.TabIndex = 19;
-            label2.Text = "值";
-            // 
-            // input_value
-            // 
-            input_value.Dock = DockStyle.Top;
-            input_value.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 134);
-            input_value.Location = new Point(18, 160);
-            input_value.Name = "input_value";
-            input_value.Radius = 3;
-            input_value.Size = new Size(464, 38);
-            input_value.TabIndex = 20;
-            // 
             // SlaveTableEdit
             // 
             Controls.Add(panel1);
@@ -162,7 +164,7 @@
         private AntdUI.Input input_addr;
         private AntdUI.Label addrLabel;
         private AntdUI.Input input_value;
-        private AntdUI.Label label2;
+        private AntdUI.Label valueLabel;
         private AntdUI.Input input_name;
         private AntdUI.Label label3;
     }
