@@ -30,10 +30,12 @@ namespace LittleFancyTool.View
         public ModbusPollForm(AntdUI.Window _window)
         {
             this.window = _window;
+            //双缓冲
             DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer |
                      ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
+
             InitializeComponent();
             RefreshPortList();
             InitialTableData();

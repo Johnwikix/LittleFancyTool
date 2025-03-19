@@ -351,6 +351,9 @@ namespace CryptoTool
                 case "Img2ico":
                     control = new Img2ico(this);
                     break;
+                case "ImgConvert":
+                    control = new ImgConvertForm(this);
+                    break;
                 default:
                     break;
             }

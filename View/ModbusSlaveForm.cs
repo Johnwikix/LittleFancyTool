@@ -35,6 +35,10 @@ namespace LittleFancyTool.View
         public ModbusSlaveForm(AntdUI.Window _window)
         {
             this.window = _window;
+            DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
             InitializeComponent();
             InitializeSerialPort();
             RefreshPortList();

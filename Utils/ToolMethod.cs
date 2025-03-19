@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Drawing.Imaging;
 
 namespace LittleFancyTool.Utils
 {
@@ -136,6 +137,31 @@ namespace LittleFancyTool.Utils
 
             }               
 
+        }
+
+        public static ImageFormat Format(string format)
+        {
+            switch (format)
+            {
+                case "jpg":
+                    return ImageFormat.Jpeg;
+                case "jpeg":
+                    return ImageFormat.Jpeg;
+                case "png":
+                    return ImageFormat.Png;
+                case "gif":
+                    return ImageFormat.Gif;
+                case "bmp":
+                    return ImageFormat.Bmp;
+                case "webp":
+                    return ImageFormat.Webp;
+                case "tiff":
+                    return ImageFormat.Tiff;
+                case "heif":
+                    return ImageFormat.Heif;
+                default:
+                    return ImageFormat.Jpeg;
+            }
         }
 
     }

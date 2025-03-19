@@ -136,6 +136,8 @@ namespace LittleFancyTool.Languages
                     return "Gateway path not available";
                 case "网关目标设备响应失败":
                     return "Gateway target device response failed";
+                case "图片已保存至：":
+                    return "image saved to:";
                 default:
                     return key;
             }

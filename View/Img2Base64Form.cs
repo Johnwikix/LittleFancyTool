@@ -26,6 +26,10 @@ namespace LittleFancyTool.View
         public Img2Base64Form(AntdUI.Window _window)
         {
             this.window = _window;
+            DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
             InitializeComponent();
         }
 
