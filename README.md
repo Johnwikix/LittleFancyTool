@@ -4,7 +4,7 @@
 
 ### 一、简介
 
-本工具是一款基于 Windows Forms 开发的桌面应用程序，旨在为用户提供多种常用功能。支持 rs232,rs485,modbus rtu poll,modbus rtu slave,串口通信调试功能以及socket服务端功能，支持常见加密解密的功能如 RSA、SM2、AES、DES、SM4、MD5、SHA、SM3 算法的加密解密，支持图像文本 Base64 转换,多格式图像转换，图像转ico，支持文件异步多线程加密解密。
+本工具是一款基于 Windows Forms 开发的桌面应用程序，旨在为用户提供多种常用功能。支持 rs232、rs485、modbus rtu poll、modbus rtu slave、串口通信调试功能以及sockets通信功能，支持多算法文本加密，支持文件异步多线程加密解密，支持图像文本 Base64 转换，多格式图像转换，图像转ico功能。
 
 ### 二、功能特点
 
