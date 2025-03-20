@@ -75,6 +75,7 @@ namespace LittleFancyTool.View
             var startTime = DateTime.Now;
             encryptBtn.Loading = true;
             List<Task> encryptionTasks = new List<Task>();
+            int errorCount = 0;
             foreach (string filePath in filePaths)
             {
                 if (File.Exists(filePath))
@@ -85,16 +86,25 @@ namespace LittleFancyTool.View
                     Task encryptionTask = Task.Run(async () => await encryptor.EncryptFileAsync(currentPath, outputFilePath, keyInput.Text, ivInput.Text));
                     encryptionTasks.Add(encryptionTask);
                 }
+                else {
+                    errorCount++;
+                    break;
+                }
             }
-
             try
             {
                 await Task.WhenAll(encryptionTasks).ConfigureAwait(true);
-                createLog(keyInput.Text,ivInput.Text,filePathInput.Text,outputPathInput.Text);
-                var endTime = DateTime.Now;
-                var elapsedTime = endTime - startTime;
                 encryptBtn.Loading = false;
-                messageService.InternationalizationMessage("所有文件加密完成,耗时: ", $"{elapsedTime.TotalSeconds:0.00}", "success", window);
+                if (errorCount > 0)
+                {
+                    messageService.InternationalizationMessage("加密出错，文件未读取",null, "error", window);
+                }
+                else {
+                    createLog(keyInput.Text, ivInput.Text, filePathInput.Text, outputPathInput.Text);
+                    var endTime = DateTime.Now;
+                    var elapsedTime = endTime - startTime;                    
+                    messageService.InternationalizationMessage("所有文件加密完成,耗时: ", $"{elapsedTime.TotalSeconds:0.00}", "success", window);
+                }
             }
             catch (Exception ex)
             {
@@ -233,6 +243,7 @@ namespace LittleFancyTool.View
             try
             {
                 File.WriteAllText(fullLogPath, logContent);
+                messageService.InternationalizationMessage("写入日志:", fullLogPath, "success", window);
             }
             catch (Exception ex)
             {

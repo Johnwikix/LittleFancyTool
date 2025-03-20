@@ -146,6 +146,10 @@ namespace LittleFancyTool.Languages
                     return "error occurred when saving data:";
                 case "没有数据可供保存":
                     return "no data available for saving";
+                case "客户端未连接":
+                    return "client is not connected";
+                case "加密出错，文件未读取":
+                    return "encryption error, file not read";
                 default:
                     return key;
             }
