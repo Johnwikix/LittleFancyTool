@@ -1,10 +1,5 @@
-﻿using CryptoTool.Algorithms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LittleFancyTool.Algorithms.Encryption
 {
@@ -15,7 +10,7 @@ namespace LittleFancyTool.Algorithms.Encryption
             throw new NotImplementedException();
         }
 
-        public string Encrypt(string input,string? upperLowerCase, int outputLength,string? mode)
+        public string Encrypt(string input, string? upperLowerCase, int outputLength, string? mode)
         {
             using (HashAlgorithm algorithm = GetHashAlgorithm(mode))
             {

@@ -1,21 +1,11 @@
-﻿using LittleFancyTool.Service.Impl;
-using LittleFancyTool.Service;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using LittleFancyTool.Service;
+using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
-using System.Diagnostics;
+using System.Drawing.Imaging;
 
 namespace LittleFancyTool.View
 {
-    public partial class ImgConvertForm: UserControl
+    public partial class ImgConvertForm : UserControl
     {
         private AntdUI.Window window;
         private IMessageService messageService = new MessageService();
@@ -28,7 +18,7 @@ namespace LittleFancyTool.View
                      ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
             InitializeComponent();
-        }        
+        }
 
         private void picUploadDragger_Click(object sender, AntdUI.StringsEventArgs e)
         {
@@ -36,16 +26,16 @@ namespace LittleFancyTool.View
             extension = System.IO.Path.GetExtension(filePaths[0]);
             Task.Run(() =>
             {
-                    Image originalImage = Image.FromFile(filePaths[0]);
-                    pictureBox.Invoke((MethodInvoker)delegate
+                Image originalImage = Image.FromFile(filePaths[0]);
+                pictureBox.Invoke((MethodInvoker)delegate
+                {
+                    if (pictureBox.Image != null)
                     {
-                        if (pictureBox.Image != null)
-                        {
-                            pictureBox.Image.Dispose();
-                        }
-                        pictureBox.Image = originalImage;
-                    });
-                
+                        pictureBox.Image.Dispose();
+                    }
+                    pictureBox.Image = originalImage;
+                });
+
             });
         }
 

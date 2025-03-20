@@ -2,19 +2,10 @@
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
@@ -29,6 +20,7 @@ namespace LittleFancyTool.View
         private bool isConnectionOpen = false;
         private CancellationTokenSource receiveCancellationTokenSource;
         private IMessageService messageService = new MessageService();
+
         public TcpServerForm(AntdUI.Window _window)
         {
             this.window = _window;
@@ -37,6 +29,7 @@ namespace LittleFancyTool.View
             layoutChange();
             pollBox.CheckedChanged += PollBox_CheckedChanged;
             hexSendBox.CheckedChanged += HexSendBox_CheckedChanged;
+            receivedInput1.TextChanged += (s, e) => receivedInput1.ScrollToCaret();
         }
 
         private void HexSendBox_CheckedChanged(object sender, BoolEventArgs e)
@@ -48,15 +41,16 @@ namespace LittleFancyTool.View
             }
             else
             {
-                try {                    
+                try
+                {
                     sendInput.Text = Encoding.UTF8.GetString(ToolMethod.HexStringToBytes(sendText));
                 }
                 catch (Exception)
-                {                   
+                {
                     messageService.InternationalizationMessage("无效的十六进制字符串", null, "error", window);
                     hexSendBox.Checked = true;
                     sendInput.Text = sendText;
-                }                
+                }
             }
         }
 
@@ -88,14 +82,14 @@ namespace LittleFancyTool.View
                         {
                             messageService.InternationalizationMessage("服务未连接", null, "error", window);
                             pollBox.Checked = false;
-                        }                        
+                        }
                     }
                     Task.Delay((int)pollIntervalInput.Value).Wait();
                 }
             });
         }
 
-        private void TcpServerForm_VisibleChanged(object sender, EventArgs e)
+        private void TcpServerForm_VisibleChanged(object? sender, EventArgs e)
         {
             stopServer();
             stopConnection();
@@ -254,11 +248,12 @@ namespace LittleFancyTool.View
                                 string response = BitConverter.ToString(receiveData, 0, bytesReceived).Replace("-", " ");
                                 receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
                             }
-                            else {
+                            else
+                            {
                                 string response = Encoding.UTF8.GetString(receiveData, 0, bytesReceived);
                                 receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
                             }
-                            
+
                         }
                     }
                 }
@@ -371,7 +366,8 @@ namespace LittleFancyTool.View
         {
             if (clients.Count > 0)
             {
-                try {
+                try
+                {
                     byte[] buffer;
                     if (hexSendBox.Checked)
                     {
@@ -398,10 +394,12 @@ namespace LittleFancyTool.View
                         }
                     }
                     receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendInput.Text}\r\n");
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     messageService.InternationalizationMessage("发送消息时出错:", ex.Message, "error", window);
                 }
-                
+
             }
             else
             {
@@ -434,10 +432,11 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("服务未连接", null, "error", window);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 messageService.InternationalizationMessage("发送消息时出错:", ex.Message, "error", window);
-            }                
-            
+            }
+
         }
 
         private void sendBtn_Click(object sender, EventArgs e)

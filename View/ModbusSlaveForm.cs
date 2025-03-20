@@ -2,23 +2,11 @@
 using LittleFancyTool.Models;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
-using LittleFancyTool.Utils;
 using LittleFancyTool.View.SubView;
-using Microsoft.VisualBasic.ApplicationServices;
 using Modbus.Data;
 using Modbus.Device;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
@@ -30,7 +18,7 @@ namespace LittleFancyTool.View
         private IMessageService messageService = new MessageService();
         private List<SlaveTable> dataList = [];
         private List<SlaveTable> paddingList = [];
-        private List<SlaveTable> combinedList= [];
+        private List<SlaveTable> combinedList = [];
         private SlaveTable slaveTableObj;
         public ModbusSlaveForm(AntdUI.Window _window)
         {
@@ -53,7 +41,8 @@ namespace LittleFancyTool.View
             slaveTable.DataSource = PaddingChange();
         }
 
-        private List<SlaveTable> PaddingChange() {
+        private List<SlaveTable> PaddingChange()
+        {
             int padding = (int)addressInput.Value;
             paddingList = new List<SlaveTable>(padding);
             for (int i = 0; i < padding; i++)
@@ -71,16 +60,18 @@ namespace LittleFancyTool.View
         private void valueChange(object sender, EventArgs e)
         {
             Debug.WriteLine("valueChange");
-            if (numRegistersInput.Value > dataList.Count)            {
-               
+            if (numRegistersInput.Value > dataList.Count)
+            {
+
                 int startId = dataList.Count;
                 for (int i = 0; i < numRegistersInput.Value - dataList.Count; i++)
                 {
-                     string address = $"0x{(startId + i):X4}";
-                     dataList.Add(new SlaveTable(address, "0", false));               
-                }                
+                    string address = $"0x{(startId + i):X4}";
+                    dataList.Add(new SlaveTable(address, "0", false));
+                }
             }
-            else {
+            else
+            {
                 int count = dataList.Count - (int)numRegistersInput.Value;
                 if (count > dataList.Count)
                 {
@@ -118,10 +109,11 @@ namespace LittleFancyTool.View
         }
 
         private List<SlaveTable> GetPageData(int regNum)
-        {            
+        {
             dataList = new List<SlaveTable>(regNum);
-            for (int i = 0; i < regNum; i++) {
-                dataList.Add(new SlaveTable($"0x{i:X4}","0", false));
+            for (int i = 0; i < regNum; i++)
+            {
+                dataList.Add(new SlaveTable($"0x{i:X4}", "0", false));
             }
             return dataList;
         }
@@ -159,9 +151,12 @@ namespace LittleFancyTool.View
             }
         }
 
-        private void updateDateTable() {
-            foreach (var table in dataList) {
-                if (functionSelect.Text == "01 Coil Status" || functionSelect.Text == "02 Input Status") {
+        private void updateDateTable()
+        {
+            foreach (var table in dataList)
+            {
+                if (functionSelect.Text == "01 Coil Status" || functionSelect.Text == "02 Input Status")
+                {
                     if (table.Enabled)
                     {
                         bool boolValue = ushort.Parse(table.valueDec) > 0;
@@ -169,15 +164,17 @@ namespace LittleFancyTool.View
                         table.valueDec = value.ToString();
                     }
                 }
-                if (functionSelect.Text == "03 Holding Register" || functionSelect.Text == "04 Input Registers") {
+                if (functionSelect.Text == "03 Holding Register" || functionSelect.Text == "04 Input Registers")
+                {
                     if (table.Enabled)
                     {
                         table.valueDec = (int.Parse(table.valueDec) + 1).ToString();
                     }
-                }                
+                }
             }
         }
-        private void OpenSerialPort() {
+        private void OpenSerialPort()
+        {
             serialPort.RtsEnable = false;
             serialPort.Handshake = Handshake.None;
             serialPort.PortName = portSelect.SelectedValue.ToString();
@@ -192,7 +189,7 @@ namespace LittleFancyTool.View
             statusInput.Text = $"已连接 {serialPort.PortName}\r\nBaud:{serialPort.BaudRate}\r\n" +
                 $"Parity:{serialPort.Parity}\r\nDataBits:{serialPort.DataBits}\r\n" +
                 $"StopBits:{serialPort.StopBits}";
-            modbusSerialSlave = ModbusSerialSlave.CreateRtu((byte)slaveIdInput.Value, serialPort);            
+            modbusSerialSlave = ModbusSerialSlave.CreateRtu((byte)slaveIdInput.Value, serialPort);
             RunSlave();
             Task.Run(() =>
             {
@@ -209,13 +206,16 @@ namespace LittleFancyTool.View
 
         private void DataStore_DataStoreReadFrom(object? sender, DataStoreEventArgs e)
         {
-            if (e.StartAddress < addressInput.Value) {
+            if (e.StartAddress < addressInput.Value)
+            {
                 throw new Modbus.InvalidModbusRequestException("illegal startAddr", 0x02);
             }
         }
 
-        private void RunSlave() {
-            try{
+        private void RunSlave()
+        {
+            try
+            {
                 modbusSerialSlave.DataStore = DataStoreFactory.CreateDefaultDataStore(
                         (ushort)combinedList.Count,
                         (ushort)combinedList.Count,
@@ -235,21 +235,24 @@ namespace LittleFancyTool.View
                     {
                         value = ushort.Parse(valueDec);
                     }
-                    if (functionSelect.Text == "01 Coil Status") {
-                        modbusSerialSlave.DataStore.CoilDiscretes[i + 1] = value > 0 ? true:false;
+                    if (functionSelect.Text == "01 Coil Status")
+                    {
+                        modbusSerialSlave.DataStore.CoilDiscretes[i + 1] = value > 0 ? true : false;
                     }
                     if (functionSelect.Text == "02 Input Status")
                     {
                         modbusSerialSlave.DataStore.InputDiscretes[i + 1] = value > 0 ? true : false;
                     }
-                    if (functionSelect.Text == "03 Holding Register") {
+                    if (functionSelect.Text == "03 Holding Register")
+                    {
                         modbusSerialSlave.DataStore.HoldingRegisters[i + 1] = value;
                     }
-                    if (functionSelect.Text == "04 Input Registers") {
+                    if (functionSelect.Text == "04 Input Registers")
+                    {
                         modbusSerialSlave.DataStore.InputRegisters[i + 1] = value;
-                    }                     
+                    }
                 }
-            }           
+            }
             catch (Exception ex)
             {
                 messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
@@ -279,12 +282,14 @@ namespace LittleFancyTool.View
                     connectButton.Text = "断开";
                     connectButton.LocalizationText = "disconnect";
                     connectButton.Type = AntdUI.TTypeMini.Error;
-                    Task.Run(async () => {
-                        while (serialPort.IsOpen) {
+                    Task.Run(async () =>
+                    {
+                        while (serialPort.IsOpen)
+                        {
                             updateDateTable();
                             RunSlave();
                             await Task.Delay((int)incrementTimeInput.Value);
-                        }                       
+                        }
                     });
                 }
                 catch (Exception ex)
@@ -292,6 +297,6 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
                 }
             }
-        }        
+        }
     }
 }

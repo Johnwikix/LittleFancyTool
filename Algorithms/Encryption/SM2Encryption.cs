@@ -1,8 +1,6 @@
-﻿using AntdUI;
-using Org.BouncyCastle.Asn1.GM;
+﻿using Org.BouncyCastle.Asn1.GM;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -10,13 +8,7 @@ using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LittleFancyTool.Algorithms.Encryption
 {
@@ -35,7 +27,7 @@ namespace LittleFancyTool.Algorithms.Encryption
             ECPrivateKeyParameters prik = new ECPrivateKeyParameters(d, domain);
             SM2Engine sm2Engine = new SM2Engine();
             sm2Engine.Init(false, prik);
-            byte[] plainBytes = sm2Engine.ProcessBlock(cipherBytes, 0, cipherBytes.Length);            
+            byte[] plainBytes = sm2Engine.ProcessBlock(cipherBytes, 0, cipherBytes.Length);
             return Encoding.UTF8.GetString(plainBytes);
         }
 

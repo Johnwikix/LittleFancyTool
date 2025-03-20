@@ -1,21 +1,9 @@
 ﻿using AntdUI;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
-using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
@@ -50,7 +38,8 @@ namespace LittleFancyTool.View
 
         private Task pic2base64()
         {
-            return Task.Run(() =>{
+            return Task.Run(() =>
+            {
                 using (MemoryStream ms = new MemoryStream())
                 {
                     pictureBox.Image.Save(ms, ImageFormat.Png);
@@ -63,14 +52,15 @@ namespace LittleFancyTool.View
 
         private Task base64toPic()
         {
-            return Task.Run(() => {
+            return Task.Run(() =>
+            {
                 byte[] imageBytes = Convert.FromBase64String(outputTextBox.Text);
                 using (MemoryStream ms = new MemoryStream(imageBytes))
                 {
                     Image img = Image.FromStream(ms, true);
                     if (pictureBox.InvokeRequired)
                     {
-                   
+
                         Debug.WriteLine("InvokeRequired");
                         pictureBox.BeginInvoke(new Action(() => pictureBox.Image = img));
                     }

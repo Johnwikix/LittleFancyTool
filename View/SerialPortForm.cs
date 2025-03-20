@@ -2,22 +2,9 @@
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
-using Org.BouncyCastle.Utilities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO.Ports;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
-using System.Windows.Forms;
 using static LittleFancyTool.Utils.ToolMethod;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace LittleFancyTool.View
 {
@@ -29,7 +16,7 @@ namespace LittleFancyTool.View
         private AntdUI.Window window;
         private System.Timers.Timer dataTimeoutTimer;
         private IMessageService messageService = new MessageService();
-        
+
         public SerialPortForm(AntdUI.Window _window)
         {
             this.window = _window;
@@ -38,6 +25,7 @@ namespace LittleFancyTool.View
             RefreshPortList();
             pollBox.CheckedChanged += PollBox_CheckedChanged;
             hexSendBox.CheckedChanged += HexSendBox_CheckedChanged;
+            receivedInput.TextChanged += (s, e) => receivedInput.ScrollToCaret(); ;
         }
 
         private void HexSendBox_CheckedChanged(object sender, BoolEventArgs e)
@@ -46,7 +34,7 @@ namespace LittleFancyTool.View
             string sendText = sendInput.Text;
             if (hexSendBox.Checked)
             {
-                sendInput.Text = ToolMethod.ByteArrayToHexString(GetEncodedData(sendText,encodingMode));
+                sendInput.Text = ToolMethod.ByteArrayToHexString(GetEncodedData(sendText, encodingMode));
             }
             else
             {
@@ -210,7 +198,7 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
                 }
             });
-        }            
+        }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -272,7 +260,8 @@ namespace LittleFancyTool.View
             {
                 sb.Append(ToolMethod.ByteArrayToHexString(data));
             }
-            else {
+            else
+            {
                 switch ((EncodingMode)recvMode)
                 {
                     case EncodingMode.Auto:
@@ -288,7 +277,7 @@ namespace LittleFancyTool.View
                         sb.Append(Encoding.GetEncoding("GB18030").GetString(data));
                         break;
                 }
-            }            
+            }
             if (prefix == "超时")
             {
                 receivedInput.AppendText(sb.ToString() + "\r\n");
@@ -323,7 +312,7 @@ namespace LittleFancyTool.View
                     return false;
             }
             return true;
-        }        
+        }
 
         private void clearDataBtn_Click(object sender, EventArgs e)
         {
@@ -338,11 +327,11 @@ namespace LittleFancyTool.View
                 {
                     DateTime now = DateTime.Now;
                     saveDialog.Filter = "数据|*.txt;";
-                    saveDialog.DefaultExt =".txt";
+                    saveDialog.DefaultExt = ".txt";
                     saveDialog.Title = "保存数据";
                     saveDialog.OverwritePrompt = true;
                     string formattedDateTime = now.ToString("yyyy_MM_dd HH_mm_ss");
-                    saveDialog.FileName = $"serial_received_data {formattedDateTime}";                    
+                    saveDialog.FileName = $"serial_received_data {formattedDateTime}";
                     if (saveDialog.ShowDialog(window) == DialogResult.OK)
                     {
                         Task.Run(() =>

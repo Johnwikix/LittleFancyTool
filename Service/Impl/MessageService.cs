@@ -1,15 +1,10 @@
 ﻿using LittleFancyTool.Languages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LittleFancyTool.Service.Impl
 {
-    public class MessageService: IMessageService
+    public class MessageService : IMessageService
     {
-        public void InternationalizationMessage(string notifcation,string? message, string type, AntdUI.Window window)
+        public void InternationalizationMessage(string notifcation, string? message, string type, AntdUI.Window window)
         {
             string language = AntdUI.Localization.CurrentLanguage;
             if (!language.StartsWith("zh"))

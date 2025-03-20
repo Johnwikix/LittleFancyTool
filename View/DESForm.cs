@@ -4,20 +4,11 @@ using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
-    public partial class DESForm: UserControl
+    public partial class DESForm : UserControl
     {
         private AntdUI.Window window;
         private IMessageService messageService = new MessageService();
@@ -89,18 +80,20 @@ namespace LittleFancyTool.View
 
         }
 
-        public bool ValidateAesKeyLength(string keyStr, AntdUI.Window window,string keyIvType)
+        public bool ValidateAesKeyLength(string keyStr, AntdUI.Window window, string keyIvType)
         {
             if (string.IsNullOrEmpty(keyStr))
             {
-                messageService.InternationalizationMessage("密钥字符串不能为空",null,"error", window);
+                messageService.InternationalizationMessage("密钥字符串不能为空", null, "error", window);
                 return false;
             }
             byte[] key = Encoding.UTF8.GetBytes(keyStr);
-            if (keyIvType == "hex") {
+            if (keyIvType == "hex")
+            {
                 key = Hex.Decode(keyStr);
             }
-            if (keyIvType == "base64") {
+            if (keyIvType == "base64")
+            {
                 key = Convert.FromBase64String(keyStr);
             }
 

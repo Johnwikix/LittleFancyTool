@@ -1,17 +1,8 @@
 ﻿using AntdUI;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CryptoTool.View.SubView
 {
-    public partial class SystemSet: UserControl
+    public partial class SystemSet : UserControl
     {
         private readonly Window Window;
         public SystemSet(Window _window)

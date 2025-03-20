@@ -1,18 +1,14 @@
 ﻿using CryptoTool.Algorithms;
 using LittleFancyTool.Utils;
 using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LittleFancyTool.Algorithms
 {
     public class DESEncryption : IEncryptionSymmetric
     {
-        public string Encrypt(string input, string key = null, string paddingMode = "PKCS7", int keyLength = 64, string iv = null,  string mode=null, string? outputType = "base64", string? keyIvType = "text")
+        public string Encrypt(string input, string key = null, string paddingMode = "PKCS7", int keyLength = 64, string iv = null, string mode = null, string? outputType = "base64", string? keyIvType = "text")
         {
             using (DES desAlg = DES.Create())
             {

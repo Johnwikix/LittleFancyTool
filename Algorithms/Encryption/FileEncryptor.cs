@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.Algorithms.Encryption
 {
-    public class FileEncryptor:IFileEncryption
+    public class FileEncryptor : IFileEncryption
     {
         private const int BufferSize = 1024 * 1024; // 1MB 缓冲区大小
         public async Task EncryptFileAsync(string inputFilePath, string outputFilePath, string key, string iv, CancellationToken cancellationToken = default)

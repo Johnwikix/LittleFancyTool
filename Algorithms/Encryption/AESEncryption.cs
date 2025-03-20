@@ -1,13 +1,7 @@
 ﻿using LittleFancyTool.Utils;
 using Org.BouncyCastle.Utilities.Encoders;
-using Org.BouncyCastle.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CryptoTool.Algorithms
 {
@@ -63,7 +57,7 @@ namespace CryptoTool.Algorithms
             }
         }
 
-        public string Decrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv=null, string mode = null, string? outputType = "base64", string? keyIvType = "text")
+        public string Decrypt(string input, string? key = null, string paddingMode = "PKCS7", int keyLength = 128, string? iv = null, string mode = null, string? outputType = "base64", string? keyIvType = "text")
         {
             using (Aes aesAlg = Aes.Create())
             {

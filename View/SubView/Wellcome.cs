@@ -1,14 +1,5 @@
 ﻿using LittleFancyTool.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View.SubView
 {
@@ -34,7 +25,8 @@ namespace LittleFancyTool.View.SubView
             {
                 rotationTimer.Stop();
             }
-            else {
+            else
+            {
                 rotationTimer.Start();
                 if (ToolMethod.GetRandomBoolean(4))
                 {
@@ -47,10 +39,11 @@ namespace LittleFancyTool.View.SubView
                         playSound(Properties.Resources.origin114);
                     }
                 }
-            }            
+            }
         }
 
-        private void playSound(byte[] sound) {
+        private void playSound(byte[] sound)
+        {
             if (currentPlayer != null)
             {
                 currentPlayer.Stop();

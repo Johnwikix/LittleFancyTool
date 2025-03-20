@@ -1,5 +1,4 @@
 using AntdUI;
-using CryptoTool.Algorithms;
 using CryptoTool.Models;
 using CryptoTool.Utils;
 using CryptoTool.View;
@@ -9,20 +8,18 @@ using LittleFancyTool.View;
 using LittleFancyTool.View.SubView;
 using Microsoft.Win32;
 using System.Globalization;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace CryptoTool
 {
     public partial class MainForm : AntdUI.Window
     {
-        private UserControl currControl;
+        private UserControl? currControl;
         private bool isUpdatingTabs = false;
         private bool isLight = true;
-        public event EventHandler LanguageChanged;
+        public event EventHandler? LanguageChanged;
         public MainForm()
         {
-            InitializeComponent();            
+            InitializeComponent();
             InitData();
             LoadMenu();
             BindEventHandler();
@@ -48,7 +45,8 @@ namespace CryptoTool
             tabs.Pages[0].Text = AntdUI.Localization.Get("home", "主页");
         }
 
-        private void SystemLanguage() {
+        private void SystemLanguage()
+        {
             string systemLanguage = CultureInfo.CurrentCulture.Name;
             if (systemLanguage.StartsWith("zh"))
             {
@@ -60,7 +58,7 @@ namespace CryptoTool
             {
                 dropdown_translate.SelectedValue = dropdown_translate.Items[1];
                 AntdUI.Localization.Provider = new Localizer_enus();
-                AntdUI.Localization.SetLanguage("en-US");                
+                AntdUI.Localization.SetLanguage("en-US");
             }
         }
 
@@ -102,7 +100,7 @@ namespace CryptoTool
         }
 
 
-        private void ButtonSZ_Click(object sender, EventArgs e)
+        private void ButtonSZ_Click(object? sender, EventArgs e)
         {
             using (var form = new SystemSet(this))
             {
@@ -115,7 +113,7 @@ namespace CryptoTool
             }
         }
 
-        private void Tabs_Click(object sender, EventArgs e)
+        private void Tabs_Click(object? sender, EventArgs e)
         {
             // 强制转换 EventArgs 为 MouseEventArgs
             MouseEventArgs mouseEventArgs = e as MouseEventArgs;
@@ -163,7 +161,7 @@ namespace CryptoTool
             SelectMenu();
         }
 
-        private void Input_search_textchanged(object sender, EventArgs e)
+        private void Input_search_textchanged(object? sender, EventArgs e)
         {
             titlebar.Loading = true;
             var text = input_search.Text.ToLower(); // 将输入文本转换为小写，确保搜索不区分大小写
@@ -181,7 +179,7 @@ namespace CryptoTool
             }
         }
 
-        private void Button_color_Click(object sender, EventArgs e)
+        private void Button_color_Click(object? sender, EventArgs e)
         {
             isLight = !isLight;
             //这里使用了Toggle属性切换图标
@@ -189,7 +187,7 @@ namespace CryptoTool
             ThemeHelper.SetColorMode(this, isLight);
         }
 
-        private void Button_collapse_Click(object sender, EventArgs e)
+        private void Button_collapse_Click(object? sender, EventArgs e)
         {
             if (menu.Collapsed)
             {

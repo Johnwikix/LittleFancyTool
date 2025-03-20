@@ -1,24 +1,14 @@
-﻿using LittleFancyTool.Algorithms.Encryption;
-using LittleFancyTool.Algorithms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using LittleFancyTool.Utils;
+﻿using LittleFancyTool.Algorithms;
+using LittleFancyTool.Algorithms.Encryption;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 
 namespace LittleFancyTool.View
 {
-    public partial class SM2Form: UserControl
+    public partial class SM2Form : UserControl
     {
         private AntdUI.Window window;
-        private IMessageService messageService = new MessageService();  
+        private IMessageService messageService = new MessageService();
         public SM2Form(AntdUI.Window _window)
         {
             window = _window;
@@ -33,7 +23,8 @@ namespace LittleFancyTool.View
                 messageService.InternationalizationMessage("缺少公钥", null, "error", window);
                 return;
             }
-            if (string.IsNullOrEmpty(input)) {
+            if (string.IsNullOrEmpty(input))
+            {
                 messageService.InternationalizationMessage("请输入要加密的文本", null, "error", window);
                 return;
             }

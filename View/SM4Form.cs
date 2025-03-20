@@ -1,34 +1,23 @@
 ﻿using CryptoTool.Algorithms;
-using LittleFancyTool.Algorithms;
 using LittleFancyTool.Algorithms.Encryption;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
-    public partial class SM4Form: UserControl
-    {        
+    public partial class SM4Form : UserControl
+    {
         private AntdUI.Window window;
         private IMessageService messageService = new MessageService();
         public SM4Form(AntdUI.Window _window)
         {
             window = _window;
             InitializeComponent();
-            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(128,"text");
-            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(128,"text");
+            keyTextBox.Text = ToolMethod.GenerateSymmetricKey(128, "text");
+            ivTextBox.Text = ToolMethod.GenerateSymmetricKey(128, "text");
         }
 
         private void encryptButton_Click(object sender, EventArgs e)
@@ -69,7 +58,7 @@ namespace LittleFancyTool.View
                 try
                 {
                     IEncryptionSymmetric encryptionAlgorithm = new SM4Encryption();
-                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 128, iv,encryptModeStr, outputType,keyIvType);
+                    string decryptedText = encryptionAlgorithm.Decrypt(input, key, paddingMode, 128, iv, encryptModeStr, outputType, keyIvType);
                     inputTextBox.Text = decryptedText;
                 }
                 catch (Exception ex)
@@ -79,7 +68,7 @@ namespace LittleFancyTool.View
             }
         }
 
-        public bool ValidateAesKeyLength(string keyStr, AntdUI.Window window,string keyIvType)
+        public bool ValidateAesKeyLength(string keyStr, AntdUI.Window window, string keyIvType)
         {
             if (string.IsNullOrEmpty(keyStr))
             {
@@ -132,6 +121,6 @@ namespace LittleFancyTool.View
             string? keyIvType = keyIvTypeSelect.SelectedValue?.ToString();
             keyTextBox.Text = ToolMethod.GenerateSymmetricKey(128, keyIvType);
             ivTextBox.Text = ToolMethod.GenerateSymmetricKey(128, keyIvType);
-        }        
+        }
     }
 }

@@ -1,21 +1,11 @@
-﻿using CryptoTool.Algorithms;
-using LittleFancyTool.Algorithms;
+﻿using LittleFancyTool.Algorithms;
 using LittleFancyTool.Algorithms.Encryption;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CryptoTool.View
 {
-    public partial class RSAForm: UserControl
+    public partial class RSAForm : UserControl
     {
         private AntdUI.Window window;
         private IMessageService messageService = new MessageService();
@@ -60,7 +50,8 @@ namespace CryptoTool.View
         {
             string input = rsaOutputTextBox.Text;
             string privateKey = rsaPrivateKeyTextBox.Text;
-            if (string.IsNullOrEmpty(privateKey)) {
+            if (string.IsNullOrEmpty(privateKey))
+            {
                 messageService.InternationalizationMessage("缺少私钥", null, "error", window);
                 return;
             }
@@ -72,10 +63,11 @@ namespace CryptoTool.View
                 string decryptedText = ((RSAEncryption)encryptionAlgorithm).Decrypt(input, privateKey, paddingMode, keyLength);
                 rsaInputTextBox.Text = decryptedText;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
             }
-            
+
         }
 
         private void rsaGenerateKeyPairButton_Click(object sender, EventArgs e)

@@ -1,19 +1,9 @@
-﻿using LittleFancyTool.Algorithms;
-using LittleFancyTool.Algorithms.Encryption;
+﻿using LittleFancyTool.Algorithms.Encryption;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LittleFancyTool.View
 {
@@ -86,7 +76,8 @@ namespace LittleFancyTool.View
                     Task encryptionTask = Task.Run(async () => await encryptor.EncryptFileAsync(currentPath, outputFilePath, keyInput.Text, ivInput.Text));
                     encryptionTasks.Add(encryptionTask);
                 }
-                else {
+                else
+                {
                     errorCount++;
                     break;
                 }
@@ -97,12 +88,13 @@ namespace LittleFancyTool.View
                 encryptBtn.Loading = false;
                 if (errorCount > 0)
                 {
-                    messageService.InternationalizationMessage("加密出错，文件未读取",null, "error", window);
+                    messageService.InternationalizationMessage("加密出错，文件未读取", null, "error", window);
                 }
-                else {
+                else
+                {
                     createLog(keyInput.Text, ivInput.Text, filePathInput.Text, outputPathInput.Text);
                     var endTime = DateTime.Now;
-                    var elapsedTime = endTime - startTime;                    
+                    var elapsedTime = endTime - startTime;
                     messageService.InternationalizationMessage("所有文件加密完成,耗时: ", $"{elapsedTime.TotalSeconds:0.00}", "success", window);
                 }
             }
@@ -235,7 +227,7 @@ namespace LittleFancyTool.View
 
         }
 
-        private void createLog(string key, string iv, string filelist,string path)
+        private void createLog(string key, string iv, string filelist, string path)
         {
             string logContent = $"密钥：{key} \n偏移iv：{iv} \n加密文件: \n{filelist}";
             string logFileName = $"encryptLog_{DateTime.Now:yyyy-MM-dd HH-mm-ss}.log";

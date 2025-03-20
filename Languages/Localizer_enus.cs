@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LittleFancyTool.Languages
+﻿namespace LittleFancyTool.Languages
 {
-     public class Localizer_enus : AntdUI.ILocalization
+    public class Localizer_enus : AntdUI.ILocalization
     {
         public string GetLocalizedString(string key)
         {

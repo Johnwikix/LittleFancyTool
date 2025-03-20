@@ -1,18 +1,7 @@
-﻿using Org.BouncyCastle.Asn1.X9;
-using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using Org.BouncyCastle.Utilities.Encoders;
 using System.Drawing.Imaging;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LittleFancyTool.Utils
 {
@@ -167,8 +156,10 @@ namespace LittleFancyTool.Utils
         }
 
 
-        public static string GetErrorInfo(int key) {
-            switch (key) {
+        public static string GetErrorInfo(int key)
+        {
+            switch (key)
+            {
                 case 1:
                     return "非法功能码";
                 case 2:
@@ -190,7 +181,7 @@ namespace LittleFancyTool.Utils
                 default:
                     return null;
 
-            }               
+            }
 
         }
 
@@ -212,9 +203,10 @@ namespace LittleFancyTool.Utils
                 }
                 return bytes;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
-            }            
+            }
         }
 
         public static ImageFormat Format(string format)

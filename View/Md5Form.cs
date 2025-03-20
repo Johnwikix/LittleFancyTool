@@ -1,21 +1,11 @@
-﻿using CryptoTool.Algorithms;
-using LittleFancyTool.Algorithms;
+﻿using LittleFancyTool.Algorithms;
 using LittleFancyTool.Algorithms.Encryption;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
-    public partial class Md5Form: UserControl
+    public partial class Md5Form : UserControl
     {
         private AntdUI.Window window;
         private IMessageService messageService = new MessageService();
@@ -35,7 +25,7 @@ namespace LittleFancyTool.View
             try
             {
                 IEncryptionAbstract encryptionAlgorithm = new Md5Encryption();
-                string encryptedText = encryptionAlgorithm.Encrypt(input,useUpperCase,outputLength);
+                string encryptedText = encryptionAlgorithm.Encrypt(input, useUpperCase, outputLength);
                 outputTextBox.Text = encryptedText;
             }
             catch (Exception ex)

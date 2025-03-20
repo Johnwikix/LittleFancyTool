@@ -1,10 +1,5 @@
-﻿using CryptoTool.Algorithms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LittleFancyTool.Algorithms.Encryption
 {
@@ -34,12 +29,12 @@ namespace LittleFancyTool.Algorithms.Encryption
             }
         }
 
-        public (string publicKey, string privateKey) GenerateKeyPair(int keyLength = 2048,string keyFormat = "PKCS#8")
+        public (string publicKey, string privateKey) GenerateKeyPair(int keyLength = 2048, string keyFormat = "PKCS#8")
         {
             using (RSA rsa = RSA.Create(keyLength))
             {
-                string privateKeyPem = ExportPrivateKey(rsa,keyFormat);
-                string publicKeyPem = ExportPublicKey(rsa,keyFormat);
+                string privateKeyPem = ExportPrivateKey(rsa, keyFormat);
+                string publicKeyPem = ExportPublicKey(rsa, keyFormat);
                 return (publicKeyPem, privateKeyPem);
             }
         }
@@ -54,7 +49,8 @@ namespace LittleFancyTool.Algorithms.Encryption
             {
                 return rsa.ExportRSAPrivateKeyPem();
             }
-            else {
+            else
+            {
                 throw new ArgumentException("Unsupported private key format", nameof(keyFormat));
             }
         }
@@ -65,7 +61,8 @@ namespace LittleFancyTool.Algorithms.Encryption
             {
                 return rsa.ExportRSAPublicKeyPem();
             }
-            else if(keyFormat== "PKCS#8") {
+            else if (keyFormat == "PKCS#8")
+            {
                 byte[] pkcs8KeyBytes = rsa.ExportSubjectPublicKeyInfo();
                 string pkcs8Base64 = Convert.ToBase64String(pkcs8KeyBytes);
                 StringBuilder pkcs8PemBuilder = new StringBuilder();

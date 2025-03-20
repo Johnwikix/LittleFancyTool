@@ -1,10 +1,5 @@
-﻿using CryptoTool.Algorithms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LittleFancyTool.Algorithms.Encryption
 {
@@ -15,7 +10,7 @@ namespace LittleFancyTool.Algorithms.Encryption
             throw new NotImplementedException();
         }
 
-        public string Encrypt(string input,string? useUpperCase = "UPPER", int outputLength = 16,string? mode = null)
+        public string Encrypt(string input, string? useUpperCase = "UPPER", int outputLength = 16, string? mode = null)
         {
             using (MD5 md5 = MD5.Create())
             {
@@ -29,7 +24,7 @@ namespace LittleFancyTool.Algorithms.Encryption
                     sb.Append(hashBytes[i].ToString(format));
                 }
                 string hashString = sb.ToString();
-                if(outputLength==16)
+                if (outputLength == 16)
                 {
                     // 对于16位MD5，取第9位到第24位
                     return hashString.Substring(8, 16);

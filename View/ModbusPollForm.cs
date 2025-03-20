@@ -1,25 +1,17 @@
-﻿using AntdUI;
-using LittleFancyTool.Languages;
-using LittleFancyTool.Models;
+﻿using LittleFancyTool.Models;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using Modbus.Device;
-using Org.BouncyCastle.Asn1.X509;
-using System;
-using System.Data;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO.Ports;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
     public partial class ModbusPollForm : UserControl
     {
         private SerialPort serialPort = new SerialPort();
-        private ModbusSerialMaster modbusMaster;
+        private ModbusSerialMaster? modbusMaster;
         private AntdUI.Window window;
         private bool isPolling = false;
         private readonly object _dataLock = new object();
@@ -35,15 +27,16 @@ namespace LittleFancyTool.View
             SetStyle(ControlStyles.OptimizedDoubleBuffer |
                      ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
-
             InitializeComponent();
             RefreshPortList();
             InitialTableData();
             TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
-        }        
+            outputInput.TextChanged += (s, e) => outputInput.ScrollToCaret();
+        }
 
-        private void InitialTableData() {
-            
+        private void InitialTableData()
+        {
+
             slaveTable.Columns = new AntdUI.ColumnCollection {
                 new AntdUI.Column("address", "寄存器地址").SetLocalizationTitleID("Table.Column."),
                 new AntdUI.Column("valueDec", "数值(DEC)").SetLocalizationTitleID("Table.Column."),
@@ -72,7 +65,7 @@ namespace LittleFancyTool.View
                 }
                 catch (Exception ex)
                 {
-                    messageService.InternationalizationMessage("数据读取失败:",ex.Message,"error",window);
+                    messageService.InternationalizationMessage("数据读取失败:", ex.Message, "error", window);
                 }
                 await Task.Delay(time);
             }
@@ -95,7 +88,7 @@ namespace LittleFancyTool.View
                 statusInput.Clear();
                 connectButton.Type = AntdUI.TTypeMini.Success;
                 connectButton.LocalizationText = "connectButton";
-                isPolling = false;                
+                isPolling = false;
             }
             else
             {
@@ -127,7 +120,8 @@ namespace LittleFancyTool.View
                     int time = int.Parse(scanTimeInput.Text);
                     modbusMaster = ModbusSerialMaster.CreateRtu(serialPort);
                     modbusMaster.Transport.ReadTimeout = 100;
-                    await pollingAsync(time);                }
+                    await pollingAsync(time);
+                }
                 catch (Exception ex)
                 {
                     messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
@@ -162,10 +156,10 @@ namespace LittleFancyTool.View
                     if (nextSpaceIndex != -1)
                     {
                         string value = remaining.Substring(0, nextSpaceIndex);
-                       messageService.InternationalizationMessage(ToolMethod.GetErrorInfo(int.Parse(value)), null, "error", window);
+                        messageService.InternationalizationMessage(ToolMethod.GetErrorInfo(int.Parse(value)), null, "error", window);
 
-                    }                    
-                }               
+                    }
+                }
             }
         }
 
@@ -183,7 +177,8 @@ namespace LittleFancyTool.View
             }
             if (functionSelect.SelectedValue.ToString() == "03 Read Holding Registers")
             {
-                if (numRegisters > 125) {
+                if (numRegisters > 125)
+                {
                     numRegisters = 125;
                     numRegistersInput.Value = 125;
                     messageService.InternationalizationMessage("最大读取寄存器数量为125", null, "error", window);

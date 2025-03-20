@@ -1,40 +1,34 @@
 ﻿using CryptoTool.Algorithms;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AntdUI;
 using Org.BouncyCastle.Crypto.Paddings;
+using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Utilities.Encoders;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-using LittleFancyTool.Utils;
+using System.Text;
 
 namespace LittleFancyTool.Algorithms.Encryption
 {
     public class SM4Encryption : IEncryptionSymmetric
     {
         public string Decrypt(
-            string input, 
-            string? key, string? 
-            paddingModeStr, 
-            int keyLength, 
+            string input,
+            string? key, string?
+            paddingModeStr,
+            int keyLength,
             string? iv,
             string mode,
-            string? outputType="base64", 
+            string? outputType = "base64",
             string? keyIvType = "text")
         {
             byte[] cipherBytes;
             byte[] keyBytes;
             byte[] ivBytes;
-            if (outputType == "base64") {
+            if (outputType == "base64")
+            {
                 cipherBytes = Convert.FromBase64String(input);
-            } else if (outputType == "hex")
+            }
+            else if (outputType == "hex")
             {
                 cipherBytes = Hex.Decode(input);
             }
@@ -53,14 +47,15 @@ namespace LittleFancyTool.Algorithms.Encryption
                 keyBytes = Encoding.UTF8.GetBytes(key);
                 ivBytes = Encoding.UTF8.GetBytes(iv);
             }
-            else if (keyIvType == "base64") {
+            else if (keyIvType == "base64")
+            {
                 keyBytes = Convert.FromBase64String(key);
                 ivBytes = Convert.FromBase64String(iv);
             }
             else
             {
                 return "key iv type error";
-            }      
+            }
 
             IBlockCipher engine = new SM4Engine();
             IBufferedCipher cipher;
@@ -91,13 +86,13 @@ namespace LittleFancyTool.Algorithms.Encryption
             return Encoding.UTF8.GetString(outputBytes);
         }
         public string Encrypt(
-            string input, 
-            string? key, 
-            string? paddingModeStr, 
-            int keyLength, 
-            string? iv, 
+            string input,
+            string? key,
+            string? paddingModeStr,
+            int keyLength,
+            string? iv,
             string mode,
-            string? outputType= "base64",
+            string? outputType = "base64",
             string? keyIvType = "text")
         {
             byte[] keyBytes;
@@ -154,7 +149,8 @@ namespace LittleFancyTool.Algorithms.Encryption
             {
                 return Convert.ToBase64String(outputBytes);
             }
-            else if (outputType == "hex") {
+            else if (outputType == "hex")
+            {
                 return Hex.ToHexString(outputBytes);
             }
             return "output type error";
@@ -177,6 +173,6 @@ namespace LittleFancyTool.Algorithms.Encryption
                 default:
                     throw new ArgumentException($"不支持的填充模式: {paddingMode}。支持的模式有: PKCS7, ISO10126, ZEROBYTE。");
             }
-        }        
+        }
     }
 }

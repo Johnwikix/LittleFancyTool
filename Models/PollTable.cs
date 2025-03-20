@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LittleFancyTool.Models
+﻿namespace LittleFancyTool.Models
 {
-    public class PollTable: AntdUI.NotifyProperty
+    public class PollTable : AntdUI.NotifyProperty
     {
         public PollTable(string address, string valueDec, DateTime lastUpdate)
         {

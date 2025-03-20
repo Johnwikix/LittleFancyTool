@@ -3,16 +3,7 @@ using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CryptoTool.View
 {
@@ -108,7 +99,7 @@ namespace CryptoTool.View
             }
             if (!(key.Length == 16 || key.Length == 24 || key.Length == 32))
             {
-                messageService.InternationalizationMessage("密钥字符串长度必须为16字节或24字节或32字节",null, "error", window);
+                messageService.InternationalizationMessage("密钥字符串长度必须为16字节或24字节或32字节", null, "error", window);
                 return false;
             }
             return true;

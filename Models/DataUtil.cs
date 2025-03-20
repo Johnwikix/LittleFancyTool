@@ -1,11 +1,4 @@
-﻿using AntdUI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CryptoTool.Models
+﻿namespace CryptoTool.Models
 {
     public class DataUtil
     {
@@ -41,7 +34,7 @@ namespace CryptoTool.Models
                 }
             },
             { "图片处理", new List<MenuItems>
-                {                    
+                {
                     new MenuItems { Text = "图片转Base64", Tag = "Img2Base64"},
                     new MenuItems { Text = "图片转ico", Tag = "Img2ico"},
                     new MenuItems { Text = "图片转换", Tag = "ImgConvert"}
@@ -55,7 +48,7 @@ namespace CryptoTool.Models
             { "TCP工具", "MessageOutlined" },
             { "图片处理", "PictureOutlined" },
             { "文本加密", "FileTextOutlined" },
-            { "文件加密", "LockOutlined" },            
+            { "文件加密", "LockOutlined" },
         };
 
         public static readonly Dictionary<string, List<MenuItems>> MenuItems_enus = new Dictionary<string, List<MenuItems>>()
@@ -91,7 +84,7 @@ namespace CryptoTool.Models
                 }
             },
             { "Image", new List<MenuItems>
-                {                    
+                {
                     new MenuItems { Text = "Img2Base64", Tag = "Img2Base64"},
                     new MenuItems { Text = "Img2ico", Tag = "Img2ico"},
                     new MenuItems { Text = "ImgConvert", Tag = "ImgConvert"}

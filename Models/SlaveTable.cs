@@ -1,24 +1,20 @@
 ﻿using AntdUI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LittleFancyTool.Models
 {
     public class SlaveTable : AntdUI.NotifyProperty
     {
-        public SlaveTable(string address, string valueDec,bool enable)
+        public SlaveTable(string address, string valueDec, bool enable)
         {
             _address = address;
-            _valueDec = valueDec;            
-            if (valueDec.Length > 0) {
+            _valueDec = valueDec;
+            if (valueDec.Length > 0)
+            {
                 _enabled = enable;
                 _btns = new CellLink[] {
                         new CellButton("edit","Edit",AntdUI.TTypeMini.Primary)
                     };
-            }            
+            }
         }
         string _valueDec;
         public string valueDec
