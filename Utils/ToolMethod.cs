@@ -112,6 +112,61 @@ namespace LittleFancyTool.Utils
             return crc;
         }
 
+        public enum EncodingMode
+        {
+            Auto,
+            UTF8,
+            ASCII,
+            GB2312
+        }
+
+        public static Encoding GetEncoding(EncodingMode encodingMode)
+        {
+            switch (encodingMode)
+            {
+                case EncodingMode.Auto:
+                    return Encoding.Default;
+                case EncodingMode.ASCII:
+                    return Encoding.ASCII;
+                case EncodingMode.UTF8:
+                    return Encoding.UTF8;
+                case EncodingMode.GB2312:
+                    return GetGBEncoding();
+                default:
+                    throw new ArgumentException("不支持的编码类型");
+            }
+        }
+
+        public static byte[] GetEncodedData(string input, EncodingMode mode)
+        {
+            switch (mode)
+            {
+                case EncodingMode.Auto:
+                    return Encoding.Default.GetBytes(input);
+                case EncodingMode.ASCII:
+                    return Encoding.ASCII.GetBytes(input);
+                case EncodingMode.UTF8:
+                    return Encoding.UTF8.GetBytes(input);
+                case EncodingMode.GB2312:
+                    Encoding gbEncoder = GetGBEncoding();
+                    return gbEncoder.GetBytes(input);
+                default:
+                    throw new ArgumentException("不支持的编码类型");
+            }
+        }
+        private static Encoding GetGBEncoding()
+        {
+            try
+            {
+                return Encoding.GetEncoding("GB18030");
+            }
+            catch (ArgumentException)
+            {
+                return Encoding.Default;
+            }
+        }
+
+
         public static string GetErrorInfo(int key) {
             switch (key) {
                 case 1:
@@ -137,6 +192,29 @@ namespace LittleFancyTool.Utils
 
             }               
 
+        }
+
+        public static string ByteArrayToHexString(byte[] data)
+        {
+            return BitConverter.ToString(data).Replace("-", " ");
+        }
+
+        public static byte[] HexStringToBytes(string hexStr)
+        {
+            try
+            {
+                string hex = hexStr.Replace(" ", "");
+                int length = hex.Length;
+                byte[] bytes = new byte[length / 2];
+                for (int i = 0; i < length; i += 2)
+                {
+                    bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+                }
+                return bytes;
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }            
         }
 
         public static ImageFormat Format(string format)

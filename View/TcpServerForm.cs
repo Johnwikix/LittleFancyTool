@@ -1,6 +1,7 @@
 ﻿using AntdUI;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
+using LittleFancyTool.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,9 +35,68 @@ namespace LittleFancyTool.View
             InitializeComponent();
             this.VisibleChanged += TcpServerForm_VisibleChanged;
             layoutChange();
+            pollBox.CheckedChanged += PollBox_CheckedChanged;
+            hexSendBox.CheckedChanged += HexSendBox_CheckedChanged;
         }
 
-        private void TcpServerForm_VisibleChanged(object sender, EventArgs e) {
+        private void HexSendBox_CheckedChanged(object sender, BoolEventArgs e)
+        {
+            string sendText = sendInput.Text;
+            if (hexSendBox.Checked)
+            {
+                sendInput.Text = ToolMethod.ByteArrayToHexString(Encoding.UTF8.GetBytes(sendText));
+            }
+            else
+            {
+                try {                    
+                    sendInput.Text = Encoding.UTF8.GetString(ToolMethod.HexStringToBytes(sendText));
+                }
+                catch (Exception)
+                {                   
+                    messageService.InternationalizationMessage("无效的十六进制字符串", null, "error", window);
+                    hexSendBox.Checked = true;
+                    sendInput.Text = sendText;
+                }                
+            }
+        }
+
+        private void PollBox_CheckedChanged(object sender, BoolEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                while (pollBox.Checked)
+                {
+                    if (modeSelect.SelectedIndex == 0)
+                    {
+                        if (isServerRunning)
+                        {
+                            server2client();
+                        }
+                        else
+                        {
+                            messageService.InternationalizationMessage("服务器未启动", null, "error", window);
+                            pollBox.Checked = false;
+                        }
+                    }
+                    if (modeSelect.SelectedIndex == 1)
+                    {
+                        if (isConnectionOpen)
+                        {
+                            client2server();
+                        }
+                        else
+                        {
+                            messageService.InternationalizationMessage("服务未连接", null, "error", window);
+                            pollBox.Checked = false;
+                        }                        
+                    }
+                    Task.Delay((int)pollIntervalInput.Value).Wait();
+                }
+            });
+        }
+
+        private void TcpServerForm_VisibleChanged(object sender, EventArgs e)
+        {
             stopServer();
             stopConnection();
         }
@@ -45,7 +105,8 @@ namespace LittleFancyTool.View
             layoutChange();
         }
 
-        private void layoutChange() {
+        private void layoutChange()
+        {
             if (modeSelect.SelectedIndex == 0)
             {
                 string hostName = Dns.GetHostName();
@@ -103,7 +164,8 @@ namespace LittleFancyTool.View
             }
         }
 
-        private void stopConnection() {
+        private void stopConnection()
+        {
             if (isConnectionOpen)
             {
                 try
@@ -129,15 +191,18 @@ namespace LittleFancyTool.View
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            if (modeSelect.SelectedIndex == 0) {
+            if (modeSelect.SelectedIndex == 0)
+            {
                 startServer();
             }
-            if (modeSelect.SelectedIndex == 1) {
+            if (modeSelect.SelectedIndex == 1)
+            {
                 Task.Run(() => connect2server());
             }
         }
 
-        private void connect2server() {
+        private void connect2server()
+        {
             if (!isConnectionOpen)
             {
                 try
@@ -163,7 +228,8 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("连接服务器时出错:", ex.Message, "error", window);
                 }
             }
-            else {
+            else
+            {
                 connectButton.Text = "连接";
                 connectButton.LocalizationText = "connectButton";
                 stopConnection();
@@ -183,8 +249,16 @@ namespace LittleFancyTool.View
                         int bytesReceived = clientSocket.Receive(receiveData);
                         if (bytesReceived > 0)
                         {
-                            string response = Encoding.UTF8.GetString(receiveData, 0, bytesReceived);
-                            receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
+                            if (hexDisBox.Checked)
+                            {
+                                string response = BitConverter.ToString(receiveData, 0, bytesReceived).Replace("-", " ");
+                                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
+                            }
+                            else {
+                                string response = Encoding.UTF8.GetString(receiveData, 0, bytesReceived);
+                                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
+                            }
+                            
                         }
                     }
                 }
@@ -194,11 +268,12 @@ namespace LittleFancyTool.View
                 if (!cancellationToken.IsCancellationRequested)
                 {
                     messageService.InternationalizationMessage("接收消息时出错:", ex.Message, "error", window);
-                }                
+                }
             }
         }
 
-        private void startServer() {
+        private void startServer()
+        {
             if (!isServerRunning)
             {
                 try
@@ -226,7 +301,7 @@ namespace LittleFancyTool.View
                 connectButton.LocalizationText = "startService";
                 isServerRunning = false;
             }
-            
+
         }
 
         private void ListenForClients(CancellationToken cancellationToken)
@@ -248,11 +323,11 @@ namespace LittleFancyTool.View
                 {
                     messageService.InternationalizationMessage("接受客户端连接时出错:", ex.Message, "error", window);
                 }
-            }            
+            }
         }
         private void HandleClientComm(TcpClient client, CancellationToken cancellationToken)
         {
-            NetworkStream clientStream = client.GetStream();           
+            NetworkStream clientStream = client.GetStream();
             byte[] message = new byte[8192];
             int bytesRead;
             while (!cancellationToken.IsCancellationRequested)
@@ -270,8 +345,16 @@ namespace LittleFancyTool.View
                 {
                     break;
                 }
-                string clientMessage = Encoding.UTF8.GetString(message, 0, bytesRead);
-                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {clientMessage}\r\n");
+                if (hexDisBox.Checked)
+                {
+                    string response = BitConverter.ToString(message, 0, bytesRead).Replace("-", " ");
+                    receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
+                }
+                else
+                {
+                    string response = Encoding.UTF8.GetString(message, 0, bytesRead);
+                    receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
+                }
             }
             clients.Remove(client);
             client.Close();
@@ -284,46 +367,77 @@ namespace LittleFancyTool.View
             stopConnection();
         }
 
-        private void server2client() {
+        private void server2client()
+        {
             if (clients.Count > 0)
             {
-                string message = sendInput.Text;
-                byte[] buffer = Encoding.UTF8.GetBytes(message);
-
-                foreach (TcpClient client in clients)
-                {
-                    if (client.Connected)
+                try {
+                    byte[] buffer;
+                    if (hexSendBox.Checked)
                     {
-                        try
+                        buffer = ToolMethod.HexStringToBytes(sendInput.Text);
+                    }
+                    else
+                    {
+                        buffer = Encoding.UTF8.GetBytes(sendInput.Text);
+                    }
+
+                    foreach (TcpClient client in clients)
+                    {
+                        if (client.Connected)
                         {
-                            NetworkStream stream = client.GetStream();
-                            stream.Write(buffer, 0, buffer.Length);
-                        }
-                        catch (Exception ex)
-                        {
-                            messageService.InternationalizationMessage("发送消息给客户端时出错:", ex.Message, "error", window);
+                            try
+                            {
+                                NetworkStream stream = client.GetStream();
+                                stream.Write(buffer, 0, buffer.Length);
+                            }
+                            catch (Exception ex)
+                            {
+                                messageService.InternationalizationMessage("发送消息给客户端时出错:", ex.Message, "error", window);
+                            }
                         }
                     }
+                    receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendInput.Text}\r\n");
+                } catch(Exception ex) {
+                    messageService.InternationalizationMessage("发送消息时出错:", ex.Message, "error", window);
                 }
-                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {message}\r\n");
+                
             }
             else
             {
+                pollBox.Checked = false;
                 messageService.InternationalizationMessage("客户端未连接", null, "error", window);
             }
         }
 
-        private void client2server() {
-            string message = sendInput.Text;
-            byte[] sendData = Encoding.UTF8.GetBytes(message);
-            if (isConnectionOpen)
+        private void client2server()
+        {
+            byte[] sendData;
+            try
             {
-                clientSocket.Send(sendData);
-                receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {message}\r\n");
+                if (hexSendBox.Checked)
+                {
+                    sendData = ToolMethod.HexStringToBytes(sendInput.Text);
+                }
+                else
+                {
+                    sendData = Encoding.UTF8.GetBytes(sendInput.Text);
+                }
+                if (isConnectionOpen)
+                {
+                    clientSocket.Send(sendData);
+                    receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendInput.Text}\r\n");
+                }
+                else
+                {
+                    pollBox.Checked = false;
+                    messageService.InternationalizationMessage("服务未连接", null, "error", window);
+                }
             }
-            else {
-                messageService.InternationalizationMessage("服务未连接", null, "error", window);
-            }
+            catch (Exception ex) {
+                messageService.InternationalizationMessage("发送消息时出错:", ex.Message, "error", window);
+            }                
+            
         }
 
         private void sendBtn_Click(object sender, EventArgs e)
@@ -339,8 +453,57 @@ namespace LittleFancyTool.View
                     client2server();
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 messageService.InternationalizationMessage("发送消息时出错:", ex.Message, "error", window);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            receivedInput1.Clear();
+        }
+
+        private void saveDataBtn_Click(object sender, EventArgs e)
+        {
+            if (receivedInput1.Text != null)
+            {
+                using (SaveFileDialog saveDialog = new SaveFileDialog())
+                {
+                    DateTime now = DateTime.Now;
+                    saveDialog.Filter = "数据|*.txt;";
+                    saveDialog.DefaultExt = ".txt";
+                    saveDialog.Title = "保存数据";
+                    saveDialog.OverwritePrompt = true;
+                    string formattedDateTime = now.ToString("yyyy_MM_dd HH_mm_ss");
+                    saveDialog.FileName = $"tcp_received_data {formattedDateTime}";
+                    if (saveDialog.ShowDialog(window) == DialogResult.OK)
+                    {
+                        Task.Run(() =>
+                        {
+                            string filePath = saveDialog.FileName;
+                            try
+                            {
+                                File.WriteAllText(filePath, receivedInput1.Text);
+                                messageService.InternationalizationMessage("数据已保存至：",
+                                    saveDialog.FileName,
+                                    "success",
+                                    window);
+                            }
+                            catch (Exception ex)
+                            {
+                                messageService.InternationalizationMessage("数据保存出错：",
+                                    ex.Message,
+                                    "error",
+                                    window);
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                messageService.InternationalizationMessage("没有数据可供保存", null, "warn", window);
             }
         }
     }

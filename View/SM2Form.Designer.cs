@@ -95,7 +95,7 @@
             // 
             inputTextBox.AutoScroll = true;
             inputTextBox.Dock = DockStyle.Fill;
-            inputTextBox.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            inputTextBox.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
             inputTextBox.Location = new Point(5, 86);
             inputTextBox.Margin = new Padding(2);
             inputTextBox.Multiline = true;
@@ -107,7 +107,7 @@
             // 
             outputTextBox.AutoScroll = true;
             outputTextBox.Dock = DockStyle.Fill;
-            outputTextBox.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            outputTextBox.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
             outputTextBox.Location = new Point(767, 86);
             outputTextBox.Margin = new Padding(2);
             outputTextBox.Multiline = true;
@@ -119,7 +119,7 @@
             // 
             publicKeyTextBox.AutoScroll = true;
             publicKeyTextBox.Dock = DockStyle.Fill;
-            publicKeyTextBox.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            publicKeyTextBox.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
             publicKeyTextBox.Location = new Point(5, 598);
             publicKeyTextBox.Margin = new Padding(2);
             publicKeyTextBox.Multiline = true;
@@ -131,7 +131,7 @@
             // 
             privateKeyTextBox.AutoScroll = true;
             privateKeyTextBox.Dock = DockStyle.Fill;
-            privateKeyTextBox.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            privateKeyTextBox.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
             privateKeyTextBox.Location = new Point(767, 598);
             privateKeyTextBox.Margin = new Padding(2);
             privateKeyTextBox.Multiline = true;

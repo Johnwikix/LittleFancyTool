@@ -30,6 +30,12 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
+            tableLayoutPanel12 = new TableLayoutPanel();
+            clearDataBtn = new AntdUI.Button();
+            saveDataBtn = new AntdUI.Button();
+            tableLayoutPanel11 = new TableLayoutPanel();
+            hexSendBox = new AntdUI.Checkbox();
+            hexDisBox = new AntdUI.Checkbox();
             tableLayoutPanel3 = new TableLayoutPanel();
             modeLabel = new AntdUI.Label();
             modeSelect = new AntdUI.Select();
@@ -43,6 +49,9 @@
             connectButton = new AntdUI.Button();
             connectLabel = new AntdUI.Label();
             tableLayoutPanel7 = new TableLayoutPanel();
+            pollIntervalInput = new AntdUI.InputNumber();
+            pollBox = new AntdUI.Checkbox();
+            tableLayoutPanel9 = new TableLayoutPanel();
             tableLayoutPanel8 = new TableLayoutPanel();
             tableLayoutPanel10 = new TableLayoutPanel();
             sendBtn = new AntdUI.Button();
@@ -50,17 +59,20 @@
             receivedInput1 = new AntdUI.Input();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel12.SuspendLayout();
+            tableLayoutPanel11.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
             tableLayoutPanel6.SuspendLayout();
+            tableLayoutPanel7.SuspendLayout();
             tableLayoutPanel10.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel8, 0, 1);
@@ -80,60 +92,158 @@
             // 
             tableLayoutPanel2.ColumnCount = 1;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel12, 0, 6);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel11, 0, 4);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel4, 0, 1);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel5, 0, 2);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel6, 0, 3);
-            tableLayoutPanel2.Controls.Add(tableLayoutPanel7, 0, 4);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel7, 0, 5);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel9, 0, 7);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 6;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel2.RowCount = 9;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(294, 624);
+            tableLayoutPanel2.Size = new Size(244, 624);
             tableLayoutPanel2.TabIndex = 0;
+            // 
+            // tableLayoutPanel12
+            // 
+            tableLayoutPanel12.ColumnCount = 2;
+            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel12.Controls.Add(clearDataBtn, 1, 0);
+            tableLayoutPanel12.Controls.Add(saveDataBtn, 0, 0);
+            tableLayoutPanel12.Dock = DockStyle.Fill;
+            tableLayoutPanel12.Location = new Point(0, 300);
+            tableLayoutPanel12.Margin = new Padding(0);
+            tableLayoutPanel12.Name = "tableLayoutPanel12";
+            tableLayoutPanel12.RowCount = 1;
+            tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel12.Size = new Size(244, 50);
+            tableLayoutPanel12.TabIndex = 7;
+            // 
+            // clearDataBtn
+            // 
+            clearDataBtn.Anchor = AnchorStyles.None;
+            clearDataBtn.Font = new Font("Microsoft YaHei UI", 12F);
+            clearDataBtn.IconSvg = "DeleteOutlined";
+            clearDataBtn.LocalizationText = "clearData";
+            clearDataBtn.Location = new Point(122, 2);
+            clearDataBtn.Margin = new Padding(0);
+            clearDataBtn.Name = "clearDataBtn";
+            clearDataBtn.Size = new Size(122, 45);
+            clearDataBtn.TabIndex = 0;
+            clearDataBtn.Tag = "";
+            clearDataBtn.Text = "清空数据";
+            clearDataBtn.Type = AntdUI.TTypeMini.Success;
+            clearDataBtn.Click += button1_Click;
+            // 
+            // saveDataBtn
+            // 
+            saveDataBtn.Anchor = AnchorStyles.None;
+            saveDataBtn.Font = new Font("Microsoft YaHei UI", 12F);
+            saveDataBtn.IconSvg = "SaveOutlined";
+            saveDataBtn.LocalizationText = "saveData";
+            saveDataBtn.Location = new Point(0, 2);
+            saveDataBtn.Margin = new Padding(0);
+            saveDataBtn.Name = "saveDataBtn";
+            saveDataBtn.Size = new Size(122, 45);
+            saveDataBtn.TabIndex = 1;
+            saveDataBtn.Tag = "";
+            saveDataBtn.Text = "保存数据";
+            saveDataBtn.Type = AntdUI.TTypeMini.Primary;
+            saveDataBtn.Click += saveDataBtn_Click;
+            // 
+            // tableLayoutPanel11
+            // 
+            tableLayoutPanel11.ColumnCount = 2;
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel11.Controls.Add(hexSendBox, 1, 0);
+            tableLayoutPanel11.Controls.Add(hexDisBox, 0, 0);
+            tableLayoutPanel11.Dock = DockStyle.Fill;
+            tableLayoutPanel11.Location = new Point(0, 200);
+            tableLayoutPanel11.Margin = new Padding(0);
+            tableLayoutPanel11.Name = "tableLayoutPanel11";
+            tableLayoutPanel11.RowCount = 1;
+            tableLayoutPanel11.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel11.Size = new Size(244, 50);
+            tableLayoutPanel11.TabIndex = 6;
+            // 
+            // hexSendBox
+            // 
+            hexSendBox.Anchor = AnchorStyles.Left;
+            hexSendBox.AutoSizeMode = AntdUI.TAutoSize.Auto;
+            hexSendBox.Font = new Font("Microsoft YaHei UI", 10F);
+            hexSendBox.LocalizationText = "hexSend";
+            hexSendBox.Location = new Point(122, 5);
+            hexSendBox.Margin = new Padding(0);
+            hexSendBox.Name = "hexSendBox";
+            hexSendBox.Size = new Size(98, 39);
+            hexSendBox.TabIndex = 9;
+            hexSendBox.Text = "HEX发送";
+            // 
+            // hexDisBox
+            // 
+            hexDisBox.Anchor = AnchorStyles.Left;
+            hexDisBox.AutoSizeMode = AntdUI.TAutoSize.Auto;
+            hexDisBox.Font = new Font("Microsoft YaHei UI", 10F);
+            hexDisBox.LocalizationText = "hexDisplay";
+            hexDisBox.Location = new Point(0, 5);
+            hexDisBox.Margin = new Padding(0);
+            hexDisBox.Name = "hexDisBox";
+            hexDisBox.Size = new Size(98, 39);
+            hexDisBox.TabIndex = 8;
+            hexDisBox.Text = "HEX显示";
             // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.Controls.Add(modeLabel, 0, 0);
             tableLayoutPanel3.Controls.Add(modeSelect, 1, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(3, 3);
+            tableLayoutPanel3.Location = new Point(0, 0);
+            tableLayoutPanel3.Margin = new Padding(0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.Size = new Size(288, 54);
+            tableLayoutPanel3.Size = new Size(244, 50);
             tableLayoutPanel3.TabIndex = 0;
             // 
             // modeLabel
             // 
             modeLabel.Anchor = AnchorStyles.Left;
-            modeLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            modeLabel.Font = new Font("Microsoft YaHei UI", 12F);
             modeLabel.LocalizationText = "mode";
             modeLabel.Location = new Point(3, 3);
             modeLabel.Name = "modeLabel";
-            modeLabel.Size = new Size(94, 48);
+            modeLabel.Size = new Size(94, 44);
             modeLabel.TabIndex = 1;
             modeLabel.Text = "模式";
             // 
             // modeSelect
             // 
-            modeSelect.Anchor = AnchorStyles.Left;
-            modeSelect.Font = new Font("Microsoft YaHei UI", 12F);
+            modeSelect.Anchor = AnchorStyles.None;
+            modeSelect.Font = new Font("Microsoft YaHei UI", 10F);
             modeSelect.Items.AddRange(new object[] { "server", "client" });
-            modeSelect.Location = new Point(103, 4);
+            modeSelect.Location = new Point(122, 2);
+            modeSelect.Margin = new Padding(0);
             modeSelect.Name = "modeSelect";
             modeSelect.SelectedIndex = 0;
             modeSelect.SelectedValue = "server";
-            modeSelect.Size = new Size(150, 45);
+            modeSelect.Size = new Size(122, 45);
             modeSelect.TabIndex = 0;
             modeSelect.Text = "server";
             modeSelect.SelectedIndexChanged += modeSelect_SelectedIndexChanged;
@@ -141,63 +251,67 @@
             // tableLayoutPanel4
             // 
             tableLayoutPanel4.ColumnCount = 2;
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.Controls.Add(addressLabel, 0, 0);
             tableLayoutPanel4.Controls.Add(addressInput, 1, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(3, 63);
+            tableLayoutPanel4.Location = new Point(0, 50);
+            tableLayoutPanel4.Margin = new Padding(0);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.Size = new Size(288, 54);
+            tableLayoutPanel4.Size = new Size(244, 50);
             tableLayoutPanel4.TabIndex = 1;
             // 
             // addressLabel
             // 
             addressLabel.Anchor = AnchorStyles.Left;
-            addressLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            addressLabel.Font = new Font("Microsoft YaHei UI", 12F);
             addressLabel.LocalizationText = "address";
             addressLabel.Location = new Point(3, 3);
             addressLabel.Name = "addressLabel";
-            addressLabel.Size = new Size(94, 48);
+            addressLabel.Size = new Size(94, 44);
             addressLabel.TabIndex = 0;
             addressLabel.Text = "地址";
             // 
             // addressInput
             // 
-            addressInput.Anchor = AnchorStyles.Left;
-            addressInput.Font = new Font("Microsoft YaHei UI", 12F);
-            addressInput.Location = new Point(103, 4);
+            addressInput.Anchor = AnchorStyles.None;
+            addressInput.Font = new Font("Microsoft YaHei UI", 10F);
+            addressInput.Location = new Point(122, 2);
+            addressInput.Margin = new Padding(0);
             addressInput.Name = "addressInput";
-            addressInput.Size = new Size(150, 45);
+            addressInput.Size = new Size(122, 45);
             addressInput.TabIndex = 1;
             addressInput.Text = "127.0.0.1";
             // 
             // tableLayoutPanel5
             // 
             tableLayoutPanel5.ColumnCount = 2;
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel5.Controls.Add(portInput, 1, 0);
             tableLayoutPanel5.Controls.Add(portLabel, 0, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(3, 123);
+            tableLayoutPanel5.Location = new Point(0, 100);
+            tableLayoutPanel5.Margin = new Padding(0);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Size = new Size(288, 54);
+            tableLayoutPanel5.Size = new Size(244, 50);
             tableLayoutPanel5.TabIndex = 2;
             // 
             // portInput
             // 
-            portInput.Anchor = AnchorStyles.Left;
-            portInput.Font = new Font("Microsoft YaHei UI", 12F);
-            portInput.Location = new Point(103, 4);
+            portInput.Anchor = AnchorStyles.None;
+            portInput.Font = new Font("Microsoft YaHei UI", 10F);
+            portInput.Location = new Point(122, 2);
+            portInput.Margin = new Padding(0);
             portInput.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             portInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             portInput.Name = "portInput";
-            portInput.Size = new Size(150, 45);
+            portInput.Size = new Size(122, 45);
             portInput.TabIndex = 2;
             portInput.Text = "2345";
             portInput.Value = new decimal(new int[] { 2345, 0, 0, 0 });
@@ -205,37 +319,39 @@
             // portLabel
             // 
             portLabel.Anchor = AnchorStyles.Left;
-            portLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            portLabel.Font = new Font("Microsoft YaHei UI", 12F);
             portLabel.LocalizationText = "port";
             portLabel.Location = new Point(3, 3);
             portLabel.Name = "portLabel";
-            portLabel.Size = new Size(94, 48);
+            portLabel.Size = new Size(94, 44);
             portLabel.TabIndex = 1;
             portLabel.Text = "端口";
             // 
             // tableLayoutPanel6
             // 
             tableLayoutPanel6.ColumnCount = 2;
-            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel6.Controls.Add(connectButton, 1, 0);
             tableLayoutPanel6.Controls.Add(connectLabel, 0, 0);
             tableLayoutPanel6.Dock = DockStyle.Fill;
-            tableLayoutPanel6.Location = new Point(3, 183);
+            tableLayoutPanel6.Location = new Point(0, 150);
+            tableLayoutPanel6.Margin = new Padding(0);
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel6.Size = new Size(288, 54);
+            tableLayoutPanel6.Size = new Size(244, 50);
             tableLayoutPanel6.TabIndex = 3;
             // 
             // connectButton
             // 
-            connectButton.Anchor = AnchorStyles.Left;
-            connectButton.Font = new Font("Microsoft YaHei UI", 14F);
+            connectButton.Anchor = AnchorStyles.None;
+            connectButton.Font = new Font("Microsoft YaHei UI", 12F);
             connectButton.LocalizationText = "startService";
-            connectButton.Location = new Point(103, 4);
+            connectButton.Location = new Point(122, 2);
+            connectButton.Margin = new Padding(0);
             connectButton.Name = "connectButton";
-            connectButton.Size = new Size(150, 45);
+            connectButton.Size = new Size(122, 45);
             connectButton.TabIndex = 0;
             connectButton.Tag = "";
             connectButton.Text = "启动服务";
@@ -245,11 +361,11 @@
             // connectLabel
             // 
             connectLabel.Anchor = AnchorStyles.Left;
-            connectLabel.Font = new Font("Microsoft YaHei UI", 15F);
+            connectLabel.Font = new Font("Microsoft YaHei UI", 12F);
             connectLabel.LocalizationText = "service";
             connectLabel.Location = new Point(3, 3);
             connectLabel.Name = "connectLabel";
-            connectLabel.Size = new Size(94, 48);
+            connectLabel.Size = new Size(94, 44);
             connectLabel.TabIndex = 1;
             connectLabel.Text = "服务";
             // 
@@ -258,13 +374,54 @@
             tableLayoutPanel7.ColumnCount = 2;
             tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.Controls.Add(pollIntervalInput, 1, 0);
+            tableLayoutPanel7.Controls.Add(pollBox, 0, 0);
             tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 243);
+            tableLayoutPanel7.Location = new Point(0, 250);
+            tableLayoutPanel7.Margin = new Padding(0);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 1;
-            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel7.Size = new Size(288, 54);
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel7.Size = new Size(244, 50);
             tableLayoutPanel7.TabIndex = 4;
+            // 
+            // pollIntervalInput
+            // 
+            pollIntervalInput.Anchor = AnchorStyles.None;
+            pollIntervalInput.Location = new Point(122, 2);
+            pollIntervalInput.Margin = new Padding(0);
+            pollIntervalInput.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+            pollIntervalInput.Name = "pollIntervalInput";
+            pollIntervalInput.Size = new Size(122, 45);
+            pollIntervalInput.TabIndex = 5;
+            pollIntervalInput.Text = "1000";
+            pollIntervalInput.Value = new decimal(new int[] { 1000, 0, 0, 0 });
+            // 
+            // pollBox
+            // 
+            pollBox.Anchor = AnchorStyles.Left;
+            pollBox.Font = new Font("Microsoft YaHei UI", 10F);
+            pollBox.LocalizationText = "pollSend";
+            pollBox.Location = new Point(0, 4);
+            pollBox.Margin = new Padding(0);
+            pollBox.Name = "pollBox";
+            pollBox.Size = new Size(113, 41);
+            pollBox.TabIndex = 4;
+            pollBox.Text = "间隔发送(ms)";
+            // 
+            // tableLayoutPanel9
+            // 
+            tableLayoutPanel9.ColumnCount = 2;
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel9.Dock = DockStyle.Fill;
+            tableLayoutPanel9.Location = new Point(0, 350);
+            tableLayoutPanel9.Margin = new Padding(0);
+            tableLayoutPanel9.Name = "tableLayoutPanel9";
+            tableLayoutPanel9.RowCount = 1;
+            tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel9.Size = new Size(244, 50);
+            tableLayoutPanel9.TabIndex = 5;
             // 
             // tableLayoutPanel8
             // 
@@ -277,7 +434,7 @@
             tableLayoutPanel8.RowCount = 2;
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel8.Size = new Size(294, 164);
+            tableLayoutPanel8.Size = new Size(244, 164);
             tableLayoutPanel8.TabIndex = 1;
             // 
             // tableLayoutPanel10
@@ -288,11 +445,11 @@
             tableLayoutPanel10.Controls.Add(sendBtn, 0, 0);
             tableLayoutPanel10.Controls.Add(sendInput, 1, 0);
             tableLayoutPanel10.Dock = DockStyle.Fill;
-            tableLayoutPanel10.Location = new Point(303, 633);
+            tableLayoutPanel10.Location = new Point(253, 633);
             tableLayoutPanel10.Name = "tableLayoutPanel10";
             tableLayoutPanel10.RowCount = 1;
             tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel10.Size = new Size(1094, 164);
+            tableLayoutPanel10.Size = new Size(1144, 164);
             tableLayoutPanel10.TabIndex = 3;
             // 
             // sendBtn
@@ -312,23 +469,23 @@
             // 
             sendInput.AutoScroll = true;
             sendInput.Dock = DockStyle.Fill;
-            sendInput.Font = new Font("Microsoft YaHei UI", 10F);
+            sendInput.Font = new Font("Microsoft YaHei UI", 12F);
             sendInput.Location = new Point(173, 3);
             sendInput.Multiline = true;
             sendInput.Name = "sendInput";
-            sendInput.Size = new Size(918, 158);
+            sendInput.Size = new Size(968, 158);
             sendInput.TabIndex = 1;
             // 
             // receivedInput1
             // 
             receivedInput1.AutoScroll = true;
             receivedInput1.Dock = DockStyle.Fill;
-            receivedInput1.Font = new Font("Microsoft YaHei UI", 10F);
-            receivedInput1.Location = new Point(303, 3);
+            receivedInput1.Font = new Font("Microsoft YaHei UI", 12F);
+            receivedInput1.Location = new Point(253, 3);
             receivedInput1.Multiline = true;
             receivedInput1.Name = "receivedInput1";
             receivedInput1.ReadOnly = true;
-            receivedInput1.Size = new Size(1094, 624);
+            receivedInput1.Size = new Size(1144, 624);
             receivedInput1.TabIndex = 4;
             // 
             // TcpServerForm
@@ -339,10 +496,14 @@
             Size = new Size(1400, 800);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel12.ResumeLayout(false);
+            tableLayoutPanel11.ResumeLayout(false);
+            tableLayoutPanel11.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel6.ResumeLayout(false);
+            tableLayoutPanel7.ResumeLayout(false);
             tableLayoutPanel10.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -369,5 +530,14 @@
         private AntdUI.Input addressInput;
         private AntdUI.Label modeLabel;
         private AntdUI.Select modeSelect;
+        private AntdUI.Checkbox pollBox;
+        private AntdUI.InputNumber pollIntervalInput;
+        private TableLayoutPanel tableLayoutPanel9;
+        private AntdUI.Button saveDataBtn;
+        private AntdUI.Button clearDataBtn;
+        private TableLayoutPanel tableLayoutPanel11;
+        private AntdUI.Checkbox hexDisBox;
+        private TableLayoutPanel tableLayoutPanel12;
+        private AntdUI.Checkbox hexSendBox;
     }
 }

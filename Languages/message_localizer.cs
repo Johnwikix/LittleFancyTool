@@ -138,6 +138,14 @@ namespace LittleFancyTool.Languages
                     return "Gateway target device response failed";
                 case "图片已保存至：":
                     return "image saved to:";
+                case "无效的十六进制字符串":
+                    return "invalid hexadecimal string";
+                case "数据已保存至：":
+                    return "data saved to:";
+                case "数据保存出错：":
+                    return "error occurred when saving data:";
+                case "没有数据可供保存":
+                    return "no data available for saving";
                 default:
                     return key;
             }

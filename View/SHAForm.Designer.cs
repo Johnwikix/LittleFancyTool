@@ -59,7 +59,7 @@
             // 
             inputTextBox.AutoScroll = true;
             inputTextBox.Dock = DockStyle.Fill;
-            inputTextBox.Font = new Font("Microsoft YaHei UI", 10F);
+            inputTextBox.Font = new Font("Microsoft YaHei UI", 12F);
             inputTextBox.Location = new Point(5, 66);
             inputTextBox.Margin = new Padding(2);
             inputTextBox.Multiline = true;
@@ -71,7 +71,7 @@
             // 
             outputTextBox.AutoScroll = true;
             outputTextBox.Dock = DockStyle.Fill;
-            outputTextBox.Font = new Font("Microsoft YaHei UI", 10F);
+            outputTextBox.Font = new Font("Microsoft YaHei UI", 12F);
             outputTextBox.Location = new Point(767, 66);
             outputTextBox.Margin = new Padding(2);
             outputTextBox.Multiline = true;

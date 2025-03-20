@@ -372,6 +372,7 @@
             // statusInput
             // 
             statusInput.AutoScroll = true;
+            statusInput.Font = new Font("Microsoft YaHei UI", 10F);
             statusInput.Location = new Point(0, 300);
             statusInput.Margin = new Padding(0);
             statusInput.Multiline = true;
@@ -401,6 +402,7 @@
             // 
             outputInput.AutoScroll = true;
             outputInput.Dock = DockStyle.Fill;
+            outputInput.Font = new Font("Microsoft YaHei UI", 12F);
             outputInput.Location = new Point(253, 3);
             outputInput.Multiline = true;
             outputInput.Name = "outputInput";

@@ -1,5 +1,7 @@
-﻿using LittleFancyTool.Service;
+﻿using AntdUI;
+using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
+using LittleFancyTool.Utils;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
+using static LittleFancyTool.Utils.ToolMethod;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace LittleFancyTool.View
@@ -26,20 +29,58 @@ namespace LittleFancyTool.View
         private AntdUI.Window window;
         private System.Timers.Timer dataTimeoutTimer;
         private IMessageService messageService = new MessageService();
-        private enum EncodingMode
-        {
-            Auto,
-            UTF8,
-            ASCII,
-            GB2312,
-            Hex,
-        }
+        
         public SerialPortForm(AntdUI.Window _window)
         {
             this.window = _window;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             InitializeComponent();
             RefreshPortList();
+            pollBox.CheckedChanged += PollBox_CheckedChanged;
+            hexSendBox.CheckedChanged += HexSendBox_CheckedChanged;
+        }
+
+        private void HexSendBox_CheckedChanged(object sender, BoolEventArgs e)
+        {
+            EncodingMode encodingMode = (EncodingMode)sendSelect.SelectedIndex;
+            string sendText = sendInput.Text;
+            if (hexSendBox.Checked)
+            {
+                sendInput.Text = ToolMethod.ByteArrayToHexString(GetEncodedData(sendText,encodingMode));
+            }
+            else
+            {
+                try
+                {
+                    sendInput.Text = GetEncoding(encodingMode).GetString(ToolMethod.HexStringToBytes(sendText));
+                }
+                catch (Exception)
+                {
+                    messageService.InternationalizationMessage("无效的十六进制字符串", null, "error", window);
+                    hexSendBox.Checked = true;
+                    sendInput.Text = sendText;
+                }
+            }
+        }
+
+        private void PollBox_CheckedChanged(object sender, BoolEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                while (pollBox.Checked)
+                {
+                    if (serialPort.IsOpen)
+                    {
+                        sendMessage().Wait();
+                        Task.Delay((int)pollIntervalInput.Value).Wait();
+                    }
+                    else
+                    {
+                        pollBox.Checked = false;
+                        messageService.InternationalizationMessage("请先打开串口连接", null, "warn", window);
+                    }
+                }
+            });
         }
 
         private void InitializeSerialPort()
@@ -103,6 +144,7 @@ namespace LittleFancyTool.View
                 {
                     InitializeSerialPort();
                     serialPort.RtsEnable = rs485checkbox.Checked;
+                    serialPort.DtrEnable = dtrBox.Checked;
                     serialPort.Handshake = Handshake.None;
                     serialPort.PortName = portSelect.SelectedValue.ToString();
                     serialPort.BaudRate = int.Parse(baudRateSelect.SelectedValue.ToString());
@@ -134,7 +176,8 @@ namespace LittleFancyTool.View
                 sendBtn.Loading = true;
                 sendMessage();
             }
-            else {
+            else
+            {
                 messageService.InternationalizationMessage("请先打开串口连接", null, "warn", window);
             }
         }
@@ -147,11 +190,19 @@ namespace LittleFancyTool.View
                 {
                     string sendText = sendInput.Text;
                     serialPort.RtsEnable = rs485checkbox.Checked;
-                    byte[] sendData = GetEncodedData(sendText + "\r\n", (EncodingMode)sendSelect.SelectedIndex);
+                    serialPort.DtrEnable = dtrBox.Checked;
+                    byte[] sendData;
+                    if (hexSendBox.Checked)
+                    {
+                        sendData = ToolMethod.HexStringToBytes(sendInput.Text);
+                    }
+                    else
+                    {
+                        sendData = ToolMethod.GetEncodedData(sendText + "\r\n", (EncodingMode)sendSelect.SelectedIndex);
+                    }
                     serialPort.Write(sendData, 0, sendData.Length);
                     receivedInput.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendText}\r\n");
                     sendBtn.Loading = false;
-                    serialPort.RtsEnable = false;
                 }
                 catch (Exception ex)
                 {
@@ -159,37 +210,7 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
                 }
             });
-        }
-
-        private Encoding GetGBEncoding()
-        {
-            try
-            {
-                return Encoding.GetEncoding("GB18030");
-            }
-            catch (ArgumentException)
-            {
-                return Encoding.Default;
-            }
-        }
-
-        private byte[] GetEncodedData(string input, EncodingMode mode)
-        {
-            switch (mode)
-            {
-                case EncodingMode.Auto:
-                    return Encoding.Default.GetBytes(input);
-                case EncodingMode.ASCII:
-                    return Encoding.ASCII.GetBytes(input);
-                case EncodingMode.UTF8:
-                    return Encoding.UTF8.GetBytes(input);
-                case EncodingMode.GB2312:
-                    Encoding gbEncoder = GetGBEncoding();
-                    return gbEncoder.GetBytes(input);
-                default:
-                    throw new ArgumentException("不支持的编码类型");
-            }
-        }
+        }            
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -247,25 +268,27 @@ namespace LittleFancyTool.View
             sb.Append($"{DateTime.Now:HH:mm:ss} << ");
 
             int recvMode = receivedModeSelect.SelectedIndex;
-
-            switch ((EncodingMode)recvMode)
+            if (hexDisBox.Checked)
             {
-                case EncodingMode.Auto:
-                    sb.Append(DetectBestEncoding(data).GetString(data));
-                    break;
-                case EncodingMode.Hex:
-                    sb.Append(ByteArrayToHexString(data));
-                    break;
-                case EncodingMode.ASCII:
-                    sb.Append(Encoding.ASCII.GetString(data));
-                    break;
-                case EncodingMode.UTF8:
-                    sb.Append(Encoding.UTF8.GetString(data));
-                    break;
-                case EncodingMode.GB2312:
-                    sb.Append(Encoding.GetEncoding("GB18030").GetString(data));
-                    break;
+                sb.Append(ToolMethod.ByteArrayToHexString(data));
             }
+            else {
+                switch ((EncodingMode)recvMode)
+                {
+                    case EncodingMode.Auto:
+                        sb.Append(DetectBestEncoding(data).GetString(data));
+                        break;
+                    case EncodingMode.ASCII:
+                        sb.Append(Encoding.ASCII.GetString(data));
+                        break;
+                    case EncodingMode.UTF8:
+                        sb.Append(Encoding.UTF8.GetString(data));
+                        break;
+                    case EncodingMode.GB2312:
+                        sb.Append(Encoding.GetEncoding("GB18030").GetString(data));
+                        break;
+                }
+            }            
             if (prefix == "超时")
             {
                 receivedInput.AppendText(sb.ToString() + "\r\n");
@@ -300,11 +323,54 @@ namespace LittleFancyTool.View
                     return false;
             }
             return true;
+        }        
+
+        private void clearDataBtn_Click(object sender, EventArgs e)
+        {
+            receivedInput.Clear();
         }
 
-        private string ByteArrayToHexString(byte[] data)
+        private void saveDataBtn_Click(object sender, EventArgs e)
         {
-            return BitConverter.ToString(data).Replace("-", " ");
+            if (receivedInput.Text != null)
+            {
+                using (SaveFileDialog saveDialog = new SaveFileDialog())
+                {
+                    DateTime now = DateTime.Now;
+                    saveDialog.Filter = "数据|*.txt;";
+                    saveDialog.DefaultExt =".txt";
+                    saveDialog.Title = "保存数据";
+                    saveDialog.OverwritePrompt = true;
+                    string formattedDateTime = now.ToString("yyyy_MM_dd HH_mm_ss");
+                    saveDialog.FileName = $"serial_received_data {formattedDateTime}";                    
+                    if (saveDialog.ShowDialog(window) == DialogResult.OK)
+                    {
+                        Task.Run(() =>
+                        {
+                            string filePath = saveDialog.FileName;
+                            try
+                            {
+                                File.WriteAllText(filePath, receivedInput.Text);
+                                messageService.InternationalizationMessage("数据已保存至：",
+                                    saveDialog.FileName,
+                                    "success",
+                                    window);
+                            }
+                            catch (Exception ex)
+                            {
+                                messageService.InternationalizationMessage("数据保存出错：",
+                                    ex.Message,
+                                    "error",
+                                    window);
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                messageService.InternationalizationMessage("没有数据可供保存", null, "warn", window);
+            }
         }
     }
 }

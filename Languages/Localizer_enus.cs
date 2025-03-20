@@ -166,6 +166,18 @@ namespace LittleFancyTool.Languages
                     return "value(DEC)";
                 case "Table.Column.lastUpdate":
                     return "Last Update";
+                case "save":
+                    return "Save";
+                case "hexDisplay":
+                    return "Hex Display";
+                case "hexSend":
+                    return "Hex Send";
+                case "saveData":
+                    return "Save Data";
+                case "clearData":
+                    return "Clear Data";
+                case "pollSend":
+                    return "PollSend(ms)";
                 #endregion
                 default:
                     return null;

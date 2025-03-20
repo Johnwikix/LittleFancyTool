@@ -370,6 +370,7 @@
             // statusInput
             // 
             statusInput.AutoScroll = true;
+            statusInput.Font = new Font("Microsoft YaHei UI", 10F);
             statusInput.Location = new Point(0, 300);
             statusInput.Margin = new Padding(0);
             statusInput.Multiline = true;
