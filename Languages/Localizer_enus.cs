@@ -119,6 +119,10 @@
                     return "Value";
                 case "incrementTime":
                     return "Increment Time(ms)";
+                case "OutputImg2Base64":
+                    return "Output (An excessively long base64 string may cause crashes)";
+                case "imgBase64":
+                    return "Image (max 1536*1536)";
                 #endregion
 
                 #region Serial Port

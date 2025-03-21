@@ -150,6 +150,10 @@
                     return "remote host has closed the connection";
                 case "没有选中的客户端连接":
                     return "no clients connection enabled";
+                case "输入字符串长度不能超过8388607":
+                    return "The length of the output string cannot exceed 8388607. Please reduce the size of the image";
+                case "请不要输入像素数量大于2,359,296的图片":
+                    return "Please do not input images with a pixel count greater than 2,359,296";
                 default:
                     return key;
             }

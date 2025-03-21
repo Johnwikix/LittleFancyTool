@@ -82,7 +82,7 @@ namespace LittleFancyTool.View
             outputTextBox.Font = new Font("Microsoft YaHei UI", 12F);
             outputTextBox.Location = new Point(767, 66);
             outputTextBox.Margin = new Padding(2);
-            outputTextBox.MaxLength = int.MaxValue;
+            outputTextBox.MaxLength = 16777215;
             outputTextBox.Multiline = true;
             outputTextBox.Name = "outputTextBox";
             outputTextBox.Size = new Size(628, 728);
@@ -93,26 +93,26 @@ namespace LittleFancyTool.View
             inputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             inputLabel.AutoSizeMode = TAutoSize.Auto;
             inputLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            inputLabel.LocalizationText = "img";
+            inputLabel.LocalizationText = "imgBase64";
             inputLabel.Location = new Point(46, 24);
             inputLabel.Margin = new Padding(2);
             inputLabel.Name = "inputLabel";
-            inputLabel.Size = new Size(48, 28);
+            inputLabel.Size = new Size(215, 28);
             inputLabel.TabIndex = 4;
-            inputLabel.Text = "图片";
+            inputLabel.Text = "图片(max 1536*1536)";
             // 
             // outputLabel
             // 
             outputLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             outputLabel.AutoSizeMode = TAutoSize.Auto;
             outputLabel.Font = new Font("Microsoft YaHei UI", 15F);
-            outputLabel.LocalizationText = "Output";
+            outputLabel.LocalizationText = "OutputImg2Base64";
             outputLabel.Location = new Point(767, 34);
             outputLabel.Margin = new Padding(2);
             outputLabel.Name = "outputLabel";
-            outputLabel.Size = new Size(69, 28);
+            outputLabel.Size = new Size(420, 28);
             outputLabel.TabIndex = 5;
-            outputLabel.Text = "输出框";
+            outputLabel.Text = "输出框(过长的base64字符串可能会导致崩溃)";
             // 
             // tableLayoutPanel1
             // 

@@ -227,8 +227,10 @@ namespace LittleFancyTool.Utils
                     return ImageFormat.Webp;
                 case "tiff":
                     return ImageFormat.Tiff;
-                case "heif":
+                case "heic":
                     return ImageFormat.Heif;
+                case "ico":
+                    return ImageFormat.Icon;
                 default:
                     return ImageFormat.Jpeg;
             }

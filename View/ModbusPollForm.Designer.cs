@@ -385,8 +385,8 @@
             // 
             tableLayoutPanel9.ColumnCount = 3;
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
             tableLayoutPanel9.Controls.Add(outputInput, 1, 0);
             tableLayoutPanel9.Controls.Add(tableLayoutPanel10, 0, 0);
             tableLayoutPanel9.Controls.Add(slaveTable, 2, 0);
@@ -407,7 +407,7 @@
             outputInput.Multiline = true;
             outputInput.Name = "outputInput";
             outputInput.ReadOnly = true;
-            outputInput.Size = new Size(441, 788);
+            outputInput.Size = new Size(351, 788);
             outputInput.TabIndex = 0;
             // 
             // tableLayoutPanel10
@@ -569,9 +569,9 @@
             // slaveTable
             // 
             slaveTable.Dock = DockStyle.Fill;
-            slaveTable.Location = new Point(700, 3);
+            slaveTable.Location = new Point(610, 3);
             slaveTable.Name = "slaveTable";
-            slaveTable.Size = new Size(441, 788);
+            slaveTable.Size = new Size(531, 788);
             slaveTable.TabIndex = 5;
             // 
             // ModbusPollForm

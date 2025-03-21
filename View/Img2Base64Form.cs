@@ -21,13 +21,12 @@ namespace LittleFancyTool.View
             InitializeComponent();
         }
 
-        private async void encryptBtn_Click(object sender, EventArgs e)
+        private void encryptBtn_Click(object sender, EventArgs e)
         {
             encryptBtn.Loading = true;
             if (pictureBox.Image != null)
             {
-                await pic2base64();
-                encryptBtn.Loading = false;
+                Task.Run(()=> pic2base64());                
             }
             else
             {
@@ -36,18 +35,18 @@ namespace LittleFancyTool.View
             }
         }
 
-        private Task pic2base64()
+        private void pic2base64()
         {
-            return Task.Run(() =>
+            using (MemoryStream ms = new MemoryStream())
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    pictureBox.Image.Save(ms, ImageFormat.Png);
-                    byte[] imageBytes = ms.ToArray();
-                    string base64String = Convert.ToBase64String(imageBytes);
-                    outputTextBox.Text = base64String;
-                }
-            });
+                pictureBox.Image.Save(ms, ImageFormat.Png);
+                byte[] imageBytes = ms.ToArray();
+                string base64String = Convert.ToBase64String(imageBytes);
+                Debug.WriteLine(base64String.Length);
+                outputTextBox.Clear();
+                outputTextBox.Text = base64String;
+                encryptBtn.Loading = false;
+            }
         }
 
         private Task base64toPic()
@@ -102,14 +101,21 @@ namespace LittleFancyTool.View
             Task.Run(() =>
             {
                 Image image = Image.FromFile(filePaths[0]);
-                pictureBox.Invoke((MethodInvoker)delegate
-                {
-                    if (pictureBox.Image != null)
+                if (image.Width * image.Height <= 2359296) {
+                    pictureBox.Invoke((MethodInvoker)delegate
                     {
-                        pictureBox.Image.Dispose();
-                    }
-                    pictureBox.Image = image;
-                });
+                        if (pictureBox.Image != null)
+                        {
+                            pictureBox.Image.Dispose();
+                        }
+                        pictureBox.Image = image;
+                    });
+                }
+                else
+                {
+                    messageService.InternationalizationMessage("请不要输入像素数量大于2,359,296的图片", null, "error", window);
+                }
+
             });
             Debug.WriteLine("DragChanged耗时: " + (DateTime.Now - startTime).TotalMilliseconds);
         }

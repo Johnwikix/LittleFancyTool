@@ -80,6 +80,7 @@ namespace LittleFancyTool.View
             // 
             // pictureBox
             // 
+            pictureBox.Dock = DockStyle.Fill;
             pictureBox.Location = new Point(136, 67);
             pictureBox.Name = "pictureBox";
             pictureBox.Size = new Size(1258, 726);
@@ -121,7 +122,7 @@ namespace LittleFancyTool.View
             // 
             // formatSelect
             // 
-            formatSelect.Items.AddRange(new object[] { "jpg", "jpeg", "png", "gif", "bmp", "webp", "tiff", "heif" });
+            formatSelect.Items.AddRange(new object[] { "jpg", "jpeg", "png", "gif", "bmp", "webp", "tiff", "heic", "ico" });
             formatSelect.Location = new Point(3, 133);
             formatSelect.Name = "formatSelect";
             formatSelect.SelectedIndex = 0;

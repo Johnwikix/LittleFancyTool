@@ -45,7 +45,7 @@ namespace LittleFancyTool.View
             {
                 using (SaveFileDialog saveDialog = new SaveFileDialog())
                 {
-                    saveDialog.Filter = "所有图片文件|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.webp;*.tiff;*.heif";
+                    saveDialog.Filter = "所有图片文件|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.webp;*.tiff;*.heif;*.ico";
                     saveDialog.DefaultExt = formatSelect.SelectedValue.ToString();
                     saveDialog.Title = "保存图片";
                     saveDialog.OverwritePrompt = true;
