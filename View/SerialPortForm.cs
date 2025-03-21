@@ -23,6 +23,10 @@ namespace LittleFancyTool.View
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             InitializeComponent();
             RefreshPortList();
+            DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
             pollBox.CheckedChanged += PollBox_CheckedChanged;
             hexSendBox.CheckedChanged += HexSendBox_CheckedChanged;
             receivedInput.TextChanged += (s, e) => receivedInput.ScrollToCaret(); ;

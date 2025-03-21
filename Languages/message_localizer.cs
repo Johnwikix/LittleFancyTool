@@ -144,6 +144,10 @@
                     return "client is not connected";
                 case "加密出错，文件未读取":
                     return "encryption error, file not read";
+                case "处理客户端消息时出错:":
+                    return "error occurred when processing client message:";
+                case "远程主机已关闭连接":
+                    return "remote host has closed the connection";
                 default:
                     return key;
             }

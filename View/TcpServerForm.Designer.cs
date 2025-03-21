@@ -51,12 +51,12 @@
             tableLayoutPanel7 = new TableLayoutPanel();
             pollIntervalInput = new AntdUI.InputNumber();
             pollBox = new AntdUI.Checkbox();
-            tableLayoutPanel9 = new TableLayoutPanel();
             tableLayoutPanel8 = new TableLayoutPanel();
             tableLayoutPanel10 = new TableLayoutPanel();
             sendBtn = new AntdUI.Button();
             sendInput = new AntdUI.Input();
             receivedInput1 = new AntdUI.Input();
+            socketClientTable = new AntdUI.Table();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel12.SuspendLayout();
@@ -99,7 +99,7 @@
             tableLayoutPanel2.Controls.Add(tableLayoutPanel5, 0, 2);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel6, 0, 3);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel7, 0, 5);
-            tableLayoutPanel2.Controls.Add(tableLayoutPanel9, 0, 7);
+            tableLayoutPanel2.Controls.Add(socketClientTable, 0, 7);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -111,8 +111,8 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             tableLayoutPanel2.Size = new Size(244, 624);
             tableLayoutPanel2.TabIndex = 0;
             // 
@@ -409,20 +409,6 @@
             pollBox.TabIndex = 4;
             pollBox.Text = "间隔发送(ms)";
             // 
-            // tableLayoutPanel9
-            // 
-            tableLayoutPanel9.ColumnCount = 2;
-            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel9.Dock = DockStyle.Fill;
-            tableLayoutPanel9.Location = new Point(0, 350);
-            tableLayoutPanel9.Margin = new Padding(0);
-            tableLayoutPanel9.Name = "tableLayoutPanel9";
-            tableLayoutPanel9.RowCount = 1;
-            tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel9.Size = new Size(244, 50);
-            tableLayoutPanel9.TabIndex = 5;
-            // 
             // tableLayoutPanel8
             // 
             tableLayoutPanel8.ColumnCount = 2;
@@ -488,6 +474,14 @@
             receivedInput1.Size = new Size(1144, 624);
             receivedInput1.TabIndex = 4;
             // 
+            // socketClientTable
+            // 
+            socketClientTable.Dock = DockStyle.Fill;
+            socketClientTable.Location = new Point(3, 353);
+            socketClientTable.Name = "socketClientTable";
+            socketClientTable.Size = new Size(238, 263);
+            socketClientTable.TabIndex = 8;
+            // 
             // TcpServerForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -532,12 +526,12 @@
         private AntdUI.Select modeSelect;
         private AntdUI.Checkbox pollBox;
         private AntdUI.InputNumber pollIntervalInput;
-        private TableLayoutPanel tableLayoutPanel9;
         private AntdUI.Button saveDataBtn;
         private AntdUI.Button clearDataBtn;
         private TableLayoutPanel tableLayoutPanel11;
         private AntdUI.Checkbox hexDisBox;
         private TableLayoutPanel tableLayoutPanel12;
         private AntdUI.Checkbox hexSendBox;
+        private AntdUI.Table socketClientTable;
     }
 }

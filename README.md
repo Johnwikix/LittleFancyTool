@@ -6,6 +6,8 @@
 
 本工具是一款基于 Windows Forms 开发的桌面应用程序，旨在为用户提供多种常用功能。支持 rs232、rs485、modbus rtu poll、modbus rtu slave、串口通信调试功能以及 sockets 通信功能，支持多算法文本加密，支持文件异步多线程加密解密，支持图像文本 Base64 转换，多格式图像转换，图像转 ico 功能。
 
+现已上架微软商城：https://apps.microsoft.com/detail/9p543ghqqkvk
+
 ### 二、功能特点
 
 1. #### 串口调试：
