@@ -273,6 +273,11 @@ namespace LittleFancyTool.View
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
+                    currentSocketClient.Close();
+                    connectButton.Text = "连接";
+                    connectButton.LocalizationText = "connectButton";
+                    connectButton.Type = AntdUI.TTypeMini.Success;
+                    isConnectionOpen = false;
                     messageService.InternationalizationMessage("接收消息时出错:", ex.Message, "error", window);
                 }
             }
