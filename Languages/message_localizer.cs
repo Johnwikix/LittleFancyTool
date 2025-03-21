@@ -148,6 +148,8 @@
                     return "error occurred when processing client message:";
                 case "远程主机已关闭连接":
                     return "remote host has closed the connection";
+                case "没有选中的客户端连接":
+                    return "no clients connection enabled";
                 default:
                     return key;
             }

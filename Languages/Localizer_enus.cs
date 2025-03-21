@@ -155,11 +155,13 @@
                 #endregion
                 #region TABLE
                 case "Table.Column.address":
-                    return "reg address";
+                    return "Address";
                 case "Table.Column.valueDec":
                     return "value(DEC)";
                 case "Table.Column.lastUpdate":
                     return "Last Update";
+                case "Table.Column.Res.Enabled":
+                    return "Reply";
                 case "save":
                     return "Save";
                 case "hexDisplay":

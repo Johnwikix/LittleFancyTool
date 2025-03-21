@@ -44,15 +44,15 @@ namespace LittleFancyTool.View
 
         private void InitialClientTableData()
         {
-            socketClientTable.Visible = true;
+            socketClientTable.Visible = false;
             socketClientTable.Columns = new AntdUI.ColumnCollection {
-                new Column("address", "客户端地址").SetLocalizationTitleID("Table.Column."),               
+                new Column("address", "客户端地址").SetLocalizationTitleID("Table.Column."),
                 new ColumnSwitch("Enabled", "回复", ColumnAlign.Left){
                     //支持点击回调
                     Call= (value,record, i_row, i_col) =>{
                         return value;
                     }
-                }.SetFixed().SetWidth("auto").SetLocalizationTitleID("Table.Column."),
+                }.SetFixed().SetWidth("auto").SetLocalizationTitleID("Table.Column.Res."),
             };
             socketClientTable.DataSource = clientList;
         }
@@ -154,7 +154,7 @@ namespace LittleFancyTool.View
                 socketClientTable.Visible = false;
                 StopSocketServer();
             }
-        }       
+        }
 
         private void stopConnection()
         {
@@ -189,7 +189,7 @@ namespace LittleFancyTool.View
             }
             if (modeSelect.SelectedIndex == 1)
             {
-                Task.Run(()=>connect2server());
+                Task.Run(() => connect2server());
             }
         }
 
@@ -295,7 +295,7 @@ namespace LittleFancyTool.View
                     serverSocket.Bind(localEndPoint);
                     serverSocket.Listen(10);
                     listenCts = new CancellationTokenSource();
-                    Task.Run(()=> ListenForClientsAsync(listenCts.Token));
+                    Task.Run(() => ListenForClientsAsync(listenCts.Token));
                     messageService.InternationalizationMessage("服务器已启动，监听端口:", port.ToString(), "success", window);
                     connectButton.Text = "停止服务";
                     connectButton.Type = AntdUI.TTypeMini.Error;
@@ -308,7 +308,8 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("启动服务器时出错:", ex.Message, "error", window);
                 }
             }
-            else {
+            else
+            {
                 StopSocketServer();
                 connectButton.Text = "启动服务";
                 connectButton.Type = AntdUI.TTypeMini.Success;
@@ -323,9 +324,10 @@ namespace LittleFancyTool.View
             {
                 try
                 {
-                    Socket client =serverSocket.Accept();
+                    Socket client = serverSocket.Accept();
                     clientSockets.Add(client);
                     clientList.Add(new SocketClient(client.RemoteEndPoint.ToString(), true));
+                    socketClientTable.Visible = true;
                     socketClientTable.DataSource = clientList;
                     messageService.InternationalizationMessage("新客户端已连接，当前连接数:", clientSockets.Count.ToString(), "success", window);
                     Task.Run(() => HandleClientAsync(client, cancellationToken));
@@ -354,10 +356,14 @@ namespace LittleFancyTool.View
                 {
                     int bytesRead = clientSocket.Receive(buffer);
                     if (bytesRead == 0)
-                    {                        
+                    {
                         clientSockets.Remove(clientSocket);
                         messageService.InternationalizationMessage("客户端已断开连接:", clientSocket.RemoteEndPoint.ToString(), "info", window);
                         clientList.Remove(clientList.Find(x => x.address == clientSocket.RemoteEndPoint.ToString()));
+                        if (clientList.Count == 0)
+                        {
+                            socketClientTable.Visible = false;
+                        }
                         socketClientTable.DataSource = clientList;
                         break;
                     }
@@ -394,7 +400,8 @@ namespace LittleFancyTool.View
             {
                 // 任务被取消
             }
-            catch (SocketException) {
+            catch (SocketException)
+            {
                 // 客户端断开连接
             }
             catch (Exception ex)
@@ -425,7 +432,10 @@ namespace LittleFancyTool.View
                     }
 
                     byte[] msgBytes = buffer.ToArray();
-                    foreach (SocketClient client in clientList) {
+                    int count = 0;
+
+                    foreach (SocketClient client in clientList)
+                    {
                         if (client.Enabled)
                         {
                             Socket clientSocket = clientSockets.Find(x => x.RemoteEndPoint.ToString() == client.address);
@@ -433,17 +443,18 @@ namespace LittleFancyTool.View
                             {
                                 clientSocket.Send(msgBytes);
                             }
+                            count++;
                         }
                     }
+                    if (count > 0)
+                    {
+                        receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendInput.Text}\r\n");
+                    }
+                    else
+                    {
+                        messageService.InternationalizationMessage("没有选中的客户端连接", null, "warn", window);
+                    }
 
-                    //foreach (Socket clientSocket in clientSockets)
-                    //{
-                    //    if (clientSocket.Connected)
-                    //    {
-                    //        clientSocket.Send(msgBytes);
-                    //    }
-                    //}
-                    receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} >> {sendInput.Text}\r\n");
                 }
                 catch (Exception ex)
                 {
@@ -491,13 +502,13 @@ namespace LittleFancyTool.View
                 }
             }
         }
-        
+
 
         private void TcpServerForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
             StopSocketServer();
             stopConnection();
-        }        
+        }
 
         private void client2server()
         {
