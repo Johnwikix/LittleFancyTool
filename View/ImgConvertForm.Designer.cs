@@ -108,22 +108,23 @@ namespace LittleFancyTool.View
             // 
             // picUploadDragger
             // 
-            picUploadDragger.Anchor = AnchorStyles.None;
+            picUploadDragger.Dock = DockStyle.Fill;
             picUploadDragger.Filter = "图片文件|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.webp;*.tiff;*.heif";
             picUploadDragger.Font = new Font("Microsoft YaHei UI", 12F);
             picUploadDragger.LocalizationText = "openImg";
-            picUploadDragger.Location = new Point(5, 5);
+            picUploadDragger.Location = new Point(3, 3);
             picUploadDragger.Multiselect = false;
             picUploadDragger.Name = "picUploadDragger";
-            picUploadDragger.Size = new Size(120, 120);
+            picUploadDragger.Size = new Size(124, 124);
             picUploadDragger.TabIndex = 2;
             picUploadDragger.Text = "打开图片";
             picUploadDragger.DragChanged += picUploadDragger_Click;
             // 
             // formatSelect
             // 
-            formatSelect.Items.AddRange(new object[] { "jpg", "jpeg", "png", "gif", "bmp", "webp", "tiff", "heic", "ico" });
-            formatSelect.Location = new Point(3, 133);
+            formatSelect.Anchor = AnchorStyles.None;
+            formatSelect.Items.AddRange(new object[] { "jpg", "jpeg", "png", "gif", "bmp", "webp", "tiff", "heic" });
+            formatSelect.Location = new Point(5, 135);
             formatSelect.Name = "formatSelect";
             formatSelect.SelectedIndex = 0;
             formatSelect.SelectedValue = "jpg";

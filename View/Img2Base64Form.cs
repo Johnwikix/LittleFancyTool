@@ -101,21 +101,14 @@ namespace LittleFancyTool.View
             Task.Run(() =>
             {
                 Image image = Image.FromFile(filePaths[0]);
-                if (image.Width * image.Height <= 2359296) {
-                    pictureBox.Invoke((MethodInvoker)delegate
-                    {
-                        if (pictureBox.Image != null)
-                        {
-                            pictureBox.Image.Dispose();
-                        }
-                        pictureBox.Image = image;
-                    });
-                }
-                else
+                pictureBox.Invoke((MethodInvoker)delegate
                 {
-                    messageService.InternationalizationMessage("请不要输入像素数量大于2,359,296的图片", null, "error", window);
-                }
-
+                    if (pictureBox.Image != null)
+                    {
+                        pictureBox.Image.Dispose();
+                    }
+                    pictureBox.Image = image;
+                });
             });
             Debug.WriteLine("DragChanged耗时: " + (DateTime.Now - startTime).TotalMilliseconds);
         }
