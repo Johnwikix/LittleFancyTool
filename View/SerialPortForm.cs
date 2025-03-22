@@ -38,13 +38,13 @@ namespace LittleFancyTool.View
             string sendText = sendInput.Text;
             if (hexSendBox.Checked)
             {
-                sendInput.Text = ToolMethod.ByteArrayToHexString(GetEncodedData(sendText, encodingMode));
+                sendInput.Text = ByteArrayToHexString(GetEncodedData(sendText, encodingMode));
             }
             else
             {
                 try
                 {
-                    sendInput.Text = GetEncoding(encodingMode).GetString(ToolMethod.HexStringToBytes(sendText));
+                    sendInput.Text = GetEncoding(encodingMode).GetString(HexStringToBytes(sendText));
                 }
                 catch (Exception)
                 {

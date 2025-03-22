@@ -114,13 +114,13 @@ namespace LittleFancyTool.Utils
             switch (encodingMode)
             {
                 case EncodingMode.Auto:
-                    return Encoding.Default;
+                    return Encoding.UTF8;
                 case EncodingMode.ASCII:
                     return Encoding.ASCII;
                 case EncodingMode.UTF8:
                     return Encoding.UTF8;
                 case EncodingMode.GB2312:
-                    return GetGBEncoding();
+                    return Encoding.GetEncoding("GB18030");
                 default:
                     throw new ArgumentException("不支持的编码类型");
             }
@@ -131,7 +131,7 @@ namespace LittleFancyTool.Utils
             switch (mode)
             {
                 case EncodingMode.Auto:
-                    return Encoding.Default.GetBytes(input);
+                    return Encoding.UTF8.GetBytes(input);
                 case EncodingMode.ASCII:
                     return Encoding.ASCII.GetBytes(input);
                 case EncodingMode.UTF8:

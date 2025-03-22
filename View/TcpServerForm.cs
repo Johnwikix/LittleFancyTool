@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static LittleFancyTool.Utils.ToolMethod;
 
 namespace LittleFancyTool.View
 {
@@ -59,16 +60,17 @@ namespace LittleFancyTool.View
 
         private void HexSendBox_CheckedChanged(object sender, BoolEventArgs e)
         {
+            EncodingMode encodingMode = (EncodingMode)formatSelect.SelectedIndex;
             string sendText = sendInput.Text;
             if (hexSendBox.Checked)
             {
-                sendInput.Text = ToolMethod.ByteArrayToHexString(Encoding.UTF8.GetBytes(sendText));
+                sendInput.Text = ByteArrayToHexString(GetEncoding(encodingMode).GetBytes(sendText));
             }
             else
             {
                 try
                 {
-                    sendInput.Text = Encoding.UTF8.GetString(ToolMethod.HexStringToBytes(sendText));
+                    sendInput.Text = GetEncoding(encodingMode).GetString(HexStringToBytes(sendText));
                 }
                 catch (Exception)
                 {
@@ -241,6 +243,7 @@ namespace LittleFancyTool.View
                 byte[] receiveData = new byte[8192];
                 while (!cancellationToken.IsCancellationRequested && currentSocketClient.Connected)
                 {
+                    EncodingMode encodingMode = (EncodingMode)formatSelect.SelectedIndex;
                     int bytesReceived = currentSocketClient.Receive(receiveData);
                     if (bytesReceived == 0)
                     {
@@ -262,7 +265,7 @@ namespace LittleFancyTool.View
                         }
                         else
                         {
-                            string response = Encoding.UTF8.GetString(receiveData, 0, bytesReceived);
+                            string response = GetEncoding(encodingMode).GetString(receiveData, 0, bytesReceived);
                             receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
                         }
 
@@ -359,6 +362,7 @@ namespace LittleFancyTool.View
                 byte[] buffer = new byte[8192];
                 while (!cancellationToken.IsCancellationRequested)
                 {
+                    EncodingMode encodingMode = (EncodingMode)formatSelect.SelectedIndex;
                     int bytesRead = clientSocket.Receive(buffer);
                     if (bytesRead == 0)
                     {
@@ -381,7 +385,7 @@ namespace LittleFancyTool.View
                         }
                         else
                         {
-                            string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                            string response = GetEncoding(encodingMode).GetString(buffer, 0, bytesRead);
                             receivedInput1.AppendText($"{DateTime.Now:HH:mm:ss} << {response}\r\n");
                         }
 
@@ -426,6 +430,7 @@ namespace LittleFancyTool.View
             {
                 try
                 {
+                    EncodingMode encodingMode = (EncodingMode)formatSelect.SelectedIndex;
                     byte[] buffer;
                     if (hexSendBox.Checked)
                     {
@@ -433,7 +438,7 @@ namespace LittleFancyTool.View
                     }
                     else
                     {
-                        buffer = Encoding.UTF8.GetBytes(sendInput.Text);
+                        buffer = GetEncoding(encodingMode).GetBytes(sendInput.Text);
                     }
 
                     byte[] msgBytes = buffer.ToArray();
@@ -518,15 +523,16 @@ namespace LittleFancyTool.View
         private void client2server()
         {
             byte[] sendData;
+            EncodingMode encodingMode = (EncodingMode)formatSelect.SelectedIndex;
             try
             {
                 if (hexSendBox.Checked)
                 {
-                    sendData = ToolMethod.HexStringToBytes(sendInput.Text);
+                    sendData = HexStringToBytes(sendInput.Text);
                 }
                 else
                 {
-                    sendData = Encoding.UTF8.GetBytes(sendInput.Text);
+                    sendData = GetEncoding(encodingMode).GetBytes(sendInput.Text);
                 }
                 if (isConnectionOpen)
                 {
