@@ -135,12 +135,11 @@ namespace CryptoTool
             // 
             // button_collapse
             // 
-            button_collapse.Dock = DockStyle.Left;
             button_collapse.Font = new Font("Microsoft YaHei UI", 20F, FontStyle.Regular, GraphicsUnit.Point, 134);
             button_collapse.Ghost = true;
             button_collapse.IconRatio = 0.6F;
             button_collapse.IconSvg = "MenuUnfoldOutlined";
-            button_collapse.Location = new Point(59, 0);
+            button_collapse.Location = new Point(0, 0);
             button_collapse.Name = "button_collapse";
             button_collapse.Radius = 0;
             button_collapse.Size = new Size(50, 40);

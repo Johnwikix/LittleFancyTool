@@ -33,6 +33,11 @@
                     new MenuItems { Text = "Base64", Tag = "Base64"}
                 }
             },
+            { "文件夹比较", new List<MenuItems>
+                {
+                    new MenuItems { Text = "文件夹比较", Tag = "Folder Compare"},
+                }
+            },
             { "图片处理", new List<MenuItems>
                 {
                     new MenuItems { Text = "图片转Base64", Tag = "Img2Base64"},
@@ -49,6 +54,7 @@
             { "图片处理", "PictureOutlined" },
             { "文本加密", "FileTextOutlined" },
             { "文件加密", "LockOutlined" },
+            { "文件夹比较", "FolderViewOutlined" },
         };
 
         public static readonly Dictionary<string, List<MenuItems>> MenuItems_enus = new Dictionary<string, List<MenuItems>>()
@@ -83,6 +89,11 @@
                     new MenuItems { Text = "Base64", Tag = "Base64"}
                 }
             },
+            { "Folder Compare", new List<MenuItems>
+                {
+                    new MenuItems { Text = "Folder Compare", Tag = "Folder Compare"},
+                }
+            },
             { "Image", new List<MenuItems>
                 {
                     new MenuItems { Text = "Img2Base64", Tag = "Img2Base64"},
@@ -98,7 +109,8 @@
             { "TCP Tool", "MessageOutlined" },
             { "Image", "PictureOutlined" },
             { "Text Encryption", "FileTextOutlined" },
-            { "File Encryption", "LockOutlined" },
+            { "File Encryption", "FileProtectOutlined" },
+            { "Folder Compare", "FolderViewOutlined" },
         };
     }
 }

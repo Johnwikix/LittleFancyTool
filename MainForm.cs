@@ -352,6 +352,9 @@ namespace CryptoTool
                 case "ImgConvert":
                     control = new ImgConvertForm(this);
                     break;
+                case "Folder Compare":
+                    control = new FolderCompareForm(this);
+                    break;
                 default:
                     break;
             }
