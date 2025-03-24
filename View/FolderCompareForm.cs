@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LittleFancyTool.View
 {
@@ -54,12 +55,22 @@ namespace LittleFancyTool.View
                 messageService.InternationalizationMessage("请选择源文件夹和目标文件夹",null,"warn",window);
                 return;
             }
-
+            progressBar.Value = 0;
             try
             {
                 compareBtn.Loading = true;
                 compareBtn.Enabled = false;
-                List<string> missingFiles = await CompareFoldersAsync(sourceFolderPath, targetFolderPath);
+                List<string> missingFiles = await CompareFoldersAsync(sourceFolderPath, targetFolderPath, (progress) =>
+                {
+                    if (progressBar.InvokeRequired)
+                    {
+                        progressBar.Invoke(new Action(() => progressBar.Value = progress));
+                    }
+                    else
+                    {
+                        progressBar.Value = progress;
+                    }
+                });
                 if (missingFiles.Count == 0) {
                     messageService.InternationalizationMessage("文件夹一致", null, "success", window);
                 }
@@ -73,7 +84,7 @@ namespace LittleFancyTool.View
             }
         }
 
-        private async Task<List<string>> CompareFoldersAsync(string sourceFolder, string targetFolder)
+        private async Task<List<string>> CompareFoldersAsync(string sourceFolder, string targetFolder, Action<int> progressCallback)
         {
             return await Task.Run(() =>
             {
@@ -83,23 +94,27 @@ namespace LittleFancyTool.View
                 if (hashCheckBox.Checked)
                 {
                     var targetFileHashes = new Dictionary<string, string>();
-                    foreach (var targetFile in targetFiles)
+                    int targetFileCount = targetFiles.Count;
+                    for (int i = 0; i < targetFileCount; i++)
                     {
+                        var targetFile = targetFiles[i];
                         try
                         {
                             targetFileHashes[targetFile] = CalculateFileHash(targetFile);
                         }
                         catch (Exception ex)
                         {
-                            compareBtn.Loading = false;
-                            compareBtn.Enabled = true;
                             messageService.InternationalizationMessage("计算文件哈希值时发生错误", ex.Message, "error", window);
                         }
+                        int progress = (int)((double)(i + 1) / targetFileCount * 50);
+                        progressCallback(progress);
                     }
 
                     missingFiles = new List<string>();
-                    foreach (var sourceFile in sourceFiles)
+                    int sourceFileCount = sourceFiles.Count;
+                    for (int i = 0; i < sourceFileCount; i++)
                     {
+                        var sourceFile = sourceFiles[i];
                         try
                         {
                             var sourceFileHash = CalculateFileHash(sourceFile);
@@ -110,19 +125,29 @@ namespace LittleFancyTool.View
                         }
                         catch (Exception ex)
                         {
-                            compareBtn.Loading = false;
-                            compareBtn.Enabled = true;
                             messageService.InternationalizationMessage("计算文件哈希值时发生错误", ex.Message, "error", window);
                         }
+                        int progress = 50 + (int)((double)(i + 1) / sourceFileCount * 50);
+                        progressCallback(progress);
                     }
                 }
                 else {
-                    missingFiles = sourceFiles.Except(targetFiles, StringComparer.OrdinalIgnoreCase).ToList();                    
+                    int fileCount = sourceFiles.Count;
+                    missingFiles = new List<string>();
+                    for (int i = 0; i < fileCount; i++)
+                    {
+                        var sourceFile = sourceFiles[i];
+                        if (!targetFiles.Contains(sourceFile, StringComparer.OrdinalIgnoreCase))
+                        {
+                            missingFiles.Add(sourceFile);
+                        }
+                        int progress = (int)((double)(i + 1) / fileCount * 100);
+                        progressCallback(progress);
+                    }
                 }
                 compareBtn.Loading = false;
                 compareBtn.Enabled = true;
                 return missingFiles;
-
             });
         }
 

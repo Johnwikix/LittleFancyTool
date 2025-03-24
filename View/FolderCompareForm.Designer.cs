@@ -42,6 +42,7 @@
             tableLayoutPanel5 = new TableLayoutPanel();
             compareBtn = new AntdUI.Button();
             hashCheckBox = new AntdUI.Checkbox();
+            progressBar = new AntdUI.Progress();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -187,11 +188,13 @@
             tableLayoutPanel4.Controls.Add(outputInput, 1, 0);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 2, 0);
             tableLayoutPanel4.Controls.Add(hashCheckBox, 0, 0);
+            tableLayoutPanel4.Controls.Add(progressBar, 1, 1);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(6, 137);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 1;
+            tableLayoutPanel4.RowCount = 2;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel4.Size = new Size(1388, 656);
             tableLayoutPanel4.TabIndex = 3;
             // 
@@ -203,7 +206,7 @@
             outputInput.Location = new Point(203, 3);
             outputInput.Multiline = true;
             outputInput.Name = "outputInput";
-            outputInput.Size = new Size(962, 650);
+            outputInput.Size = new Size(962, 600);
             outputInput.TabIndex = 3;
             // 
             // tableLayoutPanel5
@@ -218,7 +221,7 @@
             tableLayoutPanel5.RowCount = 2;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 220F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Size = new Size(220, 656);
+            tableLayoutPanel5.Size = new Size(220, 606);
             tableLayoutPanel5.TabIndex = 2;
             // 
             // compareBtn
@@ -246,6 +249,16 @@
             hashCheckBox.Size = new Size(115, 43);
             hashCheckBox.TabIndex = 4;
             hashCheckBox.Text = "哈希校验";
+            // 
+            // progressBar
+            // 
+            progressBar.Dock = DockStyle.Fill;
+            progressBar.Location = new Point(210, 616);
+            progressBar.Margin = new Padding(10);
+            progressBar.Name = "progressBar";
+            progressBar.Size = new Size(948, 30);
+            progressBar.TabIndex = 5;
+            progressBar.Text = "progress1";
             // 
             // FolderCompareForm
             // 
@@ -281,5 +294,6 @@
         private TableLayoutPanel tableLayoutPanel5;
         private AntdUI.Input outputInput;
         private AntdUI.Checkbox hashCheckBox;
+        private AntdUI.Progress progressBar;
     }
 }
