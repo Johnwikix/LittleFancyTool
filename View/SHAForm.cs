@@ -50,9 +50,10 @@ namespace LittleFancyTool.View
         }
 
         private void addFileBtn_Click(object sender, EventArgs e)
-        {
+        {            
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
+                dialog.InitialDirectory = Application.StartupPath;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     inputTextBox.Text = dialog.FileName;
