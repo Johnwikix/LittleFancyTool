@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
@@ -30,6 +31,7 @@ namespace LittleFancyTool.View
                      ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
             progressBar.Visible = false;
+            musicTitleCheckBox.Checked = true;
         }
 
         private void targetFolderBtn_Click(object sender, EventArgs e) {
@@ -56,9 +58,9 @@ namespace LittleFancyTool.View
         }
 
         private async void compareBtn_ClickAsync(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(sourceFolderPath) || string.IsNullOrEmpty(targetFolderPath))
+            if (string.IsNullOrEmpty(sourceFolderInput.Text) || string.IsNullOrEmpty(targetFolderInput.Text) || !ToolMethod.IsValidFolderPath(sourceFolderInput.Text) || !ToolMethod.IsValidFolderPath(targetFolderInput.Text))
             {
-                messageService.InternationalizationMessage("请选择源文件夹和目标文件夹",null,"warn",window);
+                messageService.InternationalizationMessage("请选择有效的源文件夹和目标文件夹",null,"warn",window);
                 return;
             }            
             try
@@ -68,7 +70,7 @@ namespace LittleFancyTool.View
                 progressBar.Value = 0;
                 compareBtn.Loading = true;
                 compareBtn.Enabled = false;
-                List<string> missingFiles = await CompareFoldersAsync(sourceFolderPath, targetFolderPath);
+                List<string> missingFiles = await CompareFoldersAsync(sourceFolderInput.Text, targetFolderInput.Text);
                 if (missingFiles.Count == 0)
                 {
                     messageService.InternationalizationMessage("目标文件夹包含原始文件夹的所有文件", null, "success", window);
@@ -76,7 +78,9 @@ namespace LittleFancyTool.View
                 }
                 else {
                     outputInput.Text = string.Join(Environment.NewLine, missingFiles);
-                }                
+                }
+                compareBtn.Loading = false;
+                compareBtn.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -92,8 +96,76 @@ namespace LittleFancyTool.View
             {
                 var sourceFiles = GetAllFilesInFolder(sourceFolder);
                 var targetFiles = GetAllFilesInFolder(targetFolder);
-                List<string> missingFiles;
-                if (hashCheckBox.Checked)
+                List<string> missingFiles = new List<string>();
+                if (musicTitleCheckBox.Checked) {
+                    var targetMusicTitles = new List<string>();
+                    var targetNonMusicFiles = new List<string>();
+                    foreach (var targetFile in targetFiles)
+                    {
+                        if (ToolMethod.IsMusicFile(targetFile))
+                        {
+                            try
+                            {
+                                using (var file = TagLib.File.Create(targetFile))
+                                {
+                                    if (!string.IsNullOrEmpty(file.Tag.Title))
+                                    {
+                                        targetMusicTitles.Add(file.Tag.Title);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                messageService.InternationalizationMessage("读取音乐文件时发生错误", ex.Message, "error", window);
+                            }
+                        }
+                        else
+                        {
+                            targetNonMusicFiles.Add(targetFile);
+                        }
+                    }
+                    int sourceFileCount = sourceFiles.Count;
+                    for (int i = 0; i < sourceFileCount; i++)
+                    {
+                        var sourceFile = sourceFiles[i];
+                        if (ToolMethod.IsMusicFile(sourceFile))
+                        {
+                            try
+                            {
+                                using (var file = TagLib.File.Create(sourceFile))
+                                {
+                                    if (!string.IsNullOrEmpty(file.Tag.Title) && !targetMusicTitles.Contains(file.Tag.Title))
+                                    {
+                                        missingFiles.Add(sourceFile);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                messageService.InternationalizationMessage("读取音乐文件时发生错误", ex.Message, "error", window);
+                            }
+                        }
+                        else if (hashCheckBox.Checked)
+                        {
+                            var sourceFileHash = ToolMethod.CalculateFileHash(sourceFile);
+                            var targetFileHashes = targetNonMusicFiles.Select(f => ToolMethod.CalculateFileHash(f)).ToList();
+                            if (!targetFileHashes.Contains(sourceFileHash))
+                            {
+                                missingFiles.Add(sourceFile);
+                            }
+                        }
+                        else
+                        {
+                            if (!targetNonMusicFiles.Contains(sourceFile, StringComparer.OrdinalIgnoreCase))
+                            {
+                                missingFiles.Add(sourceFile);
+                            }
+                        }
+                        progressBar.Value =(float)(i + 1) / sourceFileCount;
+                    }
+                    return missingFiles;
+                }
+                else if(hashCheckBox.Checked)
                 {
                     var targetFileHashes = new Dictionary<string, string>();
                     int targetFileCount = targetFiles.Count;
@@ -142,7 +214,7 @@ namespace LittleFancyTool.View
                         {
                             missingFiles.Add(sourceFile);
                         }
-                        int progress = (int)((double)(i + 1) / fileCount * 100);
+                        float progress = (float)(i + 1) / fileCount;
                         progressBar.Value = progress;
                     }
                 }

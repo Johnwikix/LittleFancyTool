@@ -43,11 +43,14 @@
             compareBtn = new AntdUI.Button();
             hashCheckBox = new AntdUI.Checkbox();
             progressBar = new AntdUI.Progress();
+            tableLayoutPanel6 = new TableLayoutPanel();
+            musicTitleCheckBox = new AntdUI.Checkbox();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
+            tableLayoutPanel6.SuspendLayout();
             SuspendLayout();
             // 
             // targetFolderBtn
@@ -187,8 +190,8 @@
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             tableLayoutPanel4.Controls.Add(outputInput, 1, 0);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 2, 0);
-            tableLayoutPanel4.Controls.Add(hashCheckBox, 0, 0);
             tableLayoutPanel4.Controls.Add(progressBar, 1, 1);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel6, 0, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(6, 137);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -244,7 +247,7 @@
             hashCheckBox.AutoSizeMode = AntdUI.TAutoSize.Auto;
             hashCheckBox.Font = new Font("Microsoft YaHei UI", 12F);
             hashCheckBox.LocalizationText = "hashCheck";
-            hashCheckBox.Location = new Point(82, 3);
+            hashCheckBox.Location = new Point(76, 53);
             hashCheckBox.Name = "hashCheckBox";
             hashCheckBox.Size = new Size(115, 43);
             hashCheckBox.TabIndex = 4;
@@ -260,6 +263,34 @@
             progressBar.TabIndex = 5;
             progressBar.Text = "progress1";
             // 
+            // tableLayoutPanel6
+            // 
+            tableLayoutPanel6.ColumnCount = 1;
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel6.Controls.Add(musicTitleCheckBox, 0, 0);
+            tableLayoutPanel6.Controls.Add(hashCheckBox, 0, 1);
+            tableLayoutPanel6.Dock = DockStyle.Fill;
+            tableLayoutPanel6.Location = new Point(3, 3);
+            tableLayoutPanel6.Name = "tableLayoutPanel6";
+            tableLayoutPanel6.RowCount = 3;
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel6.Size = new Size(194, 600);
+            tableLayoutPanel6.TabIndex = 6;
+            // 
+            // musicTitleCheckBox
+            // 
+            musicTitleCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            musicTitleCheckBox.AutoSizeMode = AntdUI.TAutoSize.Auto;
+            musicTitleCheckBox.Font = new Font("Microsoft YaHei UI", 12F);
+            musicTitleCheckBox.LocalizationText = "musicTitleCheck";
+            musicTitleCheckBox.Location = new Point(76, 3);
+            musicTitleCheckBox.Name = "musicTitleCheckBox";
+            musicTitleCheckBox.Size = new Size(115, 43);
+            musicTitleCheckBox.TabIndex = 5;
+            musicTitleCheckBox.Text = "音乐标题";
+            // 
             // FolderCompareForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -273,8 +304,9 @@
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
-            tableLayoutPanel4.PerformLayout();
             tableLayoutPanel5.ResumeLayout(false);
+            tableLayoutPanel6.ResumeLayout(false);
+            tableLayoutPanel6.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -295,5 +327,7 @@
         private AntdUI.Input outputInput;
         private AntdUI.Checkbox hashCheckBox;
         private AntdUI.Progress progressBar;
+        private TableLayoutPanel tableLayoutPanel6;
+        private AntdUI.Checkbox musicTitleCheckBox;
     }
 }

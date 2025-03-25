@@ -221,6 +221,42 @@ namespace LittleFancyTool.Utils
             }
         }
 
+        public static bool IsValidFolderPath(string path)
+        {
+            try
+            {
+                // 检查路径是否为 null 或空字符串
+                if (string.IsNullOrEmpty(path))
+                {
+                    return false;
+                }
+
+                // 检查路径是否包含非法字符
+                if (path.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+                {
+                    return false;
+                }
+
+                // 尝试获取父目录，若成功则认为是有效的文件夹路径
+                string parentDirectory = Path.GetDirectoryName(path);
+                if (parentDirectory != null)
+                {
+                    return Directory.Exists(parentDirectory);
+                }
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return false;
+        }
+
+        public static bool IsMusicFile(string filePath)
+        {
+            var extension = Path.GetExtension(filePath).ToLower();
+            return new[] { ".mp3", ".wav", ".flac", ".ogg" }.Contains(extension);
+        }
+
         public static ImageFormat Format(string format)
         {
             switch (format)

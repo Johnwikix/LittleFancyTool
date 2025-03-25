@@ -162,8 +162,8 @@
                     return "the target folder contains all files in the source folder";
                 case "读取文件夹时发生错误":
                     return "error occurred when reading the folder";
-                case "请选择源文件夹和目标文件夹":
-                    return "please select the source folder and target folder";
+                case "请选择有效的源文件夹和目标文件夹":
+                    return "please select a valid source folder and target folder";
                 default:
                     return key;
             }

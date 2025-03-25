@@ -2,6 +2,8 @@
 using LittleFancyTool.Algorithms.Encryption;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
+using LittleFancyTool.Utils;
+using System.Windows.Forms;
 
 namespace LittleFancyTool.View
 {
@@ -20,17 +22,47 @@ namespace LittleFancyTool.View
         private void encryptButton_Click(object sender, EventArgs e)
         {
             string input = inputTextBox.Text;
+            string hash;
+            int outputLength=int.Parse(outputLengthSelect.SelectedValue?.ToString());
             string? useUpperCase = upperLowerSelect.SelectedValue?.ToString();
-            int outputLength = int.Parse(outputLengthSelect.SelectedValue?.ToString());
-            try
+            if (File.Exists(input))
             {
-                IEncryptionAbstract encryptionAlgorithm = new Md5Encryption();
-                string encryptedText = encryptionAlgorithm.Encrypt(input, useUpperCase, outputLength);
-                outputTextBox.Text = encryptedText;
+                hash = ToolMethod.CalculateFileHash(input);
+                if (useUpperCase == "UPPER") {
+                    hash = hash.ToUpper();
+                }
+                if (outputLength == 16)
+                {
+                    outputTextBox.Text = hash.Substring(8, 16);
+                }
+                else {
+                    outputTextBox.Text = hash;
+                }                    
             }
-            catch (Exception ex)
+            else {
+                
+                try
+                {
+                    IEncryptionAbstract encryptionAlgorithm = new Md5Encryption();
+                    string encryptedText = encryptionAlgorithm.Encrypt(input, useUpperCase, outputLength);
+                    outputTextBox.Text = encryptedText;
+                }
+                catch (Exception ex)
+                {
+                    messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
+                }
+            }
+               
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    inputTextBox.Text = dialog.FileName;
+                }
             }
         }
     }
