@@ -209,6 +209,18 @@ namespace LittleFancyTool.Utils
             }
         }
 
+        public static string CalculateFileHash(string filePath)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    var hashBytes = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
         public static ImageFormat Format(string format)
         {
             switch (format)
