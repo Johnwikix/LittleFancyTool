@@ -27,7 +27,8 @@ namespace LittleFancyTool.View
             string? useUpperCase = upperLowerSelect.SelectedValue?.ToString();
             if (File.Exists(input))
             {
-                hash = ToolMethod.CalculateFileHash(input);
+                messageService.InternationalizationMessage("文件摘要", null, "info", window);
+                hash = ToolMethod.CalculateFileHash(input, "MD5");
                 if (useUpperCase == "UPPER") {
                     hash = hash.ToUpper();
                 }
@@ -43,6 +44,7 @@ namespace LittleFancyTool.View
                 
                 try
                 {
+                    messageService.InternationalizationMessage("文本摘要", null, "info", window);
                     IEncryptionAbstract encryptionAlgorithm = new Md5Encryption();
                     string encryptedText = encryptionAlgorithm.Encrypt(input, useUpperCase, outputLength);
                     outputTextBox.Text = encryptedText;

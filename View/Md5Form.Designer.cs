@@ -183,7 +183,7 @@
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 3;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 96F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel3.Controls.Add(inputLabel, 0, 0);
@@ -203,7 +203,7 @@
             addFileBtn.Font = new Font("Microsoft YaHei UI", 14F);
             addFileBtn.Ghost = true;
             addFileBtn.IconSvg = "FileAddOutlined";
-            addFileBtn.Location = new Point(99, 27);
+            addFileBtn.Location = new Point(103, 27);
             addFileBtn.Name = "addFileBtn";
             addFileBtn.Size = new Size(30, 30);
             addFileBtn.TabIndex = 5;

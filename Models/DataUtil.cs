@@ -52,7 +52,7 @@
             { "串口工具", "UsbOutlined" },
             { "TCP工具", "MessageOutlined" },
             { "图片处理", "PictureOutlined" },
-            { "文本加密", "FileTextOutlined" },
+            { "文本加密", "FileProtectOutlined" },
             { "文件加密", "LockOutlined" },
             { "文件夹比较", "FolderViewOutlined" },
         };
@@ -108,8 +108,8 @@
             { "Serial Port Tool", "UsbOutlined" },
             { "TCP Tool", "MessageOutlined" },
             { "Image", "PictureOutlined" },
-            { "Text Encryption", "FileTextOutlined" },
-            { "File Encryption", "FileProtectOutlined" },
+            { "Text Encryption", "FileProtectOutlined" },
+            { "File Encryption", "LockOutlined" },
             { "Folder Compare", "FolderViewOutlined" },
         };
     }

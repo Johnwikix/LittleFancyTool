@@ -1,4 +1,6 @@
-﻿using LittleFancyTool.Service;
+﻿using AntdUI;
+using LittleFancyTool.Languages;
+using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
 using System;
@@ -35,7 +37,7 @@ namespace LittleFancyTool.View
         }
 
         private void targetFolderBtn_Click(object sender, EventArgs e) {
-            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -47,7 +49,7 @@ namespace LittleFancyTool.View
 
         private void sourceFolderBtn_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -74,7 +76,14 @@ namespace LittleFancyTool.View
                 if (missingFiles.Count == 0)
                 {
                     messageService.InternationalizationMessage("目标文件夹包含原始文件夹的所有文件", null, "success", window);
+                    string language = AntdUI.Localization.CurrentLanguage;
                     outputInput.Text = "目标文件夹包含原始文件夹的所有文件";
+                    if (!language.StartsWith("zh"))
+                    {
+                        outputInput.Clear();
+                        var provider = new message_localizer();
+                        outputInput.Text = provider.GetLocalizedString("目标文件夹包含原始文件夹的所有文件");
+                    }
                 }
                 else {
                     outputInput.Text = string.Join(Environment.NewLine, missingFiles);
@@ -116,7 +125,7 @@ namespace LittleFancyTool.View
                             }
                             catch (Exception ex)
                             {
-                                messageService.InternationalizationMessage("读取音乐文件时发生错误", ex.Message, "error", window);
+                                messageService.InternationalizationMessage("读取音乐文件时发生错误:", ex.Message, "error", window);
                             }
                         }
                         else
@@ -142,13 +151,13 @@ namespace LittleFancyTool.View
                             }
                             catch (Exception ex)
                             {
-                                messageService.InternationalizationMessage("读取音乐文件时发生错误", ex.Message, "error", window);
+                                messageService.InternationalizationMessage("读取音乐文件时发生错误:", ex.Message, "error", window);
                             }
                         }
                         else if (hashCheckBox.Checked)
                         {
-                            var sourceFileHash = ToolMethod.CalculateFileHash(sourceFile);
-                            var targetFileHashes = targetNonMusicFiles.Select(f => ToolMethod.CalculateFileHash(f)).ToList();
+                            var sourceFileHash = ToolMethod.CalculateFileHash(sourceFile, "MD5");
+                            var targetFileHashes = targetNonMusicFiles.Select(f => ToolMethod.CalculateFileHash(f,"MD5")).ToList();
                             if (!targetFileHashes.Contains(sourceFileHash))
                             {
                                 missingFiles.Add(sourceFile);
@@ -175,11 +184,11 @@ namespace LittleFancyTool.View
                         var targetFile = targetFiles[i];
                         try
                         {
-                            targetFileHashes[targetFile] = ToolMethod.CalculateFileHash(targetFile);
+                            targetFileHashes[targetFile] = ToolMethod.CalculateFileHash(targetFile, "MD5");
                         }
                         catch (Exception ex)
                         {
-                            messageService.InternationalizationMessage("计算文件哈希值时发生错误", ex.Message, "error", window);
+                            messageService.InternationalizationMessage("计算文件哈希值时发生错误:", ex.Message, "error", window);
                         }
                         progressBar.Value = ((float)(i+1) / (targetFileCount + sourceFileCount));
                     }
@@ -190,7 +199,7 @@ namespace LittleFancyTool.View
                         var sourceFile = sourceFiles[i];
                         try
                         {
-                            var sourceFileHash = ToolMethod.CalculateFileHash(sourceFile);
+                            var sourceFileHash = ToolMethod.CalculateFileHash(sourceFile, "MD5");
                             if (!targetFileHashes.Values.Contains(sourceFileHash))
                             {
                                 missingFiles.Add(sourceFile);
@@ -198,7 +207,7 @@ namespace LittleFancyTool.View
                         }
                         catch (Exception ex)
                         {
-                            messageService.InternationalizationMessage("计算文件哈希值时发生错误", ex.Message, "error", window);
+                            messageService.InternationalizationMessage("计算文件哈希值时发生错误:", ex.Message, "error", window);
                         }
                         float progress = (float)(targetFileCount + i + 1) / (targetFileCount + sourceFileCount);
                         progressBar.Value = progress;
@@ -235,7 +244,7 @@ namespace LittleFancyTool.View
             {
                 compareBtn.Loading = false;
                 compareBtn.Enabled = true;
-                messageService.InternationalizationMessage("读取文件夹时发生错误", ex.Message, "error", window);
+                messageService.InternationalizationMessage("读取文件夹时发生错误:", ex.Message, "error", window);
             }
             return files;
         }        

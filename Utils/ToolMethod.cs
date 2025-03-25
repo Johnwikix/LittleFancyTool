@@ -1,4 +1,7 @@
-﻿using Org.BouncyCastle.Utilities.Encoders;
+﻿using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.IO;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Utilities.Encoders;
 using System.Drawing.Imaging;
 using System.Security.Cryptography;
 using System.Text;
@@ -209,15 +212,55 @@ namespace LittleFancyTool.Utils
             }
         }
 
-        public static string CalculateFileHash(string filePath)
+        public static string CalculateFileHash(string filePath, string mode)
         {
-            using (var md5 = MD5.Create())
+            HashAlgorithm hashAlgorithm = GetHashAlgorithm(mode);
+            if (mode == "SM3")
             {
-                using (var stream = File.OpenRead(filePath))
+                return CalculateSM3Hash(filePath);
+            }
+            using (hashAlgorithm)
+            using (var stream = File.OpenRead(filePath))
+            {
+                var hashBytes = hashAlgorithm.ComputeHash(stream);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+            }
+        }
+
+        private static HashAlgorithm GetHashAlgorithm(string mode)
+        {
+            switch (mode)
+            {
+                case "MD5":
+                    return MD5.Create();
+                case "SHA1":
+                    return SHA1.Create();
+                case "SHA256":
+                    return SHA256.Create();
+                case "SHA384":
+                    return SHA384.Create();
+                case "SHA512":
+                    return SHA512.Create();
+                default:
+                    return MD5.Create();
+            }
+        }
+
+        private static string CalculateSM3Hash(string filePath)
+        {
+            IDigest digest = new SM3Digest();
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (DigestStream digestStream = new DigestStream(fileStream, digest, null))
+            {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = digestStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    var hashBytes = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                    // 数据会在 DigestStream 中自动更新到 digest 中
                 }
+                byte[] hashBytes = new byte[digest.GetDigestSize()];
+                digest.DoFinal(hashBytes, 0);
+                return Hex.ToHexString(hashBytes).ToLowerInvariant();
             }
         }
 

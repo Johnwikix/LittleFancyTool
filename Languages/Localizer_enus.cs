@@ -178,6 +178,20 @@
                     return "Clear Data";
                 case "pollSend":
                     return "PollSend(ms)";
+                case "targetFolderLabel":
+                    return "Target Folder";
+                case "sourceFolderLabel":
+                    return "Source Folder";
+                case "musicTitleCheck":
+                    return "Music Title";
+                case "hashCheck":
+                    return "Hash";
+                case "targetFolderBtn":
+                    return "Select Target Folder";
+                case "sourceFolderBtn":
+                    return "Select Source Folder";
+                case "compareBtn":
+                    return "Compare";
                 #endregion
                 default:
                     return null;

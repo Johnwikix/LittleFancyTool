@@ -2,6 +2,8 @@
 using LittleFancyTool.Algorithms.Encryption;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
+using LittleFancyTool.Utils;
+using System.Security.Policy;
 
 namespace LittleFancyTool.View
 {
@@ -19,16 +21,42 @@ namespace LittleFancyTool.View
         private void encryptButton_Click(object sender, EventArgs e)
         {
             string input = inputTextBox.Text;
+            List<string> fileList = input.Split("\r\n").ToList();
+            string hash;
             string? upperLowerCaseStr = upperLowerCase.SelectedValue?.ToString();
-            try
+            if (File.Exists(input))
             {
-                IEncryptionAbstract encryptionAlgorithm = new SM3Encryption();
-                string encryptedText = encryptionAlgorithm.Encrypt(input, upperLowerCaseStr);
-                outputTextBox.Text = encryptedText;
+                messageService.InternationalizationMessage("文件摘要", null, "info", window);
+                hash = ToolMethod.CalculateFileHash(input, "SM3");
+                if (upperLowerCaseStr == "UPPER")
+                {
+                    hash = hash.ToUpper();
+                }                
+                outputTextBox.Text = hash;                
             }
-            catch (Exception ex)
+            else {
+                try
+                {
+                    messageService.InternationalizationMessage("文本摘要", null, "info", window);
+                    IEncryptionAbstract encryptionAlgorithm = new SM3Encryption();
+                    string encryptedText = encryptionAlgorithm.Encrypt(input, upperLowerCaseStr);
+                    outputTextBox.Text = encryptedText;
+                }
+                catch (Exception ex)
+                {
+                    messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
+                }
+            }                
+        }
+
+        private void addFileBtn_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                messageService.InternationalizationMessage("Error:", ex.Message, "error", window);
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    inputTextBox.Text = dialog.FileName;
+                }
             }
         }
     }

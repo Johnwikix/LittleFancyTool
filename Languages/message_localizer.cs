@@ -154,16 +154,22 @@
                     return "The length of the output string cannot exceed 8388607. Please reduce the size of the image";
                 case "请不要输入像素数量大于2,359,296的图片":
                     return "Please do not input images with a pixel count greater than 2,359,296";
-                case "计算文件哈希值时发生错误":
+                case "计算文件哈希值时发生错误:":
                     return "error occurred when calculating file hash";
                 case "请选择有效文件":
                     return "please select a valid file";
                 case "目标文件夹包含原始文件夹的所有文件":
                     return "the target folder contains all files in the source folder";
-                case "读取文件夹时发生错误":
+                case "读取文件夹时发生错误:":
                     return "error occurred when reading the folder";
                 case "请选择有效的源文件夹和目标文件夹":
                     return "please select a valid source folder and target folder";
+                case "文件摘要":
+                    return "file summary";
+                case "文本摘要":
+                    return "text summary";
+                case "读取音乐文件时发生错误:":
+                    return "error occurred when reading the music file:";
                 default:
                     return key;
             }

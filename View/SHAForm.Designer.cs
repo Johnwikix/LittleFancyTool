@@ -37,8 +37,11 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             mode = new AntdUI.Select();
             upperLowerCase = new AntdUI.Select();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            addFileBtn = new AntdUI.Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
             // encryptBtn
@@ -85,7 +88,7 @@
             inputLabel.AutoSizeMode = AntdUI.TAutoSize.Auto;
             inputLabel.Font = new Font("Microsoft YaHei UI", 15F);
             inputLabel.LocalizationText = "Input";
-            inputLabel.Location = new Point(5, 34);
+            inputLabel.Location = new Point(2, 30);
             inputLabel.Margin = new Padding(2);
             inputLabel.Name = "inputLabel";
             inputLabel.Size = new Size(69, 28);
@@ -115,7 +118,7 @@
             tableLayoutPanel1.Controls.Add(outputLabel, 2, 1);
             tableLayoutPanel1.Controls.Add(inputTextBox, 0, 2);
             tableLayoutPanel1.Controls.Add(outputTextBox, 2, 2);
-            tableLayoutPanel1.Controls.Add(inputLabel, 0, 1);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(2);
@@ -157,9 +160,11 @@
             mode.Location = new Point(3, 65);
             mode.Margin = new Padding(2);
             mode.Name = "mode";
+            mode.SelectedIndex = 0;
+            mode.SelectedValue = "SHA1";
             mode.Size = new Size(120, 50);
             mode.TabIndex = 1;
-            mode.Text = "算法";
+            mode.Text = "SHA1";
             // 
             // upperLowerCase
             // 
@@ -169,9 +174,41 @@
             upperLowerCase.Location = new Point(3, 122);
             upperLowerCase.Margin = new Padding(2);
             upperLowerCase.Name = "upperLowerCase";
+            upperLowerCase.SelectedIndex = 0;
+            upperLowerCase.SelectedValue = "UPPER";
             upperLowerCase.Size = new Size(120, 50);
             upperLowerCase.TabIndex = 2;
-            upperLowerCase.Text = "大小写";
+            upperLowerCase.Text = "UPPER";
+            // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 3;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.Controls.Add(inputLabel, 0, 0);
+            tableLayoutPanel3.Controls.Add(addFileBtn, 1, 0);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(3, 4);
+            tableLayoutPanel3.Margin = new Padding(0);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 1;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.Size = new Size(632, 60);
+            tableLayoutPanel3.TabIndex = 6;
+            // 
+            // addFileBtn
+            // 
+            addFileBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            addFileBtn.Font = new Font("Microsoft YaHei UI", 14F);
+            addFileBtn.Ghost = true;
+            addFileBtn.IconSvg = "FileAddOutlined";
+            addFileBtn.Location = new Point(103, 27);
+            addFileBtn.Name = "addFileBtn";
+            addFileBtn.Size = new Size(30, 30);
+            addFileBtn.TabIndex = 5;
+            addFileBtn.Type = AntdUI.TTypeMini.Primary;
+            addFileBtn.Click += addFileBtn_Click;
             // 
             // SHAForm
             // 
@@ -183,6 +220,8 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -198,5 +237,7 @@
         private TableLayoutPanel tableLayoutPanel2;
         private AntdUI.Select mode;
         private AntdUI.Select upperLowerCase;
+        private TableLayoutPanel tableLayoutPanel3;
+        private AntdUI.Button addFileBtn;
     }
 }
