@@ -38,6 +38,9 @@ namespace LittleFancyTool.View
 
         private void startAddrChange(object sender, EventArgs e)
         {
+            foreach (var item in dataList) {
+                item.valueDec = "0";
+            }
             slaveTable.DataSource = PaddingChange();
         }
 
@@ -190,11 +193,11 @@ namespace LittleFancyTool.View
                 $"Parity:{serialPort.Parity}\r\nDataBits:{serialPort.DataBits}\r\n" +
                 $"StopBits:{serialPort.StopBits}";
             modbusSerialSlave = ModbusSerialSlave.CreateRtu((byte)slaveIdInput.Value, serialPort);
-            RunSlave();
+            RunSlave();            
             Task.Run(() =>
             {
                 try
-                {
+                {                    
                     modbusSerialSlave.Listen();
                 }
                 catch (OperationCanceledException ex)
@@ -204,8 +207,57 @@ namespace LittleFancyTool.View
             });
         }
 
+        private void DataStore_DataStoreWrittenTo(object? sender, DataStoreEventArgs e)
+        {
+            if (e.StartAddress < addressInput.Value)
+            {
+                throw new Modbus.InvalidModbusRequestException("illegal startAddr", 0x02);
+            }
+            UpdateTableFromDataStore(e);
+        }
+        private void UpdateTableFromDataStore(DataStoreEventArgs e)
+        {
+            try {
+                ushort startAddr = (ushort)addressInput.Value;
+                int quantity = 0;
+
+                // 根据不同的写入类型获取写入的数据长度
+                if (functionSelect.Text == "01 Coil Status" || functionSelect.Text == "02 Input Status")
+                {
+                    var coilValues = modbusSerialSlave.DataStore.CoilDiscretes;
+                    quantity = coilValues.Count;
+
+                }
+                else if (functionSelect.Text == "03 Holding Register" || functionSelect.Text == "04 Input Registers")
+                {
+                    var registerValues = modbusSerialSlave.DataStore.HoldingRegisters;
+                    quantity = registerValues.Count;
+                }
+                for (int i = e.StartAddress; i < combinedList.Count; i++)
+                {
+                    if (i >= startAddr && i < quantity-1)
+                    {
+                        if (functionSelect.Text == "01 Coil Status" || functionSelect.Text == "02 Input Status")
+                        {
+                            bool value = modbusSerialSlave.DataStore.CoilDiscretes[i + 1];
+                            combinedList[i].valueDec = value ? "1" : "0";
+                        }
+                        if (functionSelect.Text == "03 Holding Register" || functionSelect.Text == "04 Input Registers")
+                        {
+                            ushort value = modbusSerialSlave.DataStore.HoldingRegisters[i + 1];
+                            combinedList[i].valueDec = value.ToString();
+                        }
+                    }
+                }
+                slaveTable.DataSource = combinedList;
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
         private void DataStore_DataStoreReadFrom(object? sender, DataStoreEventArgs e)
         {
+            Debug.WriteLine($"DataStore_DataStoreReadFrom: {e.StartAddress}");
             if (e.StartAddress < addressInput.Value)
             {
                 throw new Modbus.InvalidModbusRequestException("illegal startAddr", 0x02);
@@ -222,6 +274,7 @@ namespace LittleFancyTool.View
                         (ushort)combinedList.Count,
                         (ushort)combinedList.Count);
                 modbusSerialSlave.DataStore.DataStoreReadFrom += DataStore_DataStoreReadFrom;
+                modbusSerialSlave.DataStore.DataStoreWrittenTo += DataStore_DataStoreWrittenTo;
                 ushort quantity = (ushort)numRegistersInput.Value;
                 ushort startAddr = (ushort)addressInput.Value;
                 for (int i = startAddr; i < combinedList.Count; i++)
