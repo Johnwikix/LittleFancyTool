@@ -1,8 +1,11 @@
-﻿using LittleFancyTool.Models;
+﻿using AntdUI;
+using LittleFancyTool.Models;
 using LittleFancyTool.Service;
 using LittleFancyTool.Service.Impl;
 using LittleFancyTool.Utils;
+using LittleFancyTool.View.SubView;
 using Modbus.Device;
+using System;
 using System.Diagnostics;
 using System.IO.Ports;
 
@@ -18,6 +21,10 @@ namespace LittleFancyTool.View
         private int txCount = 0;
         private int errCount = 0;
         private IMessageService messageService = new MessageService();
+        private PollTable pollTableObj;
+        private List<PollTable> dataList = [];
+        private List<PollTable> paddingList = [];
+        private List<PollTable> combinedList = [];
 
         public ModbusPollForm(AntdUI.Window _window)
         {
@@ -32,6 +39,118 @@ namespace LittleFancyTool.View
             InitialTableData();
             TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
             outputInput.TextChanged += (s, e) => outputInput.ScrollToCaret();
+            functionSelect.SelectedIndexChanged += functionSelect_SelectedIndexChanged;
+            numRegistersInput.TextChanged += valueChange;
+            addressInput.TextChanged += startAddrChange;
+            slaveTable.CellButtonClick += Table_base_CellButtonClick;
+        }
+
+        private void startAddrChange(object? sender, EventArgs e)
+        {
+            slaveTable.DataSource = PaddingChange();
+        }
+
+        private List<PollTable> PaddingChange()
+        {
+            int padding = (int)addressInput.Value;
+            paddingList = new List<PollTable>(padding);
+            for (int i = 0; i < padding; i++)
+            {
+                paddingList.Add(new PollTable($"0x{i:X4}", "", DateTime.Now));
+            }
+            combinedList = paddingList.Concat(dataList).ToList();
+            for (int i = 0; i < combinedList.Count; i++)
+            {
+                combinedList[i].address = $"0x{(i):X4}";
+            }
+            return combinedList;
+        }
+
+        private void valueChange(object? sender, EventArgs e)
+        {
+            if (numRegistersInput.Value > dataList.Count)
+            {
+                int startId = dataList.Count;
+                for (int i = 0; i < numRegistersInput.Value - dataList.Count; i++)
+                {
+                    string address = $"0x{(startId + i):X4}";
+                    dataList.Add(new PollTable(address, "0", DateTime.Now));
+                }
+            }
+            else
+            {
+                int count = dataList.Count - (int)numRegistersInput.Value;
+                if (count > dataList.Count)
+                {
+                    count = dataList.Count;
+                }
+                for (int i = 0; i < count; i++)
+                {
+                    dataList.RemoveAt(dataList.Count - 1);
+                }
+            }
+            combinedList = paddingList.Concat(dataList).ToList();
+            for (int i = 0; i < combinedList.Count; i++)
+            {
+                combinedList[i].address = $"0x{(i):X4}";
+            }
+            slaveTable.DataSource = combinedList;
+        }
+
+        private void functionSelect_SelectedIndexChanged(object sender, IntEventArgs e)
+        {
+            numRegistersInput.Enabled = true;
+            if (functionSelect.SelectedIndex > 3)
+            {
+                slaveTable.ClearMergedRegion();
+                slaveTable.Columns = new AntdUI.ColumnCollection {
+                new AntdUI.Column("address", "寄存器地址").SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("valueDec", "数值(DEC)").SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("lastUpdate", "最后更新时间").SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("btns", "操作").SetLocalizationTitleID("Table.Column."),
+                };
+                if (functionSelect.SelectedIndex == 4 || functionSelect.SelectedIndex == 5) {
+                    GetPageData(1);
+                    numRegistersInput.Value = 1;
+                    numRegistersInput.Enabled = false;
+                    combinedList = paddingList.Concat(dataList).ToList();
+                    slaveTable.DataSource = combinedList;
+                }
+                if (functionSelect.SelectedIndex > 5)
+                {
+                    GetPageData((int)numRegistersInput.Value);
+                    combinedList = paddingList.Concat(dataList).ToList();
+                    slaveTable.DataSource = combinedList;
+                }
+            }
+            else
+            {
+                slaveTable.Columns = new AntdUI.ColumnCollection {
+                new AntdUI.Column("address", "寄存器地址").SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("valueDec", "数值(DEC)").SetLocalizationTitleID("Table.Column."),
+                new AntdUI.Column("lastUpdate", "最后更新时间").SetLocalizationTitleID("Table.Column."),
+                };
+            }
+        }
+
+        private void Table_base_CellButtonClick(object sender, TableButtonEventArgs e)
+        {
+            bool isCoils = false;
+            if (functionSelect.SelectedIndex == 4 || functionSelect.SelectedIndex == 6) {
+                isCoils = true;
+            }
+            var buttontext = e.Btn.Text;
+            if (e.Record is PollTable pollTable)
+            {
+                pollTableObj = pollTable;
+                switch (buttontext)
+                {
+                    case "Edit":
+                        var form = new PollTableEdit(window, pollTableObj, isCoils) { Size = new Size(500, 300) };
+                        AntdUI.Drawer.open(new AntdUI.Drawer.Config(window, form));
+                        break;
+                }
+            }
         }
 
         private void InitialTableData()
@@ -48,9 +167,11 @@ namespace LittleFancyTool.View
 
         private object GetPageData(int regNum)
         {
-            var list = new List<PollTable>(regNum);
-            list.Add(new PollTable("0x0000", "0", DateTime.Now));
-            return list;
+            dataList = new List<PollTable>(regNum);
+            for (int i = 0; i < regNum; i++) {
+                dataList.Add(new PollTable($"0x{i:X4}", "0", DateTime.Now));
+            }            
+            return dataList;
         }
 
         private async Task pollingAsync(int time)
@@ -61,10 +182,18 @@ namespace LittleFancyTool.View
                 {
                     ++txCount;
                     TXStatusLabel.Text = $"TX={txCount} Err={errCount}";
-                    listenPortAsync();
+                    if (functionSelect.SelectedIndex <= 3)
+                    {
+                        listenPortAsync();
+                    }
+                    else
+                    {
+                        WriteDataAsync();
+                    }
                 }
                 catch (Exception ex)
                 {
+                    errCount++;
                     messageService.InternationalizationMessage("数据读取失败:", ex.Message, "error", window);
                 }
                 await Task.Delay(time);
@@ -126,6 +255,44 @@ namespace LittleFancyTool.View
                 {
                     messageService.InternationalizationMessage("连接失败:", ex.Message, "error", window);
                 }
+            }
+        }
+
+        private void WriteDataAsync()
+        {
+            List<PollTable> data = dataList;
+            try
+            {
+                if (functionSelect.SelectedIndex == 4)
+                {
+                    modbusMaster.WriteSingleCoil((byte)slaveIdInput.Value, (ushort)addressInput.Value, data[0].valueDec == "1" ? true : false);
+                }
+                if (functionSelect.SelectedIndex == 5)
+                {
+                    modbusMaster.WriteSingleRegister((byte)slaveIdInput.Value, (ushort)addressInput.Value, ushort.Parse(data[0].valueDec));
+                }                
+                if (functionSelect.SelectedIndex == 6){
+                    bool[] coils = new bool[data.Count];
+                    for (int i = 0; i < data.Count; i++)
+                    {  
+                        coils[i] = data[i].valueDec == "1" ? true : false;                               
+                    }
+                    modbusMaster.WriteMultipleCoils((byte)slaveIdInput.Value, (ushort)addressInput.Value, coils);
+                }
+                if (functionSelect.SelectedIndex == 7)
+                {
+                    ushort[] registers = new ushort[data.Count];
+                    for (int i = 0; i < data.Count; i++)
+                    {    
+                        registers[i] = ushort.Parse(data[i].valueDec);                                     
+                    }
+                    modbusMaster.WriteMultipleRegisters((byte)slaveIdInput.Value, (ushort)addressInput.Value, registers);
+                }
+            }
+            catch (Exception ex)
+            {
+                errCount++;
+                Debug.WriteLine(ex.Message);
             }
         }
 
@@ -194,7 +361,7 @@ namespace LittleFancyTool.View
                     messageService.InternationalizationMessage("最大读取寄存器数量为125", null, "error", window);
                 }
                 return await modbusMaster.ReadInputRegistersAsync(slaveId, startAddress, numRegisters);
-            }
+            }            
             return null;
         }
 
@@ -229,7 +396,9 @@ namespace LittleFancyTool.View
                             var address = startAddress + i;
                             list.Add(new PollTable($"0x{address:X4}", registers[i].ToString(), now));
                         }
-                        slaveTable.DataSource = list;
+                        dataList = list;
+                        combinedList = paddingList.Concat(dataList).ToList();
+                        slaveTable.DataSource = combinedList;
                     }
                     else
                     {
@@ -243,7 +412,9 @@ namespace LittleFancyTool.View
                                 oldList[i].lastUpdate = now;
                             }
                         }
-                        slaveTable.DataSource = oldList;
+                        dataList = oldList;
+                        combinedList = paddingList.Concat(dataList).ToList();
+                        slaveTable.DataSource = combinedList;
                     }
                 }
             });

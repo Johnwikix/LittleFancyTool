@@ -122,7 +122,7 @@
             // 
             functionSelect.Anchor = AnchorStyles.None;
             functionSelect.Font = new Font("Microsoft YaHei UI", 10F);
-            functionSelect.Items.AddRange(new object[] { "01 Read Coils", "02 Read Discrete Inputs", "03 Read Holding Registers", "04 Read Input Registers" });
+            functionSelect.Items.AddRange(new object[] { "01 Read Coils", "02 Read Discrete Inputs", "03 Read Holding Registers", "04 Read Input Registers", "05 Write Single Coil", "06 Write Single Register", "15 Write Multiple Coils", "16 Write Multiple Registers" });
             functionSelect.Location = new Point(0, 252);
             functionSelect.Margin = new Padding(0);
             functionSelect.Name = "functionSelect";

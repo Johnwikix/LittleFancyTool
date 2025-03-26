@@ -114,7 +114,7 @@
                 case "cancel":
                     return "Cancel";
                 case "regAddress":
-                    return "Reg Address";
+                    return "Address";
                 case "value":
                     return "Value";
                 case "incrementTime":

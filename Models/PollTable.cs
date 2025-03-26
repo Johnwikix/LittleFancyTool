@@ -1,4 +1,6 @@
-﻿namespace LittleFancyTool.Models
+﻿using AntdUI;
+
+namespace LittleFancyTool.Models
 {
     public class PollTable : AntdUI.NotifyProperty
     {
@@ -7,6 +9,9 @@
             _address = address;
             _valueDec = valueDec;
             _lastUpdate = lastUpdate;
+            _btns = new CellLink[] {
+                        new CellButton("edit","Edit",AntdUI.TTypeMini.Primary)
+                    };
         }
 
         string _valueDec;
@@ -39,6 +44,17 @@
             {
                 if (_address == value) return;
                 _address = value;
+                OnPropertyChanged();
+            }
+        }
+
+        AntdUI.CellLink[] _btns;
+        public AntdUI.CellLink[] btns
+        {
+            get => _btns;
+            set
+            {
+                _btns = value;
                 OnPropertyChanged();
             }
         }

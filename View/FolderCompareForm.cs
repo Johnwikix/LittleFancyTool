@@ -125,7 +125,8 @@ namespace LittleFancyTool.View
                             }
                             catch (Exception ex)
                             {
-                                messageService.InternationalizationMessage("读取音乐文件时发生错误:", ex.Message, "error", window);
+                                Debug.WriteLine($"{targetFile}:{ex.Message}");
+                                messageService.InternationalizationMessage("读取音乐文件时发生错误:", $"{targetFile}:{ex.Message}", "error", window);
                             }
                         }
                         else
