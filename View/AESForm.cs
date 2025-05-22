@@ -64,7 +64,7 @@ namespace CryptoTool.View
             {
                 return;
             }
-            if (ValidateAesKeyLength(key, window, keyIvType))
+            if (!ValidateAesKeyLength(key, window, keyIvType))
             {
                 return;
             }
